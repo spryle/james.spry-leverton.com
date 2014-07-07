@@ -1,0 +1,43 @@
+.b-directory {
+
+  .b-directory-listing {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .b-directory-item {
+    box-shadow: inset 0 -1px rgba(0,0,0,0.2);
+    font-size: 1em;
+  }
+
+  .b-directory-item-content {
+    display: block;
+    padding: 0.4em 1em 0.4em 1em;
+  }
+
+  .b-directory-item-text {
+    text-decoration: none;
+    outline: none;
+    display: block;
+    margin: -23px 0 0 23px;
+  }
+
+  .b-directory-item.is-first {
+    box-shadow: inset 0 1px rgba(0,0,0,0.2), inset 0 -1px rgba(0,0,0,0.2);
+  }
+
+  .b-directory-item.is-directory .b-directory-item-content {
+
+    &:before {
+      .fa;
+      content: @fa-var-chevron-left;
+    }
+  }
+  .b-directory-item.is-file .b-directory-item-content {
+    &:before {
+      .fa;
+      content: @fa-var-file-text-o;
+    }
+  }
+}

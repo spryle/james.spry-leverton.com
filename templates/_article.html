@@ -1,0 +1,41 @@
+<div class="b-article">
+
+
+  <heading class="b-article-header">
+    <h1>
+      {{ page.title }}
+    </h1>
+  </heading>
+  
+  {% if page %}
+    {{ page.render() }}
+  {% endif %}
+
+
+  <footer class="b-article-footer">
+
+    <div class="b-article-date-added">
+      {{ page.date_added }}
+    </div>
+
+    <div class="b-article-date-modified">
+      {{ page.date_modified }}
+    </div>
+
+    <div class="b-article-author">
+      {% if page.author_hash %}
+        <span class="b-article-author-gravitar">
+          <img src="http://www.gravatar.com/avatar/{{ page.author_hash }}?s=50" />
+        </span>
+      {% endif %}
+      {% if page.auther_name %}
+        <span class="b-article-author-name">{{ page.author_name }}</span>
+      {% endif %}
+      {% if page.author_email %}
+        <span class="b-article-author-email">{{ page.author_email }}</span>
+      {% endif %}
+    </div>
+
+  </footer>
+  
+</div>

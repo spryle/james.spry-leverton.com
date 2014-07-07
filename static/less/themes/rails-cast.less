@@ -1,0 +1,81 @@
+@rails-cast-background-dark: #282828;
+@rails-cast-background-light: #333435;
+@rails-cast-background-black: #1A1A1A;
+
+@rails-cast-border-dark: #404040;
+@rails-cast-border-light: #505050;
+
+@rails-cast-green-light: #A5C261;
+@rails-cast-green-dark: #519F50;
+@rails-cast-blue-light: #D0D0FF;
+@rails-cast-blue-dark: #6D9CBE;
+@rails-cast-white: #E6E1DC;
+@rails-cast-red: #DA4939;
+@rails-cast-gold: #E8BF6A;
+@rails-cast-teal:  rgb(153, 191, 181);
+
+
+.t-rails-cast {
+
+  font-family: 'Lato', Calibri, Arial, sans-serif;
+  font-weight: 300;
+  background-color: @rails-cast-background-dark;
+  color: @rails-cast-white;
+
+  h1 {
+    font-weight: 100;
+    color: @rails-cast-green-dark;
+    font-size: 2em;
+    @media only screen and (min-width : 768px) {
+      font-size: 4em;
+    }
+    text-transform: uppercase;
+  }
+
+  h2, h3 {
+    font-weight: 300;
+    text-transform: uppercase;
+    color: @rails-cast-teal;
+    font-size: 1em;
+
+    a {
+      color: @rails-cast-teal;
+    }
+  }
+
+  ::selection {
+    background: @rails-cast-blue-light;
+  }
+
+  a {
+    text-decoration: none;
+    color: @rails-cast-blue-dark;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  .t-primary {
+    background-color: @rails-cast-background-dark;
+  }
+
+  .t-secondary {
+    background-color: @rails-cast-background-light
+  }
+
+  .t-tertiary {
+    background-color: @rails-cast-background-black;
+  }
+
+  .t-border {
+    background-color: @rails-cast-border-light;
+  }
+
+  .t-logo {
+    a {
+      color: @rails-cast-white;
+      text-decoration: none;
+    }
+  }
+}

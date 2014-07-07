@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+  {% if page and page.title %}
+    {{ page.title|capitalize }}
+  {% elif root %}
+    {{ root.name|capitalize }}
+  {% else %}
+    James Spry-Leverton
+  {% endif %}
+
+{% endblock %}
+
+{% block left %}
+
+  {% include '_sidebar.html' %}
+
+{% endblock left %}
+
+{% block middle %}
+
+  {% include '_article.html' %}
+
+{% endblock %}
+
+{% block right %}
+
+  {% include '_wallpaper.html' %}
+
+{% endblock %}

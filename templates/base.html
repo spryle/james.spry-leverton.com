@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en-gb">
+  <head>
+    <!--Page Title-->
+    <title>{% block title %}James Spry-Leverton{% endblock %}</title>
+
+    <!--Meta Data-->
+    <meta charset="UTF-8">
+    <meta name="description" content="{% block description %}{% endblock %}" />
+    <meta name="keywords" content="{% block keywords %}{% endblock %}" />
+    <meta name="author" content="James Spry-Leverton [james.spry-leverton.com]" />
+    <meta name="copyright" content="All text content and images copyright james.spry-leverton.com unless otherwise specified." />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale = 1.0, user-scalable=no" />
+
+
+    <link href="/static/init.css" rel="stylesheet" type="text/css">
+
+    <script defer type="text/javascript" src="/static/modernizr.js"></script>
+
+  </head>
+
+  <body class="l-three-column-pusher t-rails-cast">
+    <div class="l-container">
+      <div class="l-pusher is-pushed">
+
+        <div class="l-left t-secondary g-column">
+          <div class="b-left-container">
+            {% block left %}
+            {% endblock %}
+          </div>
+        </div>
+
+        <div class="l-middle t-primary g-column">
+          <div class="b-middle-container">
+            {% block middle %}
+            {% endblock %}
+          </div>
+        </div>
+
+        <div class="l-right t-tertiary g-column">
+          <div class="b-right-container">
+            {% block right %}
+            {% endblock %}
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </body>
+
+  <script async type="text/javascript" src="/static/init.js"></script>
+
+</html>

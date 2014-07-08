@@ -8,6 +8,7 @@ var source = require('vinyl-source-stream');
 var browserify = require('browserify');
 var watchify = require('watchify');
 var reactify = require('reactify');
+var rename = require('gulp-rename');
 
 var src = {
   scripts: {
@@ -30,8 +31,8 @@ var src = {
 };
 
 var dest = {
-  scripts: './static/',
-  styles: './static/',
+  scripts: './static/dist/',
+  styles: './static/dist/',
 };
 
 function error(task) {
@@ -52,6 +53,7 @@ gulp.task('serve', shell.task([
 gulp.task('styles', function() {
   return gulp.src(src.styles.init)
     .pipe(less().on('error', error('styles')))
+    .pipe(rename('bundle.css'))
     .pipe(gulp.dest(dest.styles))
     .pipe(notify({title: '[Styles] CSS Ready'}));
 });
@@ -65,9 +67,9 @@ gulp.task('scripts', function() {
     var stream = bundle.bundle();
     stream.on('error', error('scripts'));
     return stream
-      .pipe(source('init.js'))
-      .pipe(gulp.dest(dest.scripts));
-      // .pipe(notify({title: '[Scripts] JS Ready'}));
+      .pipe(source('bundle.js'))
+      .pipe(gulp.dest(dest.scripts))
+      .pipe(notify({title: '[Scripts] JS Ready'}));
   };
 
   bundle.on('update', refresh);

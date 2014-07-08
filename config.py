@@ -1,10 +1,7 @@
 
-PAGES_CONTENT_REPO = '/home/jsl/projects/content.spry-leverton.com'
+PAGES_CONTENT_REPO = None
 
-PAGES_PUBLIC_BRANCHES = [
-    'master',
-    'public',
-]
+PAGES_PUBLIC_BRANCHES = ['master']
 
 PAGES_DEFAULT_BRANCH = 'master'
 
@@ -14,9 +11,7 @@ PAGES_EXCLUDED_FILES = []
 
 PAGES_EXCLUDED_DIRECTORIES = []
 
-PAGES_HIDDEN_FILES = [
-    'index'
-]
+PAGES_HIDDEN_FILES = ['index']
 
 PAGES_HIDDEN_DIRECTORIES = []
 

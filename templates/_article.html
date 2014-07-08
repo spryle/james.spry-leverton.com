@@ -14,13 +14,17 @@
 
   <footer class="b-article-footer">
 
+    {% if page.date_added %}
     <div class="b-article-date-added">
-      {{ page.date_added }}
+      Published {{ page.date_added.strftime('%Y-%m-%d') }}
     </div>
+    {% endif %}
 
+    {% if page.date_modified %}
     <div class="b-article-date-modified">
-      {{ page.date_modified }}
+      Updated {{ page.date_modified.strftime('%Y-%m-%d') }}
     </div>
+    {% endif %}
 
     <div class="b-article-author">
       {% if page.author_hash %}
@@ -28,7 +32,7 @@
           <img src="http://www.gravatar.com/avatar/{{ page.author_hash }}?s=50" />
         </span>
       {% endif %}
-      {% if page.auther_name %}
+      {% if page.author_name %}
         <span class="b-article-author-name">{{ page.author_name }}</span>
       {% endif %}
       {% if page.author_email %}

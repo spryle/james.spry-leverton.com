@@ -22,7 +22,7 @@ var BRTriangle = require('./views/br-triangle.js');
 var canvas = $('<canvas>');
 var wallpaper = $('.b-wallpaper');
 canvas.prop({
-  height: $(document).height(),
+  height: $(document).height() * 1.2,
   width: $(document).width() * 0.70
 });
 wallpaper.append(canvas);
@@ -130,7 +130,7 @@ _.each(_.range(50), function(i) {
 });
 
 
-var wallpaper = new Control(engine, screen, {tick: 1000 / 3});
+var wallpaper = new Control(engine, screen, {tick: 1000 / 1});
 
 
 module.exports = wallpaper;

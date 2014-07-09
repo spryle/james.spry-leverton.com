@@ -1,6 +1,7 @@
-var View = require('../engine/view.js');
 var _ = require('underscore');
-var degreesToRadians = require('../utils/degrees-to-radians.js');
+var degreesToRadians = require('tarka/utils/degrees-to-radians');
+
+var View = require('tarka/view');
 
 
 module.exports = View.extend({

@@ -71,13 +71,20 @@ class Node(object):
     @property
     @memoize_method
     def context(self):
+        if self.context_node:
+            return self.context_node.parse()
+        return {}
+
+    @property
+    @memoize_method
+    def context_node(self):
         if not self.parent:
-            return {}
+            return None
         for node in self.parent.nodes:
             result = re.match(self.config.get('context_regex'), node.full_name)
             if result and result.group('name') == self.name:
-                return node.parse()
-        return {}
+                return node
+        return None
 
     @property
     def is_hidden(self):
@@ -164,6 +171,10 @@ class Node(object):
     @property
     def date_modified(self):
         return self.node.last_changeset.date
+
+    @property
+    def content(self):
+        return self.node.content
 
     @property
     def url(self):

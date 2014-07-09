@@ -1,5 +1,5 @@
-var Component = require('../engine/component.js');
 var _ = require('underscore');
+var Component = require('tarka/component');
 
 
 function mod(rgb, percent) {

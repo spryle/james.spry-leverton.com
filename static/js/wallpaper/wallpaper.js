@@ -1,36 +1,22 @@
 var $ = require('jquery');
 var _ = require('underscore');
-var degreesToRadians = require('./engine/utils/degrees-to-radians.js');
+var degreesToRadians = require('tarka/utils/degrees-to-radians');
 
-var Engine = require('./engine/engine.js');
-var Control = require('./engine/control.js');
-var Entity = require('./engine/entity.js');
-var Screen = require('./engine/screen.js');
+var Engine = require('tarka/engine');
+var Tarka = require('tarka/tarka');
+var Entity = require('tarka/entity');
+var Screen = require('tarka/screen');
 
-var Paint = require('./systems/paint.js');
+var Paint = require('./systems/paint');
+var Color = require('./components/color');
+var Position = require('./components/position');
+var Display = require('./components/display');
+var Column = require('./components/column');
+var TLTriangle = require('./views/tl-triangle');
+var TRTriangle = require('./views/tr-triangle');
+var BLTriangle = require('./views/bl-triangle');
+var BRTriangle = require('./views/br-triangle');
 
-var Color = require('./components/color.js');
-var Position = require('./components/position.js');
-var Display = require('./components/display.js');
-var Column = require('./components/column.js');
-
-var TLTriangle = require('./views/tl-triangle.js');
-var TRTriangle = require('./views/tr-triangle.js');
-var BLTriangle = require('./views/bl-triangle.js');
-var BRTriangle = require('./views/br-triangle.js');
-
-var canvas = $('<canvas>');
-var wallpaper = $('.b-wallpaper');
-canvas.prop({
-  height: $(window).height() * 1.05,
-  width: $(window).width() * 0.60
-});
-wallpaper.append(canvas);
-var screen = new Screen(canvas.get(0));
-
-
-var engine = new Engine();
-engine.systems.add(new Paint(engine));
 
 var colors = [
   [80, 159, 80],
@@ -40,7 +26,7 @@ var colors = [
   [153, 191, 181]
 ];
 
-var columns = _.map(_.range(25), function() {
+var columns = _.map(_.range($(window).height() * 1.05 / 25), function() {
   return _.random(0, 100) < 25 ? colors[_.random(0, colors.length - 1)] : undefined;
 });
 
@@ -72,46 +58,45 @@ function addEntity(view, x, y) {
     visible: true
   }));
 
-  engine.entities.add(entity);
-
+  return entity;
 }
 
-function column(options) {
+function column(engine, options) {
 
   _.each(_.range(options.number), function(i) {
 
     if (options.column % 2 ? i % 2 === 1: i % 2 === 0) {
 
-      addEntity(new TRTriangle({
+      engine.entities.add(addEntity(new TRTriangle({
         x: options.x,
         y: options.y + (options.size * i),
         height: options.size,
         width: options.size,
-      }), options.column, i * 2);
+      }), options.column, i * 2));
 
-      addEntity(new BLTriangle({
+      engine.entities.add(addEntity(new BLTriangle({
         x: options.x,
         y: options.y + (options.size * i),
         height: options.size,
         width: options.size,
-      }), options.column, (i * 2) + 1);
+      }), options.column, (i * 2) + 1));
 
 
     } else {
 
-      addEntity(new TLTriangle({
+      engine.entities.add(addEntity(new TLTriangle({
         x: options.x,
         y: options.y + (options.size * i),
         height: options.size,
         width: options.size,
-      }), options.column, i * 2);
+      }), options.column, i * 2));
 
-      addEntity(new BRTriangle({
+      engine.entities.add(addEntity(new BRTriangle({
         x: options.x,
         y: options.y + (options.size * i),
         height: options.size,
         width: options.size,
-      }), options.column, (i * 2) + 1);
+      }), options.column, (i * 2) + 1));
 
     }
 
@@ -119,18 +104,31 @@ function column(options) {
 
 }
 
-_.each(_.range(50), function(i) {
-  column({
-    column: i,
-    number: $(window).height() / 25,
-    x: i * 25,
-    y: 0,
-    size: 25
+
+module.exports = function(el) {
+
+  var canvas = $('<canvas>');
+  canvas.prop({
+    height: $(window).height() * 1.05,
+    width: $(window).width() * 0.60
   });
-});
+  $(el).append(canvas);
 
+  var screen = new Screen(canvas.get(0));
 
-var wallpaper = new Control(engine, screen, {tick: 1000 / 1});
+  var engine = new Engine();
+  engine.systems.add(new Paint(engine));
 
+  _.each(_.range(50), function(i) {
+    column(engine, {
+      column: i,
+      number: $(window).height() / 25,
+      x: i * 25,
+      y: 0,
+      size: 25
+    });
+  });
 
-module.exports = wallpaper;
+  return new Tarka(engine, screen, {fps: 1000 / 1});
+
+};

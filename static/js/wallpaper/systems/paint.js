@@ -1,7 +1,7 @@
 _ = require('underscore');
-var System = require('../engine/system.js');
-var Color = require('../components/color.js');
-var Display = require('../components/display.js');
+var System = require('tarka/system');
+var Color = require('../components/color');
+var Display = require('../components/display');
 
 function toRGBA(c, o) {
   return 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',' + o + ')';

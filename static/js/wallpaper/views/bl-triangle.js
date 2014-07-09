@@ -1,4 +1,4 @@
-var View = require('../engine/view.js');
+var View = require('tarka/view');
 var _ = require('underscore');
 
 module.exports = View.extend({

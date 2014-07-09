@@ -14,7 +14,8 @@ var src = {
   scripts: {
     init: './static/js/init.js',
     files: [
-      './static/js/**/*.js'
+      './static/js/**/*.js',
+      './node_modules/tarka/**/*.js'
     ]
   },
   styles: {

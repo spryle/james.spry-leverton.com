@@ -52,6 +52,14 @@
     </div>
   </body>
 
+  <script type="text/javascript">
+
+    window.jsl = {};
+    {% if page and page.context_node %}
+    window.jsl.context = {{ page.context_node.content|safe }};
+    {% endif %}
+  </script>
+
   <script async type="text/javascript" src="/static/dist/bundle.js"></script>
 
 </html>

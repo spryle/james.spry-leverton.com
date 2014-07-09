@@ -1,4 +1,4 @@
-var Component = require('../engine/component.js');
+var Component = require('tarka/component');
 var _ = require('underscore');
 
 var Color = Component.extend({

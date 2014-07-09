@@ -22,8 +22,8 @@ var BRTriangle = require('./views/br-triangle.js');
 var canvas = $('<canvas>');
 var wallpaper = $('.b-wallpaper');
 canvas.prop({
-  height: $(document).height() * 1.05,
-  width: $(document).width() * 0.60
+  height: $(window).height() * 1.05,
+  width: $(window).width() * 0.60
 });
 wallpaper.append(canvas);
 var screen = new Screen(canvas.get(0));
@@ -122,7 +122,7 @@ function column(options) {
 _.each(_.range(50), function(i) {
   column({
     column: i,
-    number: $(document).height() / 25,
+    number: $(window).height() / 25,
     x: i * 25,
     y: 0,
     size: 25

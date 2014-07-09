@@ -1,36 +1,37 @@
 <div class="b-article">
 
 
-  <heading class="b-article-header">
+  <header class="b-article-header">
     <h1>
       {{ page.title }}
     </h1>
-  </heading>
+  </header>
   
-  {% if page %}
-    {{ page.render() }}
-  {% endif %}
-
-
-  <footer class="b-article-footer">
-
-    {% if page.date_added %}
-    <div class="b-article-date-added">
-      Published {{ page.date_added.strftime('%Y-%m-%d') }}
-    </div>
+  <article class="b-article-body">
+    {% if page %}
+      {{ page.render() }}
     {% endif %}
+  </article>
 
-    {% if page.date_modified %}
-    <div class="b-article-date-modified">
-      Updated {{ page.date_modified.strftime('%Y-%m-%d') }}
+  <footer class="b-article-footer t-tertiary">
+
+    <div class="b-article-date">
+      {% if page.date_added %}
+      <div class="b-article-date-added">
+        Published {{ page.date_added.strftime('%Y-%m-%d') }}
+      </div>
+      {% endif %}
+
+      {% if page.date_modified %}
+      <div class="b-article-date-modified">
+        Updated {{ page.date_modified.strftime('%Y-%m-%d') }}
+      </div>
+      {% endif %}
     </div>
-    {% endif %}
 
     <div class="b-article-author">
       {% if page.author_hash %}
-        <span class="b-article-author-gravitar">
-          <img src="http://www.gravatar.com/avatar/{{ page.author_hash }}?s=50" />
-        </span>
+        <div class="b-article-author-gravitar" style="background: url(http://www.gravatar.com/avatar/{{ page.author_hash }}?s=50;) no-repeat;"></div>
       {% endif %}
       {% if page.author_name %}
         <span class="b-article-author-name">{{ page.author_name }}</span>

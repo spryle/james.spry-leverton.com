@@ -23,3 +23,5 @@ PAGES_RENDERERS = {
 PAGES_PARSERS = {
     'json': 'json.loads'
 }
+
+PAGES_READ_LOCAL = True

@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 from email.utils import parseaddr
 from flask import current_app, request
 from pages.utils import import_from_string, memoize_method
+
 import re
 import os
 import hashlib
@@ -31,6 +32,10 @@ class Node(object):
     @property
     def config(self):
         return {
+            'repo':
+                current_app.config['PAGES_CONTENT_REPO'],
+            'read_local':
+                current_app.config.get('PAGES_READ_LOCAL', False),
             'renderers':
                 current_app.config.get('PAGES_RENDERERS', {}),
             'parsers':
@@ -51,10 +56,10 @@ class Node(object):
     @property
     @memoize_method
     def parent(self):
-        if self.node.parent:
-            return Node(self.node.parent)
-        else:
+        if self.node.is_root():
             return None
+        else:
+            return Node(self.node.parent)
 
     @property
     @memoize_method
@@ -173,8 +178,19 @@ class Node(object):
         return self.node.last_changeset.date
 
     @property
+    def full_path(self):
+        return self.config.get('repo') + self.node.path
+
+    @property
     def content(self):
-        return self.node.content
+        if self.config.get('read_local'):
+            try:
+                with os.open(self.full_path, 'r') as f:
+                    return f.read()
+            except:
+                raise Exception('Local Read Error.')
+        else:
+            return self.node.content
 
     @property
     def url(self):

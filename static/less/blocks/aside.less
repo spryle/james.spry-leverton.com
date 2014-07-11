@@ -8,16 +8,33 @@
 }
 
 .b-aside-list-item {
+  position: 'absolute';
   max-width: 200px;
+
+  img {
+    cursor: pointer;
+    display: block;
+  }
+}
+
+.b-aside-list-item.is-enlarged {
+  z-index: 5;
+  left: 19%;
+
+  img {
+    display: inline;
+  }
+
+}
+
+.is-pushed .b-aside-list-item.is-enlarged {
+  left: 0%
 }
 
 .b-aside-component {
+  text-align: center;
   overflow: hidden;
   background-color: rgba(255,255,255,0.3);
   border: solid 5px rgba(255,255,255,0.05);
-
-  img {
-    display: block;
-  }
 }
 

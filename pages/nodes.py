@@ -184,11 +184,8 @@ class Node(object):
     @property
     def content(self):
         if self.config.get('read_local'):
-            try:
-                with os.open(self.full_path, 'r') as f:
-                    return f.read()
-            except:
-                raise Exception('Local Read Error.')
+            with open(self.full_path, 'r') as f:
+                return f.read()
         else:
             return self.node.content
 
@@ -225,13 +222,13 @@ class Node(object):
 
     def parse(self):
         if self.is_parseable:
-            return self.parser(self.node.content)
+            return self.parser(self.content)
         else:
             return {}
 
     def render(self):
         if self.is_renderable:
-            return self.renderer(self.node.content)
+            return self.renderer(self.content)
         else:
             return ''
 

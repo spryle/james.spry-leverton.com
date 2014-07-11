@@ -15,13 +15,14 @@ var src = {
     init: './static/js/init.js',
     files: [
       './static/js/**/*.js',
-      './node_modules/tarka/**/*.js'
+      './node_modules/tarka/**/*.js',
     ]
   },
   styles: {
     init: './static/less/init.less',
     files: [
-      './static/less/**/*.less'
+      './static/less/**/*.less',
+      '../content.spry-leverton.com/**/*'
     ]
   },
   templates: {

@@ -1,5 +1,6 @@
 flask
 flask-script
+git+git://github.com/rochacbruno/flask-api
 vcs
 dulwich
 mercurial

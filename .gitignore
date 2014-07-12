@@ -1,4 +1,4 @@
 node_modules
 local.cfg
 *.pyc
-static/dist
+dist

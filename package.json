@@ -7,7 +7,6 @@
   "dependencies": {
     "collections": "^1.1.0",
     "underscore": "^1.6.0",
-    "jquery": "^2.1.1",
     "envify": "^1.2.1",
     "react": "^0.10.0",
     "react-classset": "0.0.1"
@@ -24,6 +23,7 @@
     "gulp-watchify": "^0.2.0",
     "less": "^1.7.0",
     "reactify": "^0.13.1",
-    "vinyl-source-stream": "^0.1.1"
+    "vinyl-source-stream": "^0.1.1",
+    "bonzo": "^2.0.0"
   }
 }

@@ -1,0 +1,95 @@
+
+.l-container {
+
+  overflow: hidden;
+
+}
+
+.l-left {
+
+  float: left;
+
+  @media only screen and (min-width : 321px) {
+    width: 300px;
+  }
+  @media only screen and (min-width : 992px) {
+    width: 22%
+  }
+
+}
+
+.l-middle {
+  .box-shadow(50px 0px 120px 0px rgba(150,150,150,.25));
+  float: left;
+
+  @media only screen and (min-width : 321px) {
+    width: 310px
+  }
+  @media only screen and (min-width : 538px) {
+    width: 450px
+  }
+  @media only screen and (min-width : 768px) {
+    width: 550px
+  }
+  @media only screen and (min-width : 992px) {
+    width: 50%;
+    max-width: 650px;
+  }
+
+}
+
+.l-right {
+
+  overflow: hidden;
+  float: left;
+  margin-right: -9999px;
+  padding-right: 9999px;
+
+  @media only screen and (min-width : 321px) {
+    width: 200px;
+  }
+  @media only screen and (min-width : 992px) {
+    width: 28%;
+  }
+
+}
+
+.l-pusher {
+
+  position: relative;
+  height: 100%;
+  width: 100%;
+
+  .transition(transform 0.5s);
+  -webkit-transition: -webkit-transform 0.5s;
+  -moz-transition: -moz-transform 0.5s;
+
+  @media only screen and (max-width : 992px) {
+    width: 9999px;
+  }
+  @media only screen and (min-width : 321px) {
+    .transform(translate3d(-260px, 0, 0));
+  }
+  @media only screen and (min-width : 768px) {
+    .transform(translate3d(-260px, 0, 0));
+  }
+  @media only screen and (min-width : 992px) {
+    .transform(translate3d(-19%, 0, 0));
+  }
+
+}
+
+body.is-pushed .l-pusher {
+
+  @media only screen and (min-width : 321px) {
+    .transform(translate3d(0, 0, 0));
+  }
+  @media only screen and (min-width : 768px) {
+    .transform(translate3d(0, 0, 0));
+  }
+  @media only screen and (min-width : 992px) {
+    .transform(translate3d(0, 0, 0));
+  }
+
+}
+

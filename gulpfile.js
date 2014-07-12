@@ -10,18 +10,20 @@ var watchify = require('watchify');
 var reactify = require('reactify');
 var rename = require('gulp-rename');
 
+var root = './jsl/main/static/';
+
 var src = {
   scripts: {
-    init: './static/js/init.js',
+    init: root + 'js/init.js',
     files: [
-      './static/js/**/*.js',
+      root + 'js/**/*.js',
       './node_modules/tarka/**/*.js',
     ]
   },
   styles: {
-    init: './static/less/init.less',
+    init: root + 'less/init.less',
     files: [
-      './static/less/**/*.less',
+      root + 'less/**/*.less',
       '../content.spry-leverton.com/**/*'
     ]
   },
@@ -33,8 +35,8 @@ var src = {
 };
 
 var dest = {
-  scripts: './static/dist/',
-  styles: './static/dist/',
+  scripts: root + 'dist/',
+  styles: root + 'dist/',
 };
 
 function error(task) {
@@ -62,16 +64,16 @@ gulp.task('styles', function() {
 
 gulp.task('scripts', function() {
 
-  var bundle = bundler(src.scripts.init, false);
+  var bundle = bundler(src.scripts.init, true);
   bundle.transform(reactify);
 
   var refresh = function() {
-    var stream = bundle.bundle();
+    var stream = bundle.bundle({debug: true});
     stream.on('error', error('scripts'));
     return stream
       .pipe(source('bundle.js'))
-      .pipe(gulp.dest(dest.scripts))
-      .pipe(notify({title: '[Scripts] JS Ready'}));
+      .pipe(gulp.dest(dest.scripts));
+      // .pipe(notify({title: '[Scripts] JS Ready'}));
   };
 
   bundle.on('update', refresh);

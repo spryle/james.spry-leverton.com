@@ -54,7 +54,7 @@
 
     window.jsl = {};
     {% if page and page.context_node %}
-    window.jsl.context = {{ page.context_node.content|safe }};
+    window.jsl.page = {{ page.context|to_json|safe }};
     {% endif %}
   </script>
 

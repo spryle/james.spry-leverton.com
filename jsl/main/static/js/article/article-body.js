@@ -1,8 +1,8 @@
 var _ = require('underscore');
 
 
-module.exports = function(el) {
-  var article = {};
+function applyID(el) {
+  var doc = {};
   var count = {};
   _.each(el.children, function(block) {
     var tag = block.tagName.toLowerCase();
@@ -11,11 +11,24 @@ module.exports = function(el) {
     block.setAttribute('id', id);
     count[tag]++;
     var rect = block.getBoundingClientRect();
-    article[id] = {
+    doc[id] = {
       top: rect.top + document.documentElement.scrollTop,
       left: rect.left + document.documentElement.scrollLeft,
       height: block.outerHeight
     };
   });
-  return article;
+  return doc;
+}
+
+
+module.exports = {
+
+  initialize: function(mount, data) {
+    data.positions = applyID(mount);
+  },
+
+  render: function(data) {
+    data.positions = applyID(mount);
+  }
+
 };

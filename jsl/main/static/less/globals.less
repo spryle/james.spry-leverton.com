@@ -2,3 +2,22 @@
   margin-bottom: -99999px;
   padding-bottom: 99999px;
 }
+
+.g-clearfix {
+  // http://nicolasgallagher.com/micro-clearfix-hack/
+  &:before,
+  &:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+  }
+
+  &:after {
+    clear: both;
+  }
+
+  /**
+  * For IE 6/7 only
+  * Include this rule to trigger hasLayout and contain floats.
+  */
+  *zoom: 1;
+}

@@ -13,7 +13,7 @@
     {% endif %}
   </article>
 
-  <footer class="b-article-footer t-tertiary">
+  <footer class="b-article-footer t-tertiary g-clearfix">
 
     <div class="b-article-date">
       {% if page.date_added %}
@@ -22,17 +22,20 @@
       </div>
       {% endif %}
 
-      {% if page.date_modified %}
+      {% if page.date_modified and page.date_modified != page.date_added %}
       <div class="b-article-date-modified">
         Updated {{ page.date_modified.strftime('%d').strip('0')|ordinal_suffix }} {{ page.date_added.strftime('%B %Y') }}
       </div>
       {% endif %}
     </div>
 
-    <div class="b-article-author">
-      {% if page.author_hash %}
-        <div class="b-article-author-gravitar" style="background: url(http://www.gravatar.com/avatar/{{ page.author_hash }}?s=50;) no-repeat;"></div>
-      {% endif %}
+    {% if page.author_hash %}
+      <div class="b-article-author-gravitar">
+        <img src="http://www.gravatar.com/avatar/{{ page.author_hash }}?s=60">
+      </div>
+    {% endif %}
+
+    <div class="b-article-author ">
       {% if page.author_name %}
         <span class="b-article-author-name">{{ page.author_name }}</span>
       {% endif %}

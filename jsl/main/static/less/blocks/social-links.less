@@ -1,0 +1,118 @@
+@bitbucket-color: #205081;
+@facebook-color: #3B5998;
+@hacker-news-color: #FF6600;
+@github-color: #000000;
+@twitter-color: #4099FF;
+@reddit-color: #000000;
+@linkedin-color:  #4875B4;
+@lastfm-color: #D01F3C;
+
+.b-social-links {
+  display: flex;
+  flex: 100%;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  list-style: none;
+}
+
+.b-social-item {
+  display: inline;
+  float: left;
+}
+
+.b-social-icon(@icon) {
+  .fa;
+  .fa-fw;
+  .fa-2x;
+  padding-top: 2.5px;
+  padding-bottom: 2.5px;
+  content: @icon;
+}
+
+.b-social-color(@color) {
+  border-radius: 10000px;
+  background-color: @t-color-light;
+  color: @color;
+}
+
+.b-social-link {
+
+  &:before {
+    color: @t-color-light;
+  }
+
+  &.is-github {
+    &:before {
+      .b-social-icon(@fa-var-github);
+    }
+    &:hover&:before {
+      .b-social-color(@github-color);
+    }
+  }
+
+  &.is-bitbucket {
+    &:before {
+      .b-social-icon(@fa-var-bitbucket);
+    }
+    &:hover&:before {
+      .b-social-color(@facebook-color);
+    }
+  }
+
+  &.is-twitter {
+    &:before {
+      .b-social-icon(@fa-var-twitter);
+    }
+    &:hover&:before {
+      .b-social-color(@twitter-color);
+    }
+  }
+
+  &.is-facebook {
+    &:before {
+      .b-social-icon(@fa-var-facebook);
+    }
+    &:hover&:before {
+      .b-social-color(@facebook-color);
+    }
+  }
+
+  &.is-reddit {
+    &:before {
+      .b-social-icon(@fa-var-reddit);
+    }
+    &:hover&:before {
+      .b-social-color(@reddit-color);
+    }
+  }
+
+  &.is-linkedin {
+    &:before {
+      .b-social-icon(@fa-var-linkedin);
+    }
+    &:hover&:before {
+      .b-social-color(@linkedin-color);
+    }
+  }
+
+  &.is-lastfm {
+    &:before {
+      .b-social-icon(@fa-var-music);
+    }
+    &:hover&:before {
+      .b-social-color(@lastfm-color);
+    }
+  }
+
+  &.is-hacker-news {
+    &:before {
+      .b-social-icon(@fa-var-hacker-news);
+    }
+    &:hover&:before {
+      .b-social-color(@hacker-news-color);
+    }
+  }
+
+}
+

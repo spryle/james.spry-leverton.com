@@ -87,7 +87,7 @@ var AsideItem = React.createClass({
 
   styles: function() {
     return {
-      top: this.state.enlarged ? this.state.scrollY: this.props.pos.top,
+      top: this.state.enlarged ? this.state.scrollY: this.props.position.top,
       position: 'absolute'
     };
   },
@@ -127,7 +127,7 @@ var AsideList = React.createClass({
       item[id] = AsideItem({
         id: id,
         data: data,
-        pos: this.props.article[id]
+        position: this.props.positions[id]
       });
     }, this));
     return item;
@@ -142,11 +142,20 @@ var AsideList = React.createClass({
 
 });
 
-module.exports = function(mount, data) {
-  var component = React.renderComponent(
-    <AsideList asides={data.context.asides} article={data.article}/>,
-    mount
-  );
-  dom.addClass(mount, 'is-initialized');
-  return component;
+module.exports = {
+
+  initialize: function(mount, data) {
+    this.component = React.renderComponent(
+      <AsideList asides={data.asides} positions={data.positions}/>,
+      mount
+    );
+    dom.addClass(mount, 'is-initialized');
+    return this.component;
+  },
+
+  render: function(data) {
+    this.component.setProps(data);
+    return this.component;
+  }
+
 };

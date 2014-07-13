@@ -5,3 +5,4 @@ vcs
 dulwich
 mercurial
 mistune
+slimmer

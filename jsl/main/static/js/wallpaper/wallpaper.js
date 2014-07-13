@@ -104,27 +104,34 @@ function column(engine, options) {
 }
 
 
-module.exports = function(mount) {
+module.exports = {
 
-  canvas = document.createElement('canvas');
-  canvas.setAttribute('height', window.outerHeight * 1.05);
-  canvas.setAttribute('width', window.outerHeight * 0.80);
-  mount.appendChild(canvas);
-  var screen = new Screen(canvas);
+  initialize: function(mount, data) {
+    var canvas = document.createElement('canvas');
+    canvas.setAttribute('height', window.outerHeight * 1.05);
+    canvas.setAttribute('width', window.outerHeight * 0.80);
+    mount.appendChild(canvas);
+    var screen = new Screen(canvas);
+    var engine = new Engine();
 
-  var engine = new Engine();
-  engine.systems.add(new Paint(engine));
+    engine.systems.add(new Paint(engine));
 
-  _.each(_.range(50), function(i) {
-    column(engine, {
-      column: i,
-      number: window.outerHeight / 25,
-      x: i * 25,
-      y: 0,
-      size: 25
+    _.each(_.range(50), function(i) {
+      column(engine, {
+        column: i,
+        number: window.outerHeight / 25,
+        x: i * 25,
+        y: 0,
+        size: 25
+      });
     });
-  });
 
-  return new Tarka(engine, screen, {fps: 1000 / 1});
+    this.wallpaper = new Tarka(engine, screen, {fps: 1000 / 1});
+    return this.wallpaper.render();
+  },
+
+  render: function(data) {
+
+  }
 
 };

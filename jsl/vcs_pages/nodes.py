@@ -84,7 +84,6 @@ class Node(object):
             'is_indexable': self.is_indexable,
             'is_file': self.is_file,
             'is_directory': self.is_directory,
-            'is_current_page': self.is_current_page,
             'name': self.name,
             'date_added': self.date_added,
             'date_modified': self.date_modified,

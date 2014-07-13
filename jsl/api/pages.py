@@ -1,12 +1,17 @@
 # -*- coding: utf-8
 from __future__ import unicode_literals
 
+from slimmer import html_slimmer
 from flask.ext.api import status
+from flask.ext.api.decorators import set_renderers
+from flask.ext.api.renderers import JSONRenderer
 from flask import Blueprint, current_app, request
+from jinja2 import Markup
 
 from jsl.vcs_pages import nodes
 
 import vcs
+
 
 app = Blueprint('api-pages', __name__)
 
@@ -15,6 +20,7 @@ app = Blueprint('api-pages', __name__)
 @app.route('/<filename>', methods=['GET'])
 @app.route('/<path:path>/<filename>', methods=['GET'])
 @app.route('/<path:path>/', methods=['GET'])
+@set_renderers(JSONRenderer)
 def vcs_page_api(path='', filename='index'):
 
     conf = current_app.config
@@ -40,11 +46,15 @@ def vcs_page_api(path='', filename='index'):
         return '', status.HTTP_404_NOT_FOUND
 
     return {
-        'parent': root.parent.context if root.parent else None,
-        'root': root.context,
-        'children': [
-            child.context for child in root.children
-            if not child.is_hidden or child.is_excluded],
-        'content': page.render() if page else None,
-        'context': page.context if page else None
+        'page': {
+            'content': Markup(html_slimmer(page.render())) if page else None,
+            'context': page.context if page else None
+        },
+        # 'parent': root.parent.context if root.parent else None,
+        # 'root': root.context,
+        # 'children': [
+        #     child.context for child in root.children
+        #     if not child.is_hidden or child.is_excluded],
+
+
     }

@@ -1,26 +1,62 @@
-var data = require('./data.js');
+var _ = require('underscore');
 
-var wallpaper = require('./wallpaper/wallpaper');
-var article = require('./article/article');
-var aside = require('./aside/aside');
-var layout = require('./layout/layout');
+var data = require('./data');
+var state = require('./state');
+var report = require('./contrib/wrappers/report.js');
+var expose = require('./contrib/wrappers/expose.js');
+var ready = require('./ready');
+var now = require('./now');
+
+ready = _.partial(ready, _, _, report, expose);
+now = _.partial(now, _, _, report, expose);
 
 
-window.layout = layout(
-  document.getElementsByClassName('b-sidebar-tab')[0],
-  {}
-);
+var page = new state.Page(data.page);
 
-window.wallpaper = wallpaper(
-  document.getElementsByClassName('b-wallpaper')[0],
-  {}
-).render();
 
-window.article = article(
-  document.getElementsByClassName('b-article-body')[0],
-  {}
-);
-window.aside = aside(
-  document.getElementsByClassName('b-aside')[0],
-  _.extend({}, {article: window.article}, data)
-);
+ready('sidebar-tab', function() {
+
+  var tab = require('./sidebar/sidebar-tab');
+
+  return tab.initialize(
+    document.getElementsByClassName('b-sidebar-tab')[0],
+    page
+  );
+
+});
+
+
+ready('article-body', function() {
+
+  var article = require('./article/article-body');
+
+  return article.initialize(
+    document.getElementsByClassName('b-article-body')[0],
+    page
+  );
+
+});
+
+
+ready('wallpaper', function() {
+
+  var wallpaper = require('./wallpaper/wallpaper');
+
+  return wallpaper.initialize(
+    document.getElementsByClassName('b-wallpaper')[0],
+    page
+  );
+
+});
+
+
+ready('aside', function() {
+
+  var aside = require('./aside/aside');
+
+  return aside.initialize(
+    document.getElementsByClassName('b-aside')[0],
+    page
+  );
+
+});

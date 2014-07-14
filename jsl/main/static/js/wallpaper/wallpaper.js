@@ -106,7 +106,10 @@ function column(engine, options) {
 
 module.exports = {
 
-  initialize: function(mount, data) {
+  initialize: function(mount, stores) {
+
+    this.stores = stores;
+
     var canvas = document.createElement('canvas');
     canvas.setAttribute('height', window.outerHeight * 1.05);
     canvas.setAttribute('width', window.outerHeight * 0.80);

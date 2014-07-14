@@ -5,7 +5,7 @@
     {% if root and root.parent %}
     <li class="b-directory-item is-directory is-first">
       <span class="b-directory-item-content">
-        <a class="b-directory-item-text" href="{{ root.parent.url }}"> Back </a>
+        <a class="b-directory-item-text" href="{{ root.parent.path }}"> Back </a>
       </span>
     </li>
     {% endif %}
@@ -24,7 +24,7 @@
             </span>
           {% else %}
             <span class="b-directory-item-content">
-              <a class="b-directory-item-text" href="{{ node.url }}">
+              <a class="b-directory-item-text" href="{{ node.path }}">
                 {% if node.context.title %}
                   {{ node.context.title }}
                 {% elif node.name %}

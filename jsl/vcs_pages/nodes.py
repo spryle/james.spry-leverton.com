@@ -16,11 +16,11 @@ class Node(object):
         self.node = node
 
     def __repr__(self):
-        return 'Node({.url})'.format(self)
+        return 'Node({.path})'.format(self)
 
     def __eq__(self, other):
         if type(other) is type(self):
-            return self.url == other.url
+            return self.path == other.path
         raise NotImplemented
 
     def __ne__(self, other):
@@ -77,18 +77,10 @@ class Node(object):
     @memoize_method
     def context(self):
         context = {
-            'is_hidden': self.is_hidden,
-            'is_excluded': self.is_excluded,
-            'is_renderable': self.is_renderable,
-            'is_parseable': self.is_parseable,
-            'is_indexable': self.is_indexable,
-            'is_file': self.is_file,
-            'is_directory': self.is_directory,
             'name': self.name,
+            'path': self.path,
             'date_added': self.date_added,
             'date_modified': self.date_modified,
-            'url': self.url,
-            'extension': self.extension
         }
         if self.context_node:
             context.update(self.context_node.parse())
@@ -154,7 +146,9 @@ class Node(object):
 
     @property
     def is_current_page(self):
-        return request.path == self.url
+        if self.name == 'index':
+            return False
+        return request.path == self.path
 
     @property
     def name(self):
@@ -208,11 +202,14 @@ class Node(object):
             return self.node.content
 
     @property
-    def url(self):
+    def path(self):
         if self.node.is_file():
-            return os.path.join('/', self.node.path.split('.', 1)[0])
+            path = self.node.path.split('.', 1)[0]
+            if self.name == 'index':
+                path = ''.join(path.rsplit('index', 1))
+            return os.path.join('/', path)
         else:
-            if not self.node.path:
+            if self.node.is_root():
                 return '/'
             return os.path.join('/', self.node.path) + '/'
 

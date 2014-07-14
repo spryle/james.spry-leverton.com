@@ -3,7 +3,6 @@
  */
 
 var _ = require('underscore');
-var dom = require('../dom');
 var React = require('react');
 var cx = require('react-classset');
 
@@ -60,12 +59,15 @@ var AsideItem = React.createClass({
   },
 
   getInitialState: function() {
+    var el = document.getElementById(this.props.target);
     return {
+      top: el ? el.offsetTop: 0,
       enlarged: false
     };
   },
 
   scroll: function() {
+    if (!this.state.enlarged) {return;}
     this.setState({
       scrollY: window.scrollY
     });
@@ -87,7 +89,7 @@ var AsideItem = React.createClass({
 
   styles: function() {
     return {
-      top: this.state.enlarged ? this.state.scrollY: this.props.position.top,
+      top: this.state.enlarged ? this.state.scrollY: this.state.top,
       position: 'absolute'
     };
   },
@@ -121,40 +123,21 @@ var AsideItem = React.createClass({
 
 var AsideList = React.createClass({
 
+
   items: function() {
     var item = {};
-    this.props.asides.each(_.bind(function(data) {
-      item[data.target] = AsideItem({
-        data: data,
-        position: this.props.positions[data.target]
-      });
+    this.props.page.asides.each(_.bind(function(data) {
+      item[data.target] = AsideItem({data: data});
     }, this));
     return item;
   },
 
   render: function() {
-    var items = this.items();
     return (
-      <ol className="b-aside-list">{items}</ol>
+      <ol className="b-aside-list">{this.items()}</ol>
     );
   }
 
 });
 
-module.exports = {
-
-  initialize: function(mount, data) {
-    this.component = React.renderComponent(
-      <AsideList asides={data.asides} positions={data.positions}/>,
-      mount
-    );
-    dom.addClass(mount, 'is-initialized');
-    return this.component;
-  },
-
-  render: function(data) {
-    this.component.setProps(data);
-    return this.component;
-  }
-
-};
+module.exports = AsideList;

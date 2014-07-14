@@ -1,62 +1,72 @@
+/**
+ * @jsx React.DOM
+ */
 var _ = require('underscore');
+var React = require('react');
 
-var data = require('./data');
-var state = require('./state');
-var report = require('./contrib/wrappers/report.js');
-var expose = require('./contrib/wrappers/expose.js');
-var ready = require('./ready');
-var now = require('./now');
+var data = require('./contrib/data');
+var report = require('./contrib/wrappers/report');
+var expose = require('./contrib/wrappers/expose');
+var ready = require('./contrib/ready');
 
-ready = _.partial(ready, _, _, report, expose);
-now = _.partial(now, _, _, report, expose);
+ready = _.partial(ready, _, _, false, report, expose);
 
-
-var page = new state.Page(data.page);
+var Pages = require('./stores/pages');
+var pages = new Pages(data.page);
 
 
-ready('sidebar-tab', function() {
+ready('sidebar', function() {
 
-  var tab = require('./sidebar/sidebar-tab');
+  var sidebar = require('./components/sidebar');
 
-  return tab.initialize(
+  return sidebar.initialize(
     document.getElementsByClassName('b-sidebar-tab')[0],
-    page
+    pages
   );
 
 });
 
+ready('article', function() {
 
-ready('article-body', function() {
+  var Article = require('./components/article');
 
-  var article = require('./article/article-body');
+  function render() {
+    var page = pages.state.getCurrentPage();
+    React.renderComponent(
+      <Article page={page} className='is-initialized' />,
+      document.getElementsByClassName('b-middle-container')[0]
+    );
+  }
 
-  return article.initialize(
-    document.getElementsByClassName('b-article-body')[0],
-    page
-  );
+  // pages.on('change', render);
+  // render();
 
 });
 
+ready('asides', function() {
+
+  var AsideList = require('./components/asides');
+
+  function render() {
+    var page = pages.state.getCurrentPage();
+    React.renderComponent(
+      <AsideList page={page}/>,
+      document.getElementsByClassName('b-aside')[0]
+    );
+  }
+
+  pages.on('change', render);
+  render();
+
+});
 
 ready('wallpaper', function() {
 
   var wallpaper = require('./wallpaper/wallpaper');
 
   return wallpaper.initialize(
-    document.getElementsByClassName('b-wallpaper')[0],
-    page
+    document.getElementsByClassName('b-wallpaper')[0]
   );
 
 });
 
-
-ready('aside', function() {
-
-  var aside = require('./aside/aside');
-
-  return aside.initialize(
-    document.getElementsByClassName('b-aside')[0],
-    page
-  );
-
-});

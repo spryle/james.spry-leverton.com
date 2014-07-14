@@ -6,3 +6,4 @@ dulwich
 mercurial
 mistune
 slimmer
+ipdb

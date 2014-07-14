@@ -123,11 +123,10 @@ var AsideList = React.createClass({
 
   items: function() {
     var item = {};
-    _.each(this.props.asides, _.bind(function(data, id) {
-      item[id] = AsideItem({
-        id: id,
+    this.props.asides.each(_.bind(function(data) {
+      item[data.target] = AsideItem({
         data: data,
-        position: this.props.positions[id]
+        position: this.props.positions[data.target]
       });
     }, this));
     return item;

@@ -1,7 +1,7 @@
 <div class="b-aside">
   <ol class="b-aside-list">
     {% if page and page.context and page.context.asides %}
-      {% for id, aside in page.context.asides.iteritems() %}
+      {% for aside in page.context.asides %}
         <li class="b-aside-list-item">
           <aside class="b-aside-component">
             {% if aside.type == 'image' %}

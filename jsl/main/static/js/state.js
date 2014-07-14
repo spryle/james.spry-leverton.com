@@ -1,5 +1,26 @@
 var State = require('ampersand-state');
+var Collection = require('ampersand-collection');
 
+
+var Aside = State.extend({
+
+  props: {
+    target: 'string',
+    src: 'string',
+    alt: 'string',
+    title: 'string',
+    text: 'string',
+    type: 'string'
+  }
+
+});
+
+var Asides = Collection.extend({
+
+  mainIndex: 'target',
+  model: Aside
+
+});
 
 var Page = State.extend({
 
@@ -19,9 +40,13 @@ var Page = State.extend({
     tags: 'array',
     date_added: 'date',
     date_modified: 'date',
-    asides: 'object',
     positions: 'object'
+  },
+
+  children: {
+    asides: Asides
   }
+
 
 });
 

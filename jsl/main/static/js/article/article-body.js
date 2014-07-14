@@ -10,11 +10,11 @@ function applyID(el) {
     var id = tag + '-' + count[tag];
     block.setAttribute('id', id);
     count[tag]++;
-    var rect = block.getBoundingClientRect();
+    console.dir(block);
     doc[id] = {
-      top: rect.top + document.documentElement.scrollTop,
-      left: rect.left + document.documentElement.scrollLeft,
-      height: block.outerHeight
+      top: block.offsetTop,
+      left: block.offsetLeft,
+      height: block.offsetHeight
     };
   });
   return doc;

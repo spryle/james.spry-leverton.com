@@ -99,6 +99,8 @@ gulp.task('watch', function() {
 });
 
 gulp.task('default', [
+  'styles',
+  'scripts',
   'watch',
 ]);
 

@@ -47,7 +47,6 @@ var AsideImage = React.createClass({
 });
 
 
-
 var AsideItem = React.createClass({
 
   componentWillMount: function() {
@@ -95,7 +94,7 @@ var AsideItem = React.createClass({
   },
 
   src: function() {
-    return dummyImage(this.props.data.src, {
+    return dummyImage(this.props.src, {
       height: this.state.enlarged ? window.outerHeight : 200,
       width: this.state.enlarged ? window.outerHeight : 200,
       background: '303030',
@@ -104,16 +103,12 @@ var AsideItem = React.createClass({
   },
 
   render: function() {
-    var classes = this.classes();
-    var styles = this.styles();
-    var enlarged = this.state.enlarged;
-    var src = this.src();
     return (
-      <li className={classes} style={styles} onClick={this.enlarge}>
+      <li className={this.classes()} style={this.styles()} onClick={this.enlarge}>
         <AsideImage
-          src={src}
-          alt={this.props.data.alt}
-          enlarged={enlarged}
+          src={this.src()}
+          alt={this.props.alt}
+          enlarged={this.state.enlarged}
         />
       </li>
     );
@@ -127,7 +122,7 @@ var AsideList = React.createClass({
   items: function() {
     var item = {};
     this.props.page.asides.each(_.bind(function(data) {
-      item[data.target] = AsideItem({data: data});
+      item[data.target] = AsideItem(data.toJSON());
     }, this));
     return item;
   },
@@ -140,4 +135,16 @@ var AsideList = React.createClass({
 
 });
 
-module.exports = AsideList;
+var Aside = React.createClass({
+
+  render: function() {
+    return (
+      <div className="b-aside">
+        <AsideList page={this.props.page} />
+      </div>
+    );
+  }
+
+});
+
+module.exports = Aside;

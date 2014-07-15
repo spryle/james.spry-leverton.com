@@ -1,5 +1,5 @@
 .b-article {
-
+  min-height: 600px;
   line-height: 1.6;
 
   ol, ul {
@@ -15,6 +15,18 @@
   }
 }
 
+.js .b-article {
+  visibility: hidden;
+}
+
+.no-js .b-article {
+  visibility: visible;
+}
+
+.js .b-article.is-initialized {
+  visibility: visible;
+}
+
 .b-article-header {
   padding: 10% 10% 0 10%;
 }
@@ -26,7 +38,7 @@
 
 .b-article-footer {
   display: flex;
-  padding: 10% 10% 10% 10%;
+  padding: 10% 10% 5% 10%;
   min-height: 70px;
 }
 
@@ -41,7 +53,7 @@
   text-align: right;
 }
 
-.b-article-author-gravitar {
+.b-article-gravitar {
   width: 20%;
   float: left;
   text-align: center;

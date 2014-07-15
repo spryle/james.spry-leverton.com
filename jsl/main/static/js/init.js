@@ -1,6 +1,7 @@
 /**
  * @jsx React.DOM
  */
+
 var _ = require('underscore');
 var React = require('react');
 
@@ -9,20 +10,30 @@ var report = require('./contrib/wrappers/report');
 var expose = require('./contrib/wrappers/expose');
 var ready = require('./contrib/ready');
 
+var Pages = require('./stores/pages');
+
 ready = _.partial(ready, _, _, false, report, expose);
 
-var Pages = require('./stores/pages');
-var pages = new Pages(data.page);
+var content = document.getElementById('b-article-content');
+var pages = new Pages(_.extend({
+  path: window.location.pathname,
+  content: content ? content.innerHTML : ''
+}, data.page));
+var page = pages.state.getCurrentPage();
 
 
 ready('sidebar', function() {
 
-  var sidebar = require('./components/sidebar');
+  var SidebarTab = require('./components/sidebar-tab');
 
-  return sidebar.initialize(
-    document.getElementsByClassName('b-sidebar-tab')[0],
-    pages
-  );
+  function render() {
+    React.renderComponent(
+      <SidebarTab/>,
+      document.getElementById('b-sidebar-tab-mount')
+    );
+  }
+
+  render();
 
 });
 
@@ -30,33 +41,31 @@ ready('article', function() {
 
   var Article = require('./components/article');
 
-  function render() {
-    var page = pages.state.getCurrentPage();
+  function render(store) {
     React.renderComponent(
-      <Article page={page} className='is-initialized' />,
-      document.getElementsByClassName('b-middle-container')[0]
+      <Article page={pages.state.getCurrentPage()} />,
+      document.getElementById('b-article-mount')
     );
   }
 
-  // pages.on('change', render);
-  // render();
+  pages.on('change', render);
+  render(pages);
 
 });
 
 ready('asides', function() {
 
-  var AsideList = require('./components/asides');
+  var Aside = require('./components/aside');
 
-  function render() {
-    var page = pages.state.getCurrentPage();
+  function render(store) {
     React.renderComponent(
-      <AsideList page={page}/>,
-      document.getElementsByClassName('b-aside')[0]
+      <Aside page={store.state.getCurrentPage()}/>,
+      document.getElementById('b-aside-mount')
     );
   }
 
-  pages.on('change', render);
-  render();
+  pages.on('commit', render, pages);
+  render(pages);
 
 });
 

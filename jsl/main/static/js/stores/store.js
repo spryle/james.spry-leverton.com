@@ -7,7 +7,7 @@ var dispatcher = require('../dispatcher');
 var Store = function(data) {
   this.id = _.uniqueId('store');
   this.state = this.encapsulate(data);
-  _.bindAll(this, 'handle', 'emit');
+  _.bindAll(this, 'handle', 'commit');
   dispatcher.register(this.handle);
   this.initialize.call(this, this.state);
 };
@@ -22,8 +22,8 @@ _.extend(Store.prototype, Events, {
     return data;
   },
 
-  emit: function() {
-    this.trigger('change');
+  commit: function() {
+    this.trigger('commit');
     return this;
   },
 
@@ -32,7 +32,7 @@ _.extend(Store.prototype, Events, {
     if (_.has(this.actions, payload.type)) {
       this[this.actions[payload.type]](payload);
     }
-    return this.emit();
+    return this.commit();
 
   }
 

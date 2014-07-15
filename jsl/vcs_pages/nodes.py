@@ -84,6 +84,18 @@ class Node(object):
         }
         if self.context_node:
             context.update(self.context_node.parse())
+        if context.get('author', False):
+            bits = parseaddr(context['author'])
+            if bits[0]:
+                context.update({
+                    'author_name': bits[0],
+                })
+            if bits[1]:
+                h = hashlib.md5(bits[1].encode('utf-8')).hexdigest()
+                context.update({
+                    'author_email': bits[1],
+                    'author_hash': h
+                })
         return context
 
     @property
@@ -160,22 +172,6 @@ class Node(object):
     @property
     def full_name(self):
         return self.node.name
-
-    @property
-    def title(self):
-        return self.context.get('title', self.name)
-
-    @property
-    def author_name(self):
-        return parseaddr(self.context.get('author', ''))[0]
-
-    @property
-    def author_email(self):
-        return parseaddr(self.context.get('author', ''))[1]
-
-    @property
-    def author_hash(self):
-        return hashlib.md5(self.author_email.encode('utf-8')).hexdigest()
 
     @property
     def date_added(self):

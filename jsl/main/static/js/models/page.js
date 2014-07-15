@@ -7,9 +7,12 @@ var Page = State.extend({
   props: {
     name: 'string',
     path: 'string',
-    author: 'string',
     title: 'string',
     content: 'string',
+    author: 'string',
+    author_name: 'string',
+    author_email: 'string',
+    author_hash: 'string',
     tags: 'array',
     date_added: 'date',
     date_modified: 'date',

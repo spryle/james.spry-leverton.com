@@ -4,6 +4,7 @@ var notify = require('gulp-notify');
 var refresh = require('gulp-livereload');
 var less = require('gulp-less');
 var shell = require('gulp-shell');
+var jsmin = require('gulp-jsmin');
 var source = require('vinyl-source-stream');
 var browserify = require('browserify');
 var watchify = require('watchify');
@@ -79,6 +80,12 @@ gulp.task('scripts', function() {
   bundle.on('update', refresh);
   return refresh();
 
+});
+
+gulp.task('build', function() {
+  return gulp.src([dest.scripts + "*.js"])
+    .pipe(jsmin())
+    .pipe(gulp.dest(dest.scripts));
 });
 
 gulp.task('watch', function() {

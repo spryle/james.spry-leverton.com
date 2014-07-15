@@ -16,7 +16,8 @@
     "ampersand-collection-underscore-mixin": "^1.0.0",
     "flux-dispatcher": "^0.1.0",
     "backbone-events-standalone": "^0.2.2",
-    "ampersand-class-extend": "^1.0.0"
+    "ampersand-class-extend": "^1.0.0",
+    "moment": "^2.7.0"
   },
   "devDependencies": {
     "browserify": "^4.1.11",
@@ -31,6 +32,7 @@
     "less": "^1.7.0",
     "reactify": "^0.13.1",
     "vinyl-source-stream": "^0.1.1",
-    "bonzo": "^2.0.0"
+    "bonzo": "^2.0.0",
+    "gulp-jsmin": "^0.1.4"
   }
 }

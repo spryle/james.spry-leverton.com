@@ -1,0 +1,25 @@
+.b-wallpaper {
+
+  z-index: 0;
+  top: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
+  position: fixed;
+
+  .transition(all .35s linear);
+
+  canvas {
+
+    @media only screen and (max-width : 992px) {
+      display: none;
+    }
+  }
+}
+
+body.is-pushed .b-wallpaper {
+
+  right: -80px;
+
+}
+

@@ -1,0 +1,16 @@
+<div id="b-directory-mount">
+  <div class="b-directory">
+    <ul class="b-directory-listing">
+      {% if index and index.parent %}
+        {% with node=index.parent, is_first=True, text='Back' %}
+          {% include '_directory-item.html' %}
+        {% endwith %}
+      {% endif %}
+      {% for node in index.children %}
+        {% with is_first=not index.parent and loop.index == 1 %}
+          {% include '_directory-item.html' %}
+        {% endwith %}
+      {% endfor %}
+    </ul>
+  </div>
+</div>

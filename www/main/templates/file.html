@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+  {% if page %}
+    {{ page.name }}
+  {% elif index %}
+    {{ index.name }}
+  {% else %}
+    James Spry-Leverton
+  {% endif %}
+
+{% endblock %}
+
+{% block left %}
+
+  {% include '_sidebar.html' %}
+
+{% endblock left %}
+
+{% block middle %}
+
+  {% include '_article.html' %}
+  {% include '_footer.html' %}
+
+{% endblock %}
+
+{% block right %}
+
+  {% include '_aside.html' %}
+
+{% endblock %}
+

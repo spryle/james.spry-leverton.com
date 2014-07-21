@@ -4,11 +4,11 @@ from __future__ import unicode_literals
 from werkzeug.serving import run_simple
 from werkzeug.wsgi import DispatcherMiddleware
 
-from jsl import main, api
+from www import main
 
 application = DispatcherMiddleware(
-    main.create_app(), {
-        '/api': api.create_app()
+    main.build_app(), {
+
     }
 )
 

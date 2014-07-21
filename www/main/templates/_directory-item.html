@@ -1,0 +1,15 @@
+<li class="b-directory-item {% if node.is_directory %}is-directory{% endif %} {% if node.is_file %}is-file{% endif %} {% if is_first %}is-first{% endif %} {% if node.path == request.path %}is-current{% endif %}">
+  <span class="b-directory-item-content">
+    {% with content=text or node.name %}
+      {% if node.path == request.path %}
+        <span class="b-directory-item-text" href="{{ node.path }}">
+          {{ content }}
+        </span>
+      {% else %}
+        <a class="b-directory-item-text" href="{{ node.path }}">
+          {{ content }}
+        </a>
+      {% endif %}
+      {% endwith %}
+  </span>
+</li>

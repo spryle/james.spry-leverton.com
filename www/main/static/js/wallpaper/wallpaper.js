@@ -106,19 +106,10 @@ function column(engine, options) {
 
 module.exports = {
 
-  initialize: function(mount, stores) {
-
-    this.stores = stores;
-
-    var canvas = document.createElement('canvas');
-    canvas.setAttribute('height', window.outerHeight * 1.05);
-    canvas.setAttribute('width', window.outerHeight * 0.80);
-    mount.appendChild(canvas);
+  initialize: function(canvas) {
     var screen = new Screen(canvas);
     var engine = new Engine();
-
     engine.systems.add(new Paint(engine));
-
     _.each(_.range(50), function(i) {
       column(engine, {
         column: i,
@@ -128,13 +119,7 @@ module.exports = {
         size: 25
       });
     });
-
-    this.wallpaper = new Tarka(engine, screen, {fps: 1000 / 1});
-    return this.wallpaper.render();
-  },
-
-  render: function(data) {
-
+    return new Tarka(engine, screen, {fps: 1000 / 1});
   }
 
 };

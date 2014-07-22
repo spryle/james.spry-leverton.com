@@ -7,6 +7,8 @@ module.exports = {
   }),
   ACTIONS: keyMirror({
     PAGE_CHANGE: null,
-    INDEX_CHANGE: null
+    PAGE_UPDATE: null,
+    INDEX_CHANGE: null,
+    INDEX_UPDATE: null
   })
 };

@@ -16,6 +16,11 @@ var Index = Model.extend({
     parent: 'object'
   },
 
+  session: {
+    status_code: 'integer',
+    status_message: 'string'
+  },
+
   collections: {
     children: Nodes
   },

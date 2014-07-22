@@ -1,5 +1,6 @@
 var Router = require('ampersand-router');
 var dispatcher = require('./dispatcher');
+var constants = require('./constants');
 
 module.exports = Router.extend({
 
@@ -13,14 +14,14 @@ module.exports = Router.extend({
 
   page: function (path, filename) {
     dispatcher.route({
-      type: 'PAGE_CHANGE',
+      type: constants.ACTIONS.PAGE_CHANGE,
       path: path && filename ?  '/' + path + '/' + filename : '/' + path
     });
   },
 
   index: function(path) {
     dispatcher.route({
-      type: 'INDEX_CHANGE',
+      type: constants.ACTIONS.INDEX_CHANGE,
       path: path ?  '/' + path + '/' : '/'
     });
   }

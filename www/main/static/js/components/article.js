@@ -4,6 +4,8 @@
 var _ = require('underscore');
 var moment = require('moment');
 var React = require('react');
+var dispatcher = require('../dispatcher');
+var constants = require('../constants');
 
 
 var ArticleHeader = React.createClass({
@@ -114,6 +116,12 @@ var ArticleFooter = React.createClass({
 
 
 var Article = React.createClass({
+
+  componentDidUpdate: function() {
+    dispatcher.view({
+      type: constants.ACTIONS.PAGE_UPDATE
+    });
+  },
 
   render: function() {
     if (this.props.page) {

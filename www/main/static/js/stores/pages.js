@@ -5,6 +5,10 @@ var constants = require('../constants');
 
 var Pages = Store.extend({
 
+  initialize: function() {
+    _.bindAll(this, 'response', 'error', 'success');
+  },
+
   encapsulate: function(data) {
     return new PagesCollection(data);
   },
@@ -14,22 +18,40 @@ var Pages = Store.extend({
     page: constants.ACTIONS.PAGE_CHANGE
   }),
 
+  response: function(model, resp, options) {
+    model.status_code = options.xhr.statusCode;
+    model.status_message = options.xhr.statusMessage;
+  },
+
+  success: function(model, resp, options) {
+    this.response(model, resp, options);
+    this.commit();
+  },
+
+  error: function(model, resp, options) {
+    this.response(model, resp, options);
+    this.commit();
+  },
+
   index: function(payload) {
-    if (!this.state.get(payload.path + 'index')) {
-      this.state.add({path: payload.path + 'index'}).fetch({
-        success: this.commit
-      });
-    }
+    var path = payload.path + 'index';
+    var page = this.state.get(path);
+    if (page && page.status_code === 200) {return false;}
+    this.state.add({path: path}).fetch({
+      success: this.success,
+      error: this.error
+    });
+    return false;
   },
 
   page: function(payload) {
-    if (!this.state.get(payload.path)) {
-      this.state.add({path: payload.path}).fetch({
-        success: this.commit
-      });
-      return false;
-    }
-    return true;
+    var page = this.state.get(payload.path);
+    if (page && page.status_code === 200) {return true;}
+    this.state.add({path: payload.path}).fetch({
+      success: this.success,
+      error: this.error
+    });
+    return false;
   }
 
 });

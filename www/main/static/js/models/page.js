@@ -20,6 +20,11 @@ var Page = Model.extend({
     positions: 'object'
   },
 
+  session: {
+    status_code: 'integer',
+    status_message: 'string'
+  },
+
   idAttribute: 'path',
 
   urlRoot: 'http://api.dev:5000',

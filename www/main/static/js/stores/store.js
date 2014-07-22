@@ -5,9 +5,9 @@ var dispatcher = require('../dispatcher');
 
 
 var Store = function(data) {
+  _.bindAll(this, 'handle', 'commit');
   this.id = _.uniqueId('store');
   this.state = this.encapsulate(data);
-  _.bindAll(this, 'handle', 'commit');
   dispatcher.register(this.handle);
   this.initialize.call(this, this.state);
 };

@@ -11,17 +11,25 @@ var ready = require('./contrib/ready');
 
 var Pages = require('./stores/pages');
 var Indexes = require('./stores/indexes');
+var Site = require('./stores/site');
 
 ready = _.partial(ready, _, _, false, report, expose);
+
+var site = new Site({
+  status: 'WAITING'
+});
+
+var indexes = new Indexes(_.extend({
+  status_code: 200
+}, data.index));
 
 var content = document.getElementById('b-article-content');
 
 var pages = new Pages(_.extend({
+  status_code: 200,
   path: window.location.pathname,
   content: content ? content.innerHTML : ''
 }, data.page));
-
-var indexes = new Indexes(data.index);
 
 ready('title', function() {
 
@@ -112,7 +120,7 @@ ready('asides', function() {
 
   var Aside = require('./components/aside');
 
-  function render(store) {
+  function render() {
     var page = pages.state.getCurrentPage();
     if (!page) {return false;}
     return React.renderComponent(
@@ -127,11 +135,32 @@ ready('asides', function() {
 
 ready('wallpaper', function() {
 
-  var wallpaper = require('./wallpaper/wallpaper');
+  var Wallpaper = require('./components/wallpaper');
 
-  return wallpaper.initialize(
-    document.getElementsByClassName('b-wallpaper')[0]
-  );
+  function render() {
+    return React.renderComponent(
+      <Wallpaper />,
+      document.getElementById('b-wallpaper-mount')
+    );
+  }
+
+  return render();
+
+});
+
+ready('progress', function() {
+
+  var Progress = require('./components/progress');
+
+  function render() {
+    return React.renderComponent(
+      <Progress status={site.state.status}/>,
+      document.getElementById('b-progress-mount')
+    );
+  }
+
+  site.on('commit', render);
+  return render();
 
 });
 
@@ -148,10 +177,18 @@ ready('router', function() {
   });
 
   document.body.addEventListener('click', function(event) {
-    if (event.target.localName === 'a') {
+    var elements = [];
+    var node = event.target;
+    while (node) {
+      elements.unshift(node.localName);
+      node = node.parentNode;
+    }
+    if (_.indexOf(elements, 'a') >= 0) {
       router.navigate(event.target.getAttribute('href'), true);
       event.preventDefault();
     }
   });
+
+  return router;
 
 });

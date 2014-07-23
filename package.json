@@ -14,13 +14,13 @@
     "ampersand-state": "^4.3.2",
     "ampersand-collection": "^1.3.9",
     "ampersand-collection-underscore-mixin": "^1.0.0",
-    "flux-dispatcher": "^0.1.0",
     "backbone-events-standalone": "^0.2.2",
     "ampersand-class-extend": "^1.0.0",
     "moment": "^2.7.0",
     "ampersand-router": "^1.0.1",
     "xhr": "^1.13.0",
-    "ampersand-model": "^3.0.4"
+    "ampersand-model": "^3.0.4",
+    "fluxxor": "^1.3.2"
   },
   "devDependencies": {
     "browserify": "^4.1.11",

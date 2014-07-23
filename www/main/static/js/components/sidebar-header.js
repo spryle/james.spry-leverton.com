@@ -3,6 +3,11 @@
  */
 var _ = require('underscore');
 var React = require('react');
+var Fluxxor = require('fluxxor');
+var FluxMixin = Fluxxor.FluxMixin(React);
+var StoreWatchMixin = Fluxxor.StoreWatchMixin;
+var constants = require('../constants');
+
 
 var SidebarSubTitle = React.createClass({
 
@@ -24,6 +29,24 @@ var SidebarSubTitle = React.createClass({
 
 var SidebarHeader = React.createClass({
 
+  mixins: [
+    FluxMixin,
+    StoreWatchMixin('DirectoryStore')
+  ],
+
+  getStateFromFlux: function() {
+    var flux = this.getFlux();
+    console.log(flux.store('DirectoryStore').state.getCurrentIndex().name);
+    return {
+      index: flux.store('DirectoryStore').state.getCurrentIndex(),
+    };
+  },
+
+  getInitialState: function() {
+    return {
+      defaultName: 'Web Developer, London'
+    };
+  },
 
   render: function() {
     return (
@@ -34,8 +57,8 @@ var SidebarHeader = React.createClass({
           </a>
         </h2>
         <SidebarSubTitle
-          href={this.props.index.path || null}
-          text={this.props.index.name || 'Web Developer, London'}
+          href={this.state.index.path || null}
+          text={this.state.index.name || this.state.defaultName}
         />
       </header>
     );

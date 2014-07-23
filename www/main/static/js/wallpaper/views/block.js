@@ -1,6 +1,4 @@
-var _ = require('underscore');
 var degreesToRadians = require('tarka/utils/degrees-to-radians');
-
 var View = require('tarka/view');
 
 

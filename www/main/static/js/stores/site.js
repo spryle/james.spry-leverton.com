@@ -1,41 +1,38 @@
 var _ = require('underscore');
-var Store = require('./store');
+var Fluxxor = require('fluxxor');
 var SiteState = require('../models/site.js');
 var constants = require('../constants');
 
 
-var Site = Store.extend({
+var actions = {};
+actions[constants.ACTIONS.PATH_CHANGE] = 'loading';
+actions[constants.ACTIONS.ARTICLE_LOADED] = 'updated';
+actions[constants.ACTIONS.ARTICLE_FAILED] = 'updated';
+actions[constants.ACTIONS.SITE_WAITING] = 'waiting';
 
-  initialize: function() {
-    _.bindAll(this, 'waiting');
+
+module.exports = Fluxxor.createStore({
+
+  initialize: function(initial) {
+    this.state = new SiteState(initial);
   },
 
-  encapsulate: function(data) {
-    return new SiteState(data);
-  },
-
-  actions: _.invert({
-    loading: constants.ACTIONS.PAGE_CHANGE,
-    updated: constants.ACTIONS.PAGE_UPDATE
-  }),
+  actions: actions,
 
   loading: function(payload) {
     this.state.status = 'LOADING';
-    return true;
+    this.emit('change');
   },
 
   updated: function(payload) {
     this.state.status = 'UPDATED';
-    _.delay(this.waiting, 300);
-    return true;
+    _.delay(this.flux.actions.site.waiting, 200);
+    this.emit('change');
   },
 
   waiting: function(payload) {
     this.state.status = 'WAITING';
-    this.commit();
+    this.emit('change');
   }
 
-
 });
-
-module.exports = Site;

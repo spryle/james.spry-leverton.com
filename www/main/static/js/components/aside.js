@@ -5,6 +5,10 @@
 var _ = require('underscore');
 var React = require('react');
 var cx = require('react-classset');
+var Fluxxor = require('fluxxor');
+var FluxMixin = Fluxxor.FluxMixin(React);
+var StoreWatchMixin = Fluxxor.StoreWatchMixin;
+var constants = require('../constants');
 
 
 function dummyImage(domain, options) {
@@ -137,11 +141,23 @@ var AsideList = React.createClass({
 
 var Aside = React.createClass({
 
+  mixins: [
+    FluxMixin,
+    StoreWatchMixin('ArticleStore')
+  ],
+
+  getStateFromFlux: function() {
+    var flux = this.getFlux();
+    return {
+      page: flux.store('ArticleStore').state.getCurrentPage(),
+    };
+  },
+
   render: function() {
-    if (this.props.page) {
+    if (this.state.page) {
       return (
         <div className="b-aside">
-          <AsideList page={this.props.page} />
+          <AsideList page={this.state.page} />
         </div>
       );
     } else {

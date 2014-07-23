@@ -4,7 +4,9 @@
 var _ = require('underscore');
 var moment = require('moment');
 var React = require('react');
-var dispatcher = require('../dispatcher');
+var Fluxxor = require('fluxxor');
+var FluxMixin = Fluxxor.FluxMixin(React);
+var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 var constants = require('../constants');
 
 
@@ -117,24 +119,30 @@ var ArticleFooter = React.createClass({
 
 var Article = React.createClass({
 
-  componentDidUpdate: function() {
-    dispatcher.view({
-      type: constants.ACTIONS.PAGE_UPDATE
-    });
+  mixins: [
+    FluxMixin,
+    StoreWatchMixin('ArticleStore')
+  ],
+
+  getStateFromFlux: function() {
+    var flux = this.getFlux();
+    return {
+      page: flux.store('ArticleStore').state.getCurrentPage(),
+    };
   },
 
   render: function() {
-    if (this.props.page) {
+    if (this.state.page) {
       return (
         <div className="b-article is-initialized">
-          <ArticleHeader title={this.props.page.title} />
-          <ArticleBody content={this.props.page.content} />
+          <ArticleHeader title={this.state.page.title} />
+          <ArticleBody content={this.state.page.content} />
           <ArticleFooter
-            name={this.props.page.author_name}
-            email={this.props.page.author_email}
-            hash={this.props.page.author_hash}
-            modified={this.props.page.date_modified}
-            added={this.props.page.date_added} />
+            name={this.state.page.author_name}
+            email={this.state.page.author_email}
+            hash={this.state.page.author_hash}
+            modified={this.state.page.date_modified}
+            added={this.state.page.date_added} />
         </div>
       );
     } else {

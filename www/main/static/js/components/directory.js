@@ -4,6 +4,10 @@
 var _ = require('underscore');
 var React = require('react');
 var cx = require('react-classset');
+var Fluxxor = require('fluxxor');
+var FluxMixin = Fluxxor.FluxMixin(React);
+var StoreWatchMixin = Fluxxor.StoreWatchMixin;
+var constants = require('../constants');
 
 
 var DirectoryItemText = React.createClass({
@@ -91,10 +95,22 @@ var DirectoryListing = React.createClass({
 
 var Directory = React.createClass({
 
+  mixins: [
+    FluxMixin,
+    StoreWatchMixin('ArticleStore', 'DirectoryStore')
+  ],
+
+  getStateFromFlux: function() {
+    var flux = this.getFlux();
+    return {
+      index: flux.store('DirectoryStore').state.getCurrentIndex(),
+    };
+  },
+
   render: function() {
     return (
-      <div className="b-directory" data-level={this.props.index.level} >
-        <DirectoryListing index={this.props.index}/>
+      <div className="b-directory" data-level={this.state.index.level} >
+        <DirectoryListing index={this.state.index}/>
       </div>
     );
   }

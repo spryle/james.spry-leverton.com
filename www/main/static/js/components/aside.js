@@ -108,12 +108,16 @@ var AsideItem = React.createClass({
 
   render: function() {
     return (
-      <li className={this.classes()} style={this.styles()} onClick={this.enlarge}>
+      <li className={this.classes()}
+          style={this.styles()}
+          onClick={this.enlarge}>
+
         <AsideImage
           src={this.src()}
           alt={this.props.alt}
           enlarged={this.state.enlarged}
         />
+
       </li>
     );
   }

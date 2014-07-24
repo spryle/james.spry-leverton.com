@@ -35,10 +35,8 @@ var SidebarHeader = React.createClass({
   ],
 
   getStateFromFlux: function() {
-    var flux = this.getFlux();
-    console.log(flux.store('DirectoryStore').state.getCurrentIndex().name);
     return {
-      index: flux.store('DirectoryStore').state.getCurrentIndex(),
+      index: this.getFlux().store('DirectoryStore').state.getCurrentIndex(),
     };
   },
 

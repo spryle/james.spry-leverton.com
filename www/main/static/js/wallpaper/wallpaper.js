@@ -106,8 +106,7 @@ function column(engine, options) {
 
 module.exports = {
 
-  initialize: function(canvas) {
-    var screen = new Screen(canvas);
+  initialize: function(initial) {
     var engine = new Engine();
     engine.systems.add(new Paint(engine));
     _.each(_.range(50), function(i) {
@@ -119,7 +118,7 @@ module.exports = {
         size: 25
       });
     });
-    return new Tarka(engine, screen, {fps: 1000 / 1});
+    return new Tarka({engine: engine});
   }
 
 };

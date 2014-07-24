@@ -3,6 +3,7 @@
  */
 var _ = require('underscore');
 var React = require('react');
+var cx = require('react-classset');
 var Fluxxor = require('fluxxor');
 var FluxMixin = Fluxxor.FluxMixin(React);
 var StoreWatchMixin = Fluxxor.StoreWatchMixin;
@@ -39,10 +40,16 @@ var Progress = React.createClass({
     return  this.getFlux().store('SiteStore').state.toJSON();
   },
 
-  render: function() {
+  classes: function() {
+    var className = {};
+    className['is-' + this.state.status.toLowerCase()] = true;
+    className['b-progress'] = true;
+    return cx(className);
+  },
 
+  render: function() {
     return (
-      <div className="b-progress">
+      <div className={this.classes()}>
         <progress
           value={this.value()}
           max={this.state.max}

@@ -1,0 +1,46 @@
+
+.b-wallpaper-icon(@icon) {
+  .fa;
+  .fa-fw;
+  padding-top: 2.5px;
+  padding-bottom: 2.5px;
+  content: @icon;
+}
+
+.b-wallpaper-debug-bar {
+  padding: 0 10px 0 10px;
+  background-color: rgba(255,255,255,0.2);
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  height: 25px;
+}
+
+.b-wallpaper-button-list {
+  display: flex;
+  flex: 100%;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  list-style: none;
+}
+
+.b-wallpaper-button {
+
+  cursor: pointer;
+
+  &.is-play {
+    &:before {
+      .b-wallpaper-icon(@fa-var-play);
+    }
+  }
+
+  &.is-pause {
+    &:before {
+      .b-wallpaper-icon(@fa-var-pause);
+    }
+  }
+
+}
+
+

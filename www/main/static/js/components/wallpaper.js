@@ -3,24 +3,27 @@
  */
 var _ = require('underscore');
 var React = require('react');
-var wallpaper = require('../wallpaper/wallpaper');
-
+var Fluxxor = require('fluxxor');
+var FluxMixin = Fluxxor.FluxMixin(React);
+var FluxChildMixin = Fluxxor.FluxChildMixin(React);
+var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var Canvas = React.createClass({
 
+  mixins: [
+    FluxChildMixin,
+  ],
+
+  componentDidMount: function() {
+    this.props.wallpaper.setScreen(this.getDOMNode());
+    this.props.wallpaper.render();
+  },
+
   getInitialState: function() {
     return {
-      wallpaper: null,
       height: window.outerHeight * 1.05,
       width: window.outerHeight * 0.80
     };
-  },
-
-  componentDidMount: function() {
-    this.setState({
-      wallpaper: wallpaper.initialize(this.getDOMNode())
-    });
-    this.state.wallpaper.render();
   },
 
   render: function() {
@@ -34,13 +37,23 @@ var Canvas = React.createClass({
 
 });
 
-
 var Wallpaper = React.createClass({
+
+  mixins: [
+    FluxMixin,
+    StoreWatchMixin('WallpaperStore')
+  ],
+
+  getStateFromFlux: function() {
+    return {
+      wallpaper: this.getFlux().store('WallpaperStore').state,
+    };
+  },
 
   render: function() {
     return (
       <div className="b-wallpaper">
-        <Canvas />
+        <Canvas wallpaper={this.state.wallpaper} />
       </div>
     );
   }

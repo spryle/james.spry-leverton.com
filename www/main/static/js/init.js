@@ -4,14 +4,17 @@
 var _ = require('underscore');
 var Fluxxor = require('fluxxor');
 var React = require('react');
+
 var data = require('./contrib/data');
 var report = require('./contrib/wrappers/report');
 var expose = require('./contrib/wrappers/expose');
 var ready = require('./contrib/ready');
-var constants = require('./constants');
 var ArticleStore = require('./stores/article');
 var DirectoryStore = require('./stores/directory');
 var SiteStore = require('./stores/site');
+var WallpaperStore = require('./stores/wallpaper');
+var constants = require('./constants');
+var wallpaper = require('./wallpaper/wallpaper');
 
 ready = _.partial(ready, _, _, false, report, expose);
 
@@ -31,10 +34,15 @@ var site = {
   status: 'WAITING'
 };
 
+var wallpaper = wallpaper.initialize({
+
+});
+
 var stores = {
   SiteStore: new SiteStore(site),
   ArticleStore: new ArticleStore(article),
   DirectoryStore: new DirectoryStore(directory),
+  WallpaperStore: new WallpaperStore(wallpaper)
 };
 
 var actions = {
@@ -74,6 +82,18 @@ var actions = {
 
     waiting: function() {
       this.dispatch(constants.ACTIONS.SITE_WAITING);
+    }
+
+  },
+
+  wallpaper: {
+
+    play: function() {
+      this.dispatch(constants.ACTIONS.WALLPAPER_PLAY);
+    },
+
+    pause: function() {
+      this.dispatch(constants.ACTIONS.WALLPAPER_PAUSE);
     }
 
   }
@@ -156,6 +176,17 @@ ready('wallpaper', function() {
   return React.renderComponent(
     <Wallpaper flux={flux}/>,
     document.getElementById('b-wallpaper-mount')
+  );
+
+});
+
+ready('wallpaper-debug-bar', function() {
+
+  var WallpaperDebugBar = require('./components/wallpaper-debug-bar');
+
+  return React.renderComponent(
+    <WallpaperDebugBar flux={flux}/>,
+    document.getElementById('b-wallpaper-debug-bar-mount')
   );
 
 });

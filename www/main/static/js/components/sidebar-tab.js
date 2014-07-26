@@ -3,7 +3,7 @@
  */
 var _ = require('underscore');
 var React = require('react');
-var toggle = require('../contrib/dom/toggle-class');
+var toggle = require('../contrib/el/toggle-class');
 
 
 var SidebarTab = React.createClass({

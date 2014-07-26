@@ -40,6 +40,55 @@ var WallpaperDebugBarPlay = React.createClass({
 
 });
 
+var WallpaperDebugBarRefresh = React.createClass({
+
+  mixins: [
+    FluxChildMixin
+  ],
+
+  classes: function() {
+    return cx({
+      'b-wallpaper-button': true,
+      'is-refresh': true
+    });
+  },
+
+  refresh: function() {
+    this.getFlux().actions.wallpaper.refresh();
+  },
+
+  render: function() {
+    return (
+      <li onClick={this.refresh} className={this.classes()}></li>
+    );
+  }
+
+});
+
+var WallpaperDebugBarClear = React.createClass({
+
+  mixins: [
+    FluxChildMixin
+  ],
+
+  classes: function() {
+    return cx({
+      'b-wallpaper-button': true,
+      'is-clear': true
+    });
+  },
+
+  clear: function() {
+    this.getFlux().actions.wallpaper.clear();
+  },
+
+  render: function() {
+    return (
+      <li onClick={this.clear} className={this.classes()}></li>
+    );
+  }
+
+});
 
 var WallpaperDebugBarFPS = React.createClass({
 
@@ -96,6 +145,8 @@ var WallpaperDebugBar = React.createClass({
     return (
       <div className="b-wallpaper-debug-bar">
         <ul className="b-wallpaper-button-list">
+          <WallpaperDebugBarClear />
+          <WallpaperDebugBarRefresh />
           <WallpaperDebugBarPlay running={this.state.wallpaper.running} />
           <WallpaperDebugBarFPS fps={this.state.wallpaper.fps()} />
         </ul>

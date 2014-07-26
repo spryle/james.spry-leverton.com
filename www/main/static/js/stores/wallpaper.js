@@ -3,8 +3,13 @@ var Fluxxor = require('fluxxor');
 var constants = require('../constants');
 
 var actions = {};
+
+actions[constants.ACTIONS.PATH_CHANGE] = 'refresh';
 actions[constants.ACTIONS.WALLPAPER_PLAY] = 'play';
 actions[constants.ACTIONS.WALLPAPER_PAUSE] = 'pause';
+actions[constants.ACTIONS.WALLPAPER_REFRESH] = 'refresh';
+actions[constants.ACTIONS.WALLPAPER_CLEAR] = 'clear';
+
 
 module.exports = Fluxxor.createStore({
 
@@ -14,6 +19,13 @@ module.exports = Fluxxor.createStore({
 
   actions: actions,
 
+  refresh: function() {
+    this.state.clear();
+    this.state.refresh();
+    this.state.render();
+    this.emit('change');
+  },
+
   play: function() {
     this.state.start();
     this.emit('change');
@@ -21,6 +33,12 @@ module.exports = Fluxxor.createStore({
 
   pause: function() {
     this.state.stop();
+    this.emit('change');
+  },
+
+  clear: function() {
+    this.state.clear();
+    this.state.render();
     this.emit('change');
   }
 

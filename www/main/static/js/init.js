@@ -1,104 +1,12 @@
 /**
  * @jsx React.DOM
  */
-var _ = require('underscore');
+
 var Fluxxor = require('fluxxor');
 var React = require('react');
-
-var data = require('./contrib/data');
-var report = require('./contrib/wrappers/report');
-var expose = require('./contrib/wrappers/expose');
-var ready = require('./contrib/ready');
-var ArticleStore = require('./stores/article');
-var DirectoryStore = require('./stores/directory');
-var SiteStore = require('./stores/site');
-var WallpaperStore = require('./stores/wallpaper');
-var constants = require('./constants');
-var wallpaper = require('./wallpaper/wallpaper');
-
-ready = _.partial(ready, _, _, false, report, expose);
-
-var content = document.getElementById('b-article-content');
-
-var article = _.extend({
-  status_code: 200,
-  path: window.location.pathname,
-  content: content ? content.innerHTML : ''
-}, data.page);
-
-var directory = _.extend({
-  status_code: 200
-}, data.index);
-
-var site = {
-  status: 'WAITING'
-};
-
-var wallpaper = wallpaper.initialize({
-
-});
-
-var stores = {
-  SiteStore: new SiteStore(site),
-  ArticleStore: new ArticleStore(article),
-  DirectoryStore: new DirectoryStore(directory),
-  WallpaperStore: new WallpaperStore(wallpaper)
-};
-
-var actions = {
-
-  path: {
-
-    change: function(path) {
-      this.dispatch(constants.ACTIONS.PATH_CHANGE, path);
-    }
-
-  },
-
-  article: {
-
-    loaded: function(path) {
-      this.dispatch(constants.ACTIONS.ARTICLE_LOADED, path);
-    },
-
-    failed: function(path) {
-      this.dispatch(constants.ACTIONS.ARTICLE_FAILED, path);
-    }
-
-  },
-
-  directory: {
-
-    loaded: function(path) {
-      this.dispatch(constants.ACTIONS.DIRECTORY_LOADED, path);
-    },
-
-    failed: function(path) {
-      this.dispatch(constants.ACTIONS.ARTICLE_FAILED, path);
-    }
-  },
-
-  site: {
-
-    waiting: function() {
-      this.dispatch(constants.ACTIONS.SITE_WAITING);
-    }
-
-  },
-
-  wallpaper: {
-
-    play: function() {
-      this.dispatch(constants.ACTIONS.WALLPAPER_PLAY);
-    },
-
-    pause: function() {
-      this.dispatch(constants.ACTIONS.WALLPAPER_PAUSE);
-    }
-
-  }
-
-};
+var stores = require('./stores');
+var actions = require('./actions');
+var ready = require('./ready');
 
 var flux = new Fluxxor.Flux(stores, actions);
 
@@ -204,19 +112,21 @@ ready('progress', function() {
 
 ready('router', function() {
 
-  var Router = require('./router');
-
-  var router = new Router({flux: flux});
-
-  router.watch();
-
-  router.history.start({
-    pushState: true,
-    hashChange: true,
-    silent: true
-  });
-
-  return router;
+  document.body.addEventListener('click', _.bind(function(event) {
+    var elements = [];
+    var node = event.target;
+    while (node) {
+      elements.unshift(node.localName);
+      node = node.parentNode;
+    }
+    if (_.indexOf(elements, 'a') >= 0) {
+      var href = event.target.getAttribute('href');
+      if (!RegExp('^/').test(href)) {return;}
+      flux.actions.path.change(href);
+      event.preventDefault();
+    }
+  }, this));
+  return true;
 
 });
 

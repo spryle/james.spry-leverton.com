@@ -20,7 +20,9 @@
     "ampersand-router": "^1.0.1",
     "xhr": "^1.13.0",
     "ampersand-model": "^3.0.4",
-    "fluxxor": "^1.3.2"
+    "fluxxor": "^1.3.2",
+    "gradient": "^0.1.0",
+    "color": "^0.7.1"
   },
   "devDependencies": {
     "browserify": "^4.1.11",

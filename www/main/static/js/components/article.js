@@ -135,8 +135,17 @@ var Article = React.createClass({
     if (this.state.page) {
       return (
         <div className="b-article is-initialized">
-          <ArticleHeader title={this.state.page.title} />
-          <ArticleBody content={this.state.page.content} />
+          <ArticleHeader title={
+            this.state.page.title || (
+              this.state.page.status_code || 'Ooops!')
+          } />
+          <ArticleBody content={
+            this.state.page.content || (
+              this.state.page.status_message ||
+                this.state.page.status_code === 0 ?
+                  'Having connection Issues.' :
+                  '')
+          } />
           <ArticleFooter
             name={this.state.page.author_name}
             email={this.state.page.author_email}

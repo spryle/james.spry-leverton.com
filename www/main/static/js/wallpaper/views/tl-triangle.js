@@ -4,6 +4,7 @@ var View = require('tarka/view');
 module.exports = View.extend({
 
   draw: function(context) {
+    context.scale(this.scaleX, this.scaleY);
     context.beginPath();
     context.moveTo(0, 0);
     context.lineTo(this.width, 0);

@@ -1,7 +1,6 @@
 /**
  * @jsx React.DOM
  */
-
 var Fluxxor = require('fluxxor');
 var React = require('react');
 var stores = require('./stores');
@@ -9,6 +8,9 @@ var actions = require('./actions');
 var ready = require('./ready');
 
 var flux = new Fluxxor.Flux(stores, actions);
+window.flux = flux;
+
+console.log(require('./settings'));
 
 ready('title', function() {
 
@@ -110,23 +112,24 @@ ready('progress', function() {
 
 });
 
-ready('router', function() {
+// ready('router', function() {
 
-  document.body.addEventListener('click', _.bind(function(event) {
-    var elements = [];
-    var node = event.target;
-    while (node) {
-      elements.unshift(node.localName);
-      node = node.parentNode;
-    }
-    if (_.indexOf(elements, 'a') >= 0) {
-      var href = event.target.getAttribute('href');
-      if (!RegExp('^/').test(href)) {return;}
-      flux.actions.path.change(href);
-      event.preventDefault();
-    }
-  }, this));
-  return true;
+  // document.body.addEventListener('click', _.bind(function(event) {
+  //   var elements = [];
+  //   var node = event.target;
+  //   while (node) {
+  //     elements.unshift(node.localName);
+  //     node = node.parentNode;
+  //   }
+  //   if (_.indexOf(elements, 'a') >= 0) {
+  //     var href = event.target.getAttribute('href');
+  //     if (!RegExp('^/').test(href)) {return;}
+  //     flux.actions.path.change(href);
+  //     event.preventDefault();
+  //     event.stopPropagation();
+  //   }
+  // }, this));
+  // return true;
 
-});
+// });
 

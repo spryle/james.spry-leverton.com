@@ -9,7 +9,7 @@ from www.main.parsers import parse
 from www.main.serializers import serialize
 
 
-views = Blueprint('main-views', __name__)
+views = Blueprint('main-views', __name__, static_folder='static')
 
 
 @views.route('/favicon.ico')
@@ -32,7 +32,7 @@ def get_context(repo, path, filename):
 @views.route('/<path:path>/')
 def index(path=''):
     try:
-        repo = repository(app.config.get('REPOSITORY_PATH'))
+        repo = repository(app.config.get('CONTENT_ROOT'))
     except exceptions.RepositoryError:
         abort(404)
     try:
@@ -57,7 +57,7 @@ def index(path=''):
 @views.route('/<path:path>/<name>')
 def file(name, path=''):
     try:
-        repo = repository(app.config.get('REPOSITORY_PATH'))
+        repo = repository(app.config.get('CONTENT_ROOT'))
     except exceptions.RepositoryError:
         abort(404)
     try:

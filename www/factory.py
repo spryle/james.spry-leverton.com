@@ -22,16 +22,17 @@ def register_blueprints(app, package_name, package_path):
 def build(
         package_name,
         package_path,
-        settings_override=None,
         application_class=Flask):
 
     application = application_class(
         package_name,
         instance_path=package_path[0],
-        instance_relative_config=True
+        instance_relative_config=True,
     )
-    application.config.from_pyfile('config.py')
-    application.config.from_object(settings_override)
+    application.config.from_object('defaults')
+    application.config.from_pyfile('config.py', silent=True)
     application.config.from_envvar('CONFIG')
+    application.static_url_path = application.config.get('STATIC_PATH')
+    application.static_folder = application.config.get('STATIC_ROOT')
     register_blueprints(application, package_name, package_path)
     return application

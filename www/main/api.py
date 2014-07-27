@@ -34,7 +34,7 @@ def get_context(repo, path, filename):
 @add_response_headers({'Access-Control-Allow-Origin': '*'})
 def index(path=''):
     try:
-        repo = repository(app.config.get('REPOSITORY_PATH'))
+        repo = repository(app.config.get('CONTENT_ROOT'))
     except exceptions.RepositoryError:
         abort(404)
     try:
@@ -49,7 +49,7 @@ def index(path=''):
 @add_response_headers({'Access-Control-Allow-Origin': '*'})
 def file(name, path=''):
     try:
-        repo = repository(app.config.get('REPOSITORY_PATH'))
+        repo = repository(app.config.get('CONTENT_ROOT'))
     except exceptions.RepositoryError:
         abort(404)
     try:

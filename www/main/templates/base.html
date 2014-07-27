@@ -15,7 +15,7 @@
     <meta name="copyright" content="All text content and images copyright james.spry-leverton.com unless otherwise specified." />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale = 1.0, user-scalable=no" />
 
-    <link href="{{url_for('static', filename='dist/bundle.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{url_for('static', filename='css/bundle.css')}}" rel="stylesheet" type="text/css">
     <script defer type="text/javascript" src="{{url_for('static', filename='js/modernizr.js')}}"></script>
 
   </head>
@@ -55,12 +55,24 @@
     {% include '_wallpaper_debug_bar.html' %}
 
   </body>
+
 <script type="text/javascript">
 window.jsl = {};
-window.jsl.page = {% if page %}{{ page|without(['content'])|tojson|safe }}{% else %}{}{% endif %};
-window.jsl.index = {% if index %}{{ index|tojson|safe }}{% else %}{}{% endif %};
+window.jsl.data = {};
+window.jsl.settings = {};
 </script>
 
-<script async type="text/javascript" src="{{url_for('static', filename='dist/bundle.js')}}"></script>
+<script type="text/javascript">
+window.jsl.data.page = {% if page %}{{ page|without(['content'])|tojson|safe }}{% else %}{}{% endif %};
+window.jsl.data.index = {% if index %}{{ index|tojson|safe }}{% else %}{}{% endif %};
+</script>
+
+<script type="text/javascript">
+window.jsl.settings = {
+  MEDIA_URL: '{{ config.MEDIA_URL }}'
+};
+</script>
+
+<script async type="text/javascript" src="{{url_for('static', filename='js/bundle.js')}}"></script>
 
 </html>

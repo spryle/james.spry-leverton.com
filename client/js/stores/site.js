@@ -5,7 +5,6 @@ var SiteState = require('../models/site.js');
 var constants = require('../constants');
 
 
-
 var actions = {};
 actions[constants.ACTIONS.PATH_CHANGE] = 'change';
 actions[constants.ACTIONS.ARTICLE_LOADED] = 'updated';

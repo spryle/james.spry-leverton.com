@@ -125,13 +125,12 @@ function column(engine, options) {
 
 }
 
-
 var Wallpaper = Tarka.extend({
 
   scheme: function() {
     var scheme = new Scheme();
     var colors = scheme
-      .from_hue(_.random(1,360))
+      .from_hue(_.random(1, 360))
       .scheme(choice(['mono', 'contrast', 'tetrade', 'analogic', 'triade']))
       .distance(0.3)
       .variation(choice(['pastel', 'soft', 'light', 'pale'])) // 'hard'
@@ -195,7 +194,7 @@ var Wallpaper = Tarka.extend({
         parseInt(index / (column.length / scheme.gradients.length), 10)
       ];
       diagonal.color = color;
-      diagonal.alpha = _.random(95, 100) / 100;
+      diagonal.alpha = _.random(97, 100) / 100;
       diagonal.additive = true;
     });
     return this;

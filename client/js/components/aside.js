@@ -5,19 +5,12 @@
 var _ = require('underscore');
 var React = require('react');
 var cx = require('react-classset');
+var image = require('../contrib/image');
 var Fluxxor = require('fluxxor');
 var FluxMixin = Fluxxor.FluxMixin(React);
 var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 var constants = require('../constants');
 
-
-function dummyImage(domain, options) {
-  return domain +
-    '/' + options.height +
-    'x' + options.width +
-    '/' + options.background +
-    '/' + options.forground + '.png';
-}
 
 var AsideImage = React.createClass({
 
@@ -98,11 +91,9 @@ var AsideItem = React.createClass({
   },
 
   src: function() {
-    return dummyImage(this.props.src, {
-      height: this.state.enlarged ? window.outerHeight : 200,
-      width: this.state.enlarged ? window.outerHeight : 200,
-      background: '303030',
-      forground: 'fff'
+    return image(this.props.src, {
+      h: this.state.enlarged ? window.outerHeight : 200,
+      w: this.state.enlarged ? window.outerHeight : 200
     });
   },
 

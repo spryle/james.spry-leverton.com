@@ -6,11 +6,22 @@ var React = require('react');
 var cx = require('react-classset');
 var Fluxxor = require('fluxxor');
 var FluxMixin = Fluxxor.FluxMixin(React);
+var FluxChildMixin = Fluxxor.FluxChildMixin(React);
 var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 var constants = require('../constants');
 
 
 var DirectoryItemText = React.createClass({
+
+  mixins: [
+    FluxChildMixin
+  ],
+
+  change: function(event) {
+    event.nativeEvent.stopPropagation();
+    event.nativeEvent.preventDefault();
+    this.getFlux().actions.path.change(this.props.path);
+  },
 
   render: function() {
     if (this.props.isCurrentPage) {
@@ -19,7 +30,10 @@ var DirectoryItemText = React.createClass({
       );
     } else {
       return (
-        <a className='b-directory-item-text' href={this.props.path}>
+        <a
+          className='b-directory-item-text'
+          onClick={this.change}
+          href={this.props.path}>
           {this.props.content}
         </a>
       );
@@ -29,6 +43,10 @@ var DirectoryItemText = React.createClass({
 
 
 var DirectoryItem = React.createClass({
+
+  mixins: [
+    FluxChildMixin
+  ],
 
   isCurrent: function() {
     return false;
@@ -61,6 +79,10 @@ var DirectoryItem = React.createClass({
 });
 
 var DirectoryListing = React.createClass({
+
+  mixins: [
+    FluxChildMixin
+  ],
 
   items: function() {
     var item = [];

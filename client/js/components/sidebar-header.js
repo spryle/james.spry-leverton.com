@@ -5,16 +5,29 @@ var _ = require('underscore');
 var React = require('react');
 var Fluxxor = require('fluxxor');
 var FluxMixin = Fluxxor.FluxMixin(React);
+var FluxChildMixin = Fluxxor.FluxChildMixin(React);
 var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 var constants = require('../constants');
 
 
 var SidebarSubTitle = React.createClass({
 
+  mixins: [
+    FluxChildMixin
+  ],
+
+  change: function(event) {
+    this.getFlux().actions.path.change(this.props.href);
+    event.stopPropagation();
+    event.preventDefault();
+  },
+
   render: function() {
     var partial;
     if (this.props.href) {
-      partial = <a href={this.props.href}>{this.props.text}</a>;
+      partial = (
+        <a href={this.props.href} onClick={this.change}>{this.props.text}</a>
+      );
     } else {
       partial = this.props.text;
     }
@@ -34,6 +47,12 @@ var SidebarHeader = React.createClass({
     StoreWatchMixin('DirectoryStore')
   ],
 
+  home: function(event) {
+    this.getFlux().actions.path.change('/');
+    event.stopPropagation();
+    event.preventDefault();
+  },
+
   getStateFromFlux: function() {
     return {
       index: this.getFlux().store('DirectoryStore').state.getCurrentIndex(),
@@ -50,7 +69,7 @@ var SidebarHeader = React.createClass({
     return (
       <header className="b-sidebar-header">
         <h2 className="b-sidebar-title t-logo">
-          <a href="">
+          <a href="/" onClick={this.home}>
             <span className="b-sidebar-firstname">James</span> Spry-Leverton
           </a>
         </h2>

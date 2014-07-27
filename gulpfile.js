@@ -11,7 +11,7 @@ var watchify = require('watchify');
 var reactify = require('reactify');
 var rename = require('gulp-rename');
 
-var root = './www/main/static/';
+var root = './client/';
 
 var src = {
   scripts: {
@@ -36,8 +36,8 @@ var src = {
 };
 
 var dest = {
-  scripts: root + 'dist/',
-  styles: root + 'dist/',
+  scripts: './assets/js/',
+  styles: './assets/css/',
 };
 
 function error(task) {

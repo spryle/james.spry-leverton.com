@@ -1,9 +1,8 @@
 flask
 flask-script
-git+git://github.com/rochacbruno/flask-api
+flask-collect
 vcs
 dulwich
-mercurial
 mistune
 slimmer
 ipdb

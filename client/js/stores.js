@@ -3,7 +3,7 @@ var DirectoryStore = require('./stores/directory');
 var SiteStore = require('./stores/site');
 var WallpaperStore = require('./stores/wallpaper');
 var wallpaper = require('./wallpaper/wallpaper');
-var data = require('./contrib/data');
+var data = require('./data');
 
 var content = document.getElementById('b-article-content');
 
@@ -27,9 +27,7 @@ var site = {
 };
 
 var wallpaper = wallpaper({});
-window.wp = wallpaper;
-wp.refresh();
-
+wallpaper.refresh();
 
 module.exports = {
   SiteStore: new SiteStore(site),

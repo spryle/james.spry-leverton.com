@@ -1,4 +1,4 @@
-REPOSITORY_PATH = ''
+CONTENT_ROOT = ''
 
 BRANCHES_PUBLIC = [
     'master'

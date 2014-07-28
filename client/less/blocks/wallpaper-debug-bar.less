@@ -8,7 +8,7 @@
 }
 
 .b-wallpaper-debug-bar {
-  padding: 0 10px 0 10px;
+  padding: 0 2px 0 2px;
   background-color: rgba(255,255,255,0.2);
   position: fixed;
   bottom: 0;
@@ -26,7 +26,7 @@
 }
 
 .b-wallpaper-button {
-
+  margin: 0 3px 0 3px;
   cursor: pointer;
 
   &.is-play {
@@ -50,6 +50,12 @@
   &.is-clear {
     &:before {
       .b-wallpaper-icon(@fa-var-ban);
+    }
+  }
+
+  &.is-info {
+    &:before {
+      .b-wallpaper-icon(@fa-var-info);
     }
   }
 }

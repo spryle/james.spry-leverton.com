@@ -42,7 +42,7 @@ function addEntity(view, options) {
     id: xid,
     num: x,
     additive: false,
-    color: '#0a0a0a',
+    color: '#1a1a1a',
     alpha: 1
   }));
 
@@ -50,12 +50,12 @@ function addEntity(view, options) {
     id: yid,
     num: y,
     additive: false,
-    color: '#0a0a0a',
+    color: '#1a1a1a',
     alpha: 1
   }));
 
   entity.add(new Visual({
-    color: '#FFFFFF',
+    color: '#1a1a1a',
   }));
 
   entity.add(new Position({
@@ -162,7 +162,7 @@ var Wallpaper = Tarka.extend({
     _.each(this.engine.entities, function(entity) {
       var x = entity.get('x-diagonal');
       var y = entity.get('y-diagonal');
-      x.color = y.color = '#0a0a0a';
+      x.color = y.color = '#1a1a1a'; //'#0a0a0a';
       x.alpha = y.alpha = 1;
       x.additive = y.additive = false;
     });
@@ -199,14 +199,6 @@ var Wallpaper = Tarka.extend({
     });
     return this;
   },
-
-  intro: function() {
-
-  },
-
-  outro: function() {
-
-  }
 
 });
 

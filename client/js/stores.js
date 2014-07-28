@@ -27,7 +27,6 @@ var site = {
 };
 
 var wallpaper = wallpaper({});
-wallpaper.refresh();
 
 module.exports = {
   SiteStore: new SiteStore(site),

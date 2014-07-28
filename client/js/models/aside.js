@@ -9,7 +9,8 @@ var Aside = State.extend({
     alt: 'string',
     title: 'string',
     text: 'string',
-    type: 'string'
+    type: 'string',
+    images: 'array'
   }
 
 });

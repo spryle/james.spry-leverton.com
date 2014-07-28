@@ -10,7 +10,6 @@ var ready = require('./ready');
 var flux = new Fluxxor.Flux(stores, actions);
 window.flux = flux;
 
-console.log(require('./settings'));
 
 ready('title', function() {
 

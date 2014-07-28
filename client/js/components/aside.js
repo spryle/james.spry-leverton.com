@@ -16,6 +16,61 @@ var AsideImage = React.createClass({
 
   classes: function() {
     return cx({
+      'b-aside-component': true
+    });
+  },
+
+  styles: function() {
+    return {
+      height: this.props.enlarged ? window.outerHeight : undefined,
+      width: this.props.enlarged ? window.outerWidth: undefined
+    };
+  },
+
+  src: function() {
+    return image(this.props.src, {
+      h: this.props.enlarged ? window.outerHeight * 0.8 : undefined,
+      w: this.props.enlarged ? undefined: 200
+    });
+  },
+
+  text: function() {
+    return (
+      <p className="b-aside-component-context">
+        {this.props.text}
+      </p>
+    );
+  },
+
+  render: function() {
+    var classes = this.classes();
+    var styles = this.styles();
+    return (
+      <aside className={classes} style={styles}>
+        <div className="b-aside-image">
+          <img
+            src={this.src()}
+            alt={this.props.alt}
+          />
+          {this.props.text ? this.text() : null}
+        </div>
+      </aside>
+    );
+  }
+
+});
+
+
+var AsideGallery = React.createClass({
+
+  getInitialState: function() {
+    return {
+      index: 0
+    };
+  },
+
+  classes: function() {
+    return cx({
       'b-aside-component': true,
     });
   },
@@ -27,16 +82,73 @@ var AsideImage = React.createClass({
     };
   },
 
+  image: function() {
+    return this.props.images[this.index()];
+  },
+
+  src: function() {
+    return image(this.image().src, {
+      h: this.props.enlarged ? window.outerHeight * 0.8 : undefined,
+      w: this.props.enlarged ? undefined: 200
+    });
+  },
+
+  index: function() {
+    if (this.state.index > this.props.images.length - 1 ||
+        this.state.index < 0) {
+      this.setState({index: 0});
+      return 0;
+    } else {
+      return this.state.index;
+    }
+  },
+
+  next: function(event) {
+    event.stopPropagation();
+    this.setState({
+      index: this.state.index >= this.props.images.length - 1 ?
+        0 : this.state.index + 1
+    });
+  },
+
+  prev: function(event) {
+    event.stopPropagation();
+    this.setState({
+      index: this.state.index <= 0 ?
+        this.props.images.length - 1 : this.state.index - 1
+    });
+  },
+
+  click: function(event) {
+    if (this.props.enlarged) {
+      return this.next(event);
+    }
+  },
+
   render: function() {
+    if (!this.image()) {return null;}
     var classes = this.classes();
     var styles = this.styles();
     return (
       <aside className={classes} style={styles}>
-        <img
-          src={this.props.src}
-          alt={this.props.alt}
-        />
-        <p>{this.props.text}</p>
+        <div className="b-aside-gallery">
+          <img
+            src={this.src()}
+            alt={this.image().alt}
+            onClick={this.click}
+          />
+          <p className="b-aside-component-context">
+            <span
+              className="b-aside-component-button is-prev"
+              onClick={this.prev}
+            />
+            <span className="b-aside-component-text">{this.image().text}</span>
+            <span
+              className="b-aside-component-button is-next"
+              onClick={this.next}
+            />
+          </p>
+        </div>
       </aside>
     );
   }
@@ -62,6 +174,11 @@ var AsideItem = React.createClass({
     };
   },
 
+  asides: {
+    'image': AsideImage,
+    'gallery': AsideGallery
+  },
+
   scroll: function() {
     if (!this.state.enlarged) {return;}
     this.setState({
@@ -74,6 +191,14 @@ var AsideItem = React.createClass({
       scrollY: window.scrollY,
       enlarged: !this.state.enlarged
     });
+  },
+
+  isEnlargeable: function() {
+    if (_.has(this.props, 'is_enlargeable')) {
+      return this.props.enlargeable;
+    } else {
+      return true;
+    }
   },
 
   classes: function() {
@@ -90,24 +215,23 @@ var AsideItem = React.createClass({
     };
   },
 
-  src: function() {
-    return image(this.props.src, {
-      h: this.state.enlarged ? window.outerHeight : 200,
-      w: this.state.enlarged ? window.outerHeight : 200
-    });
+  aside: function(context) {
+    if (!_.has(this.asides, this.props.type)) {
+      throw 'Invalid aside type ' + this.state.type;
+    }
+    return this.asides[this.props.type](context);
   },
 
   render: function() {
     return (
-      <li className={this.classes()}
-          style={this.styles()}
-          onClick={this.enlarge}>
+      <li
+        className={this.classes()}
+        style={this.styles()}
+        onClick={this.isEnlargeable() ? this.enlarge : undefined}>
 
-        <AsideImage
-          src={this.src()}
-          alt={this.props.alt}
-          enlarged={this.state.enlarged}
-        />
+        {this.aside(_.extend({
+          enlarged: this.state.enlarged
+        }, this.props))}
 
       </li>
     );

@@ -141,14 +141,38 @@ var WallpaperDebugBar = React.createClass({
     };
   },
 
+  getInitialState: function() {
+    return {
+      isOpen: false
+    };
+  },
+
+  toggle: function() {
+    this.setState({
+      isOpen: !this.state.isOpen
+    });
+  },
+
+  classes: function() {
+    return cx({
+      'b-wallpaper-button': true,
+      'is-info': true,
+      'is-open': !this.state.isOpen
+    });
+  },
+
+  components: function() {
+    return this.state.isOpen ? (
+      <WallpaperDebugBarRefresh />
+    ) : null;
+  },
+
   render: function() {
     return (
       <div className="b-wallpaper-debug-bar">
         <ul className="b-wallpaper-button-list">
-          <WallpaperDebugBarClear />
-          <WallpaperDebugBarRefresh />
-          <WallpaperDebugBarPlay running={this.state.wallpaper.running} />
-          <WallpaperDebugBarFPS fps={this.state.wallpaper.fps()} />
+          {this.components()}
+          <li className={this.classes()} onClick={this.toggle}/>
         </ul>
       </div>
     );

@@ -80,6 +80,15 @@
   -webkit-animation: @name @duration @delay @ease;
   -moz-animation:    @name @duration @delay @ease;
   -ms-animation:     @name @duration @delay @ease;
+  -o-animation:      @name @duration @delay @ease;
+}
+
+.animation-fill-mode(@mode) {
+  -webkit-animation-fill-mode: @mode;
+  -moz-animation-fill-mode: @mode;
+  -ms-animation-fill-mode: @mode;
+  -o-animation-fill-mode: @mode;
+  animation-fill-mode: @mode;
 }
 
 .transition (@transition) {

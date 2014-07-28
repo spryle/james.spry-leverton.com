@@ -15,7 +15,7 @@ var SidebarTab = React.createClass({
   render: function() {
     return (
       <div className="b-sidebar-tab t-border g-column" onClick={this.toggle}>
-         <span className="b-sidebar-burger fa fa-reorder"></span>
+         <span className="b-sidebar-burger"></span>
       </div>
     );
   }

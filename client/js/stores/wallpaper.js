@@ -4,7 +4,7 @@ var constants = require('../constants');
 
 var actions = {};
 
-actions[constants.ACTIONS.PATH_CHANGE] = 'refresh';
+actions[constants.ACTIONS.ARTICLE_LOADED] = 'refresh';
 actions[constants.ACTIONS.WALLPAPER_PLAY] = 'play';
 actions[constants.ACTIONS.WALLPAPER_PAUSE] = 'pause';
 actions[constants.ACTIONS.WALLPAPER_REFRESH] = 'refresh';

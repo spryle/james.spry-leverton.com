@@ -9,6 +9,7 @@ var image = require('../contrib/image');
 var Fluxxor = require('fluxxor');
 var FluxMixin = Fluxxor.FluxMixin(React);
 var StoreWatchMixin = Fluxxor.StoreWatchMixin;
+var Image = require('./image');
 var constants = require('../constants');
 
 
@@ -27,11 +28,16 @@ var AsideImage = React.createClass({
     };
   },
 
+  height: function() {
+    return this.props.enlarged ? window.outerHeight * 0.8 : undefined;
+  },
+
+  width: function() {
+    return this.props.enlarged ? undefined: 200;
+  },
+
   src: function() {
-    return image(this.props.src, {
-      h: this.props.enlarged ? window.outerHeight * 0.8 : undefined,
-      w: this.props.enlarged ? undefined: 200
-    });
+    return image(this.props.src, {h: this.height(), w: this.width()});
   },
 
   text: function() {
@@ -48,9 +54,11 @@ var AsideImage = React.createClass({
     return (
       <aside className={classes} style={styles}>
         <div className="b-aside-image">
-          <img
+          <Image
             src={this.src()}
             alt={this.props.alt}
+            height={this.height()}
+            width={this.width()}
           />
           {this.props.text ? this.text() : null}
         </div>
@@ -73,6 +81,14 @@ var AsideGallery = React.createClass({
     return cx({
       'b-aside-component': true,
     });
+  },
+
+  height: function() {
+    return this.props.enlarged ? window.outerHeight * 0.8 : undefined;
+  },
+
+  width: function() {
+    return this.props.enlarged ? undefined: 200;
   },
 
   styles: function() {
@@ -132,9 +148,11 @@ var AsideGallery = React.createClass({
     return (
       <aside className={classes} style={styles}>
         <div className="b-aside-gallery">
-          <img
+          <Image
             src={this.src()}
             alt={this.image().alt}
+            height={this.height()}
+            width={this.width()}
             onClick={this.click}
           />
           <p className="b-aside-component-context">
@@ -262,26 +280,26 @@ var Aside = React.createClass({
 
   mixins: [
     FluxMixin,
-    StoreWatchMixin('ArticleStore')
+    StoreWatchMixin('article')
   ],
 
   getStateFromFlux: function() {
     var flux = this.getFlux();
     return {
-      page: flux.store('ArticleStore').state.getCurrentPage(),
+      page: flux.store('article').state.getCurrentPage(),
     };
   },
 
   render: function() {
     if (this.state.page) {
       return (
-        <div className="b-aside">
+        <div className="b-aside is-initialized">
           <AsideList page={this.state.page} />
         </div>
       );
     } else {
       return (
-        <div className="b-aside" />
+        <div className="b-aside is-initialized" />
       );
     }
   }

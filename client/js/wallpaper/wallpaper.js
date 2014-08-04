@@ -127,29 +127,6 @@ function column(engine, options) {
 
 var Wallpaper = Tarka.extend({
 
-  scheme: function() {
-    var scheme = new Scheme();
-    var colors = scheme
-      .from_hue(_.random(1, 360))
-      .scheme(choice(['mono', 'contrast', 'tetrade', 'analogic', 'triade']))
-      .distance(0.3)
-      .variation(choice(['pastel', 'soft', 'light', 'pale'])) // 'hard'
-      .colors();
-    return _.map(colors, function(c) {
-      c = color('#' + c);
-      return {
-        gradients: gradient(
-          c.rgbString(),
-          c.darken(0.3).rgbString(),
-          c.darken(0.6).rgbString(),
-          20
-        ).toArray('hexString'),
-        additive: true
-      };
-    });
-
-  },
-
   column: function(axis, id) {
     axis = axis === 'x' ? 'x' : axis === 'y' ? 'y' : null;
     if (!axis) {throw Error('Value Error: invalid axis.');}
@@ -168,14 +145,14 @@ var Wallpaper = Tarka.extend({
     });
   },
 
-  refresh: function() {
-    var scheme = this.scheme();
-    var xid = _.filter(_.range(-6, 10), function() {
-      return _.random(0, 100) > 50;
+  change: function(scheme) {
+    var xid = _.filter(_.range(-4, 8), function() {
+      return _.random(0, 100) > 40;
     });
     var yid = _.filter(_.range(6, 18), function() {
-      return _.random(0, 100) > 50;
+      return _.random(0, 100) > 40;
     });
+
     _.map(xid, _.bind(function(id) {
       this.add('x', id, choice(scheme));
     }, this));
@@ -210,14 +187,17 @@ module.exports = function(options) {
     frameLength: 1000 / 4,
   }, options);
 
+  options.numX = parseInt(window.outerWidth * 0.65 / options.size, 10);
+  options.numY = parseInt(window.outerHeight / options.size, 10);
+
   var engine = new Engine();
   engine.systems.add(new Mix(engine));
   engine.systems.add(new Paint(engine));
 
-  _.each(_.range(50), function(i) {
+  _.each(_.range(options.numX), function(i) {
     column(engine, {
       column: i,
-      number: window.outerHeight / options.size,
+      number: options.numY,
       x: i * options.size,
       y: 0,
       size: options.size,

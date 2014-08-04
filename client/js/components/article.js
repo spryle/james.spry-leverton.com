@@ -121,13 +121,13 @@ var Article = React.createClass({
 
   mixins: [
     FluxMixin,
-    StoreWatchMixin('ArticleStore')
+    StoreWatchMixin('article')
   ],
 
   getStateFromFlux: function() {
     var flux = this.getFlux();
     return {
-      page: flux.store('ArticleStore').state.getCurrentPage(),
+      page: flux.store('article').state.getCurrentPage(),
     };
   },
 

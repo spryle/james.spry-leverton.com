@@ -1,0 +1,53 @@
+@import "libs/mixins.less";
+@import "variables.less";
+@import "reset.less";
+@import "globals.less";
+@import "themes.less";
+@import "fonts.less";
+@import "layouts.less";
+
+.no-js .b-article {
+  visibility: visible;
+}
+
+.js .b-article {
+  visibility: hidden;
+  &.is-initialized {
+    visibility: visible;
+  }
+}
+
+.no-js .b-directory {
+  visibility: visible;
+}
+
+.js .b-directory {
+  visibility: hidden;
+  &.is-initialized {
+    visibility: visible;
+  }
+}
+
+.no-js .b-sidebar-header {
+  visibility: visible;
+}
+
+.js .b-sidebar-header {
+  visibility: hidden;
+  &.is-initialized {
+    visibility: visible;
+  }
+}
+
+
+.no-js .b-sidebar-tab {
+  visibility: visible;
+}
+
+.js .b-sidebar-tab {
+  float: right;
+  visibility: hidden;
+  &.is-initialized {
+    visibility: visible;
+  }
+}

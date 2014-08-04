@@ -1,0 +1,41 @@
+
+.b-image-icon(@icon) {
+  .fa;
+  .fa-2x;
+  content: @icon;
+  position: absolute;
+  top: 48%;
+  left: 50%;
+  margin: -16px 0 0 -16px;
+}
+
+
+.b-image {
+
+  background: @t-secondary-background;
+
+  img {
+    .transition(opacity 0.2s ease-in);
+    opacity: 0;
+  }
+
+  &.is-loading {
+    &:before {
+      .fa-spin;
+      .b-image-icon(@fa-var-circle-o-notch);
+    }
+  }
+
+  &.is-error {
+    &:before {
+      .b-image-icon(@fa-var-frown-o);
+    }
+  }
+
+  &.is-loaded img {
+    opacity: 1;
+    display: block;
+  }
+
+
+}

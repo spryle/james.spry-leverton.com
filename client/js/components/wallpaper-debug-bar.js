@@ -110,13 +110,11 @@ var WallpaperDebugBarFPS = React.createClass({
 
   componentWillMount: function() {
     this.update = _.throttle(this.update, 500);
-    this.getFlux().store('WallpaperStore').state
-      .on('update', this.update, this);
+    this.props.wallpaper.on('update', this.update, this);
   },
 
   componentWillUnmount: function() {
-    this.getFlux().store('WallpaperStore').state
-      .off('update', this.update, this);
+    this.props.wallpaper.off('update', this.update, this);
   },
 
   render: function() {
@@ -132,12 +130,12 @@ var WallpaperDebugBar = React.createClass({
 
   mixins: [
     FluxMixin,
-    StoreWatchMixin('WallpaperStore')
+    StoreWatchMixin('wallpaper')
   ],
 
   getStateFromFlux: function() {
     return {
-      wallpaper: this.getFlux().store('WallpaperStore').state,
+      wallpaper: this.getFlux().store('wallpaper')._wallpaper,
     };
   },
 
@@ -169,7 +167,7 @@ var WallpaperDebugBar = React.createClass({
 
   render: function() {
     return (
-      <div className="b-wallpaper-debug-bar">
+      <div className="b-wallpaper-debug-bar is-initialized">
         <ul className="b-wallpaper-button-list">
           {this.components()}
           <li className={this.classes()} onClick={this.toggle}/>

@@ -1,0 +1,15 @@
+<noscript>
+  <link href="{{url_for('static', filename='css/main.css')}}" rel="stylesheet" type="text/css">
+</noscript>
+<esi:remove>
+  <script type="text/javascript" src="{{url_for('static', filename='js/head.js')}}"></script>
+  <link href="{{url_for('static', filename='css/head.css')}}" rel="stylesheet" type="text/css">
+</esi:remove>
+<!--esi
+  <style>
+    <esi:include src="{{url_for('static', filename='css/head.css')}}" />
+  </style>
+  <script type="text/javascript">
+    <esi:include src="{{url_for('static', filename='js/head.js')}}" />
+  </script>
+-->

@@ -1,5 +1,8 @@
 var _ = require('underscore');
 var Fluxxor = require('fluxxor');
+var Scheme = require('../models/scheme');
+var immutable = require('immutable');
+var wallpaper = require('../wallpaper/wallpaper');
 var constants = require('../constants');
 
 var actions = {};
@@ -13,32 +16,34 @@ actions[constants.ACTIONS.WALLPAPER_CLEAR] = 'clear';
 
 module.exports = Fluxxor.createStore({
 
-  initialize: function(state) {
-    this.state = state;
+  initialize: function(data) {
+    this._wallpaper = wallpaper();
+    this._scheme = new Scheme();
+    this._scheme.randomize();
+    this.columns = this._scheme.generate();
   },
 
   actions: actions,
 
   refresh: function() {
-    this.state.clear();
-    this.state.refresh();
-    this.state.render();
+    this._scheme.randomize();
+    console.log(this._scheme.toJSON());
+    this.columns = this._scheme.generate();
     this.emit('change');
   },
 
   play: function() {
-    this.state.start();
+    this._wallpaper.start();
     this.emit('change');
   },
 
   pause: function() {
-    this.state.stop();
+    this._wallpaper.stop();
     this.emit('change');
   },
 
   clear: function() {
-    this.state.clear();
-    this.state.render();
+    this._wallpaper.clear();
     this.emit('change');
   }
 

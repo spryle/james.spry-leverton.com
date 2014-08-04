@@ -119,19 +119,21 @@ var Directory = React.createClass({
 
   mixins: [
     FluxMixin,
-    StoreWatchMixin('ArticleStore', 'DirectoryStore')
+    StoreWatchMixin('article', 'directory')
   ],
 
   getStateFromFlux: function() {
     var flux = this.getFlux();
     return {
-      index: flux.store('DirectoryStore').state.getCurrentIndex(),
+      index: flux.store('directory').state.getCurrentIndex(),
     };
   },
 
   render: function() {
     return (
-      <div className="b-directory" data-level={this.state.index.level} >
+      <div
+        className="b-directory is-initialized"
+        data-level={this.state.index.level}>
         <DirectoryListing index={this.state.index}/>
       </div>
     );

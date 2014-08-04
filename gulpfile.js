@@ -15,14 +15,16 @@ var root = './client/';
 
 var src = {
   scripts: {
-    init: root + 'js/init.js',
+    head: root + 'js/init.head.js',
+    main: root + 'js/init.main.js',
     files: [
       root + 'js/**/*.js',
       './node_modules/tarka/**/*.js',
     ]
   },
   styles: {
-    init: root + 'less/init.less',
+    head: root + 'less/init.head.less',
+    main: root + 'less/init.main.less',
     files: [
       root + 'less/**/*.less',
       '../content.spry-leverton.com/**/*'
@@ -34,6 +36,11 @@ var src = {
     ]
   }
 };
+
+external = [
+  'settings',
+  'data'
+];
 
 var dest = {
   scripts: './assets/js/',
@@ -55,29 +62,62 @@ gulp.task('serve', shell.task([
   'python manage.py runserver --no-reload',
 ]));
 
-gulp.task('styles', function() {
-  return gulp.src(src.styles.init)
+gulp.task('main-styles', function() {
+  return gulp.src(src.styles.main)
     .pipe(less().on('error', error('styles')))
-    .pipe(rename('bundle.css'))
+    .pipe(rename('main.css'))
     .pipe(gulp.dest(dest.styles))
     .pipe(notify({title: '[Styles] CSS Ready'}));
 });
 
-gulp.task('scripts', function() {
+gulp.task('head-styles', function() {
+  return gulp.src(src.styles.head)
+    .pipe(less().on('error', error('styles')))
+    .pipe(rename('head.css'))
+    .pipe(gulp.dest(dest.styles))
+    .pipe(notify({title: '[Styles] CSS Ready'}));
+});
 
-  var bundle = bundler(src.scripts.init, true);
-  bundle.transform(reactify);
+gulp.task('main-scripts', function() {
+
+  var main = bundler(src.scripts.main, true);
+  main.transform(reactify);
+  external.forEach(function (lib) {
+    main.external(lib);
+  });
 
   var refresh = function() {
-    var stream = bundle.bundle({debug: true});
+    var stream = main.bundle({debug: false});
     stream.on('error', error('scripts'));
     return stream
-      .pipe(source('bundle.js'))
+      .pipe(source('main.js'))
       .pipe(gulp.dest(dest.scripts));
       // .pipe(notify({title: '[Scripts] JS Ready'}));
   };
 
-  bundle.on('update', refresh);
+  main.on('update', refresh);
+  return refresh();
+
+});
+
+gulp.task('head-scripts', function() {
+
+  var head = bundler(src.scripts.head, true);
+  external.forEach(function (lib) {
+    head.external(lib);
+  });
+
+
+  var refresh = function() {
+    var stream = head.bundle({debug: false});
+    stream.on('error', error('scripts'));
+    return stream
+      .pipe(source('head.js'))
+      .pipe(gulp.dest(dest.scripts));
+      // .pipe(notify({title: '[Scripts] JS Ready'}));
+  };
+
+  head.on('update', refresh);
   return refresh();
 
 });
@@ -90,8 +130,14 @@ gulp.task('build', function() {
 
 gulp.task('watch', function() {
 
-  var scripts = gulp.watch(src.scripts.files, ['scripts']);
-  var styles = gulp.watch(src.styles.files, ['styles']);
+  var scripts = gulp.watch(src.scripts.files, [
+    'main-scripts',
+    'head-scripts'
+  ]);
+  var styles = gulp.watch(src.styles.files, [
+    'main-styles',
+    'head-styles'
+  ]);
 
   var server = refresh();
 
@@ -106,8 +152,10 @@ gulp.task('watch', function() {
 });
 
 gulp.task('default', [
-  'styles',
-  'scripts',
+  'main-styles',
+  'head-styles',
+  'main-scripts',
+  'head-scripts',
   'watch',
 ]);
 

@@ -1,22 +1,15 @@
 <!DOCTYPE html>
 <html class="no-js" lang="en-gb">
   <head>
-    <!--Page Title-->
-
+  
     <span id="b-title-mount">
       <title>{% block title %}James Spry-Leverton{% endblock %}</title>
     </span>
 
-    <!--Meta Data-->
-    <meta charset="UTF-8">
-    <meta name="description" content="{% block description %}{% endblock %}" />
-    <meta name="keywords" content="{% block keywords %}{% endblock %}" />
-    <meta name="author" content="James Spry-Leverton [james.spry-leverton.com]" />
-    <meta name="copyright" content="All text content and images copyright james.spry-leverton.com unless otherwise specified." />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale = 1.0, user-scalable=no" />
-
-    <link href="{{url_for('static', filename='css/bundle.css')}}" rel="stylesheet" type="text/css">
-    <script defer type="text/javascript" src="{{url_for('static', filename='js/modernizr.js')}}"></script>
+    {% include '_meta.html' %}
+    {% include '_data.html' %}
+    {% include '_settings.html' %}
+    {% include '_static.html' %}
 
   </head>
 
@@ -29,21 +22,21 @@
       <div class="l-pusher">
 
         <div class="l-left t-secondary g-column">
-          <div class="b-left-container">
+          <div class="l-left-container">
             {% block left %}
             {% endblock %}
           </div>
         </div>
 
       <div class="l-middle t-primary g-column">
-          <div class="b-middle-container">
+          <div class="l-middle-container">
             {% block middle %}
             {% endblock %}
           </div>
         </div>
 
         <div class="l-right g-column">
-          <div class="b-right-container">
+          <div class="l-right-container">
             {% block right %}
             {% endblock %}
           </div>
@@ -55,24 +48,4 @@
     {% include '_wallpaper_debug_bar.html' %}
 
   </body>
-
-<script type="text/javascript">
-window.jsl = {};
-window.jsl.data = {};
-window.jsl.settings = {};
-</script>
-
-<script type="text/javascript">
-window.jsl.data.page = {% if page %}{{ page|without(['content'])|tojson|safe }}{% else %}{}{% endif %};
-window.jsl.data.index = {% if index %}{{ index|tojson|safe }}{% else %}{}{% endif %};
-</script>
-
-<script type="text/javascript">
-window.jsl.settings = {
-  MEDIA_URL: '{{ config.MEDIA_URL }}'
-};
-</script>
-
-<script async type="text/javascript" src="{{url_for('static', filename='js/bundle.js')}}"></script>
-
 </html>

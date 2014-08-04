@@ -50,7 +50,7 @@ ready('directory', function() {
 
   return React.renderComponent(
     <Directory flux={flux} />,
-    document.getElementById('b-directory-mount')
+     document.getElementById('b-directory-mount')
   );
 
 });

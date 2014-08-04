@@ -33,15 +33,16 @@ var Progress = React.createClass({
 
   mixins: [
     FluxMixin,
-    StoreWatchMixin('SiteStore')
+    StoreWatchMixin('site')
   ],
 
   getStateFromFlux: function() {
-    return  this.getFlux().store('SiteStore').state.toJSON();
+    return  this.getFlux().store('site').state.toJSON();
   },
 
   classes: function() {
     var className = {};
+    className['is-initialized'] = true;
     className['is-' + this.state.status.toLowerCase()] = true;
     className['b-progress'] = true;
     return cx(className);

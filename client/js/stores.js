@@ -2,8 +2,7 @@ var ArticleStore = require('./stores/article');
 var DirectoryStore = require('./stores/directory');
 var SiteStore = require('./stores/site');
 var WallpaperStore = require('./stores/wallpaper');
-var wallpaper = require('./wallpaper/wallpaper');
-var data = require('./data');
+var data = require('data');
 
 var content = document.getElementById('b-article-content');
 
@@ -26,11 +25,9 @@ var site = {
   }
 };
 
-var wallpaper = wallpaper({});
-
 module.exports = {
-  SiteStore: new SiteStore(site),
-  ArticleStore: new ArticleStore(article),
-  DirectoryStore: new DirectoryStore(directory),
-  WallpaperStore: new WallpaperStore(wallpaper)
+  site: new SiteStore(site),
+  article: new ArticleStore(article),
+  directory: new DirectoryStore(directory),
+  wallpaper: new WallpaperStore()
 };

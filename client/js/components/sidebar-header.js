@@ -44,7 +44,7 @@ var SidebarHeader = React.createClass({
 
   mixins: [
     FluxMixin,
-    StoreWatchMixin('DirectoryStore')
+    StoreWatchMixin('directory')
   ],
 
   home: function(event) {
@@ -55,7 +55,7 @@ var SidebarHeader = React.createClass({
 
   getStateFromFlux: function() {
     return {
-      index: this.getFlux().store('DirectoryStore').state.getCurrentIndex(),
+      index: this.getFlux().store('directory').state.getCurrentIndex(),
     };
   },
 
@@ -67,7 +67,7 @@ var SidebarHeader = React.createClass({
 
   render: function() {
     return (
-      <header className="b-sidebar-header">
+      <header className="b-sidebar-header is-initialized">
         <h2 className="b-sidebar-title t-logo">
           <a href="/" onClick={this.home}>
             <span className="b-sidebar-firstname">James</span> Spry-Leverton

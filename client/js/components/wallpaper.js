@@ -26,27 +26,31 @@ function height() {
 var Canvas = React.createClass({
 
   mixins: [
-    FluxChildMixin,
+    FluxChildMixin
   ],
 
   componentDidMount: function() {
     this.props.wallpaper.setScreen(this.getDOMNode());
-    this.props.wallpaper.refresh();
+    this.props.wallpaper.change(this.props.columns);
     this.props.wallpaper.render();
   },
 
-  getInitialState: function() {
-    return {
-      height: window.outerHeight * 1.05,
-      width: window.outerHeight * 0.80
-    };
+  componentDidUpdate: function() {
+    this.props.wallpaper.clear();
+    this.props.wallpaper.change(this.props.columns);
+    this.props.wallpaper.render();
+  },
+
+  shouldComponentUpdate: function(props, state) {
+    if (this.props.columns === props.columns) {return false;}
+    return true;
   },
 
   render: function() {
     return (
       <canvas
-        height={this.state.height}
-        width={this.state.width}
+        height={this.props.height}
+        width={this.props.width}
       />
     );
   }
@@ -57,7 +61,7 @@ var Wallpaper = React.createClass({
 
   mixins: [
     FluxMixin,
-    StoreWatchMixin('WallpaperStore', 'SiteStore')
+    StoreWatchMixin('wallpaper', 'site')
   ],
 
   // componentWillMount: function() {
@@ -77,13 +81,16 @@ var Wallpaper = React.createClass({
   getStateFromFlux: function() {
     var flux = this.getFlux();
     return {
-      wallpaper: flux.store('WallpaperStore').state,
-      status: flux.store('SiteStore').state.status
+      wallpaper: flux.store('wallpaper')._wallpaper,
+      columns: flux.store('wallpaper').columns,
+      status: flux.store('site').state.status
     };
   },
 
   getInitialState: function() {
     return {
+      height: window.outerHeight * 1.05,
+      width: window.outerWidth * 0.60,
       scrollY: window.scrollY
     };
   },
@@ -98,6 +105,7 @@ var Wallpaper = React.createClass({
     var status = this.state.status;
     return cx({
       'b-wallpaper': true,
+      'is-initialized': true,
       'is-intro': status === 'UPDATED' || status === 'WAITING',
       'is-outro': status === 'LOADING'
     });
@@ -105,8 +113,13 @@ var Wallpaper = React.createClass({
 
   render: function() {
     return (
-      <div className={this.classes()} style={this.styles()}>
-        <Canvas wallpaper={this.state.wallpaper} />
+      <div className={this.classes()}>
+        <Canvas
+          width={this.state.width}
+          height={this.state.height}
+          columns={this.state.columns}
+          wallpaper={this.state.wallpaper}
+        />
       </div>
     );
   }

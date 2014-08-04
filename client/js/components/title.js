@@ -13,13 +13,13 @@ var Title = React.createClass({
 
   mixins: [
     FluxMixin,
-    StoreWatchMixin('ArticleStore', 'DirectoryStore')
+    StoreWatchMixin('article', 'directory')
   ],
 
   getStateFromFlux: function() {
     var flux = this.getFlux();
-    var page = flux.store('ArticleStore').state.getCurrentPage();
-    var index = flux.store('DirectoryStore').state.getCurrentIndex();
+    var page = flux.store('article').state.getCurrentPage();
+    var index = flux.store('directory').state.getCurrentIndex();
     return {
       title: page && page.name ? page.name : index.name
     };

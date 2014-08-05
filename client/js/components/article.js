@@ -78,16 +78,34 @@ var ArticleDate = React.createClass({
       moment(this.props.added).format('Do MMMM YYYY') : '';
   },
 
+  dateModified: function() {
+    return (
+      <div className="b-article-date-added">
+        <span className="b-article-date-title">Published</span>
+        {this.added()}
+      </div>
+    );
+  },
+
+  dateAdded: function() {
+    if (!this.props.added) {return '';}
+    return (
+      <div className="b-article-date-added">
+        <span className="b-article-date-title">Updated</span>
+        {this.modified()}
+      </div>
+    );
+  },
+
   render: function() {
 
     return (
       <div className="b-article-date">
-        <div className="b-article-date-added">
-          {this.props.added ? 'Published ' + this.added() : ''}
-        </div>
-        <div className="b-article-date-added">
-          {this.props.modified ? 'Updated ' + this.modified() : ''}
-        </div>
+        {this.props.added ? this.dateAdded() : ''}
+        {
+          this.props.modified && this.props.modified !== this.props.added ?
+          this.dateModified() : ''
+        }
       </div>
     );
   }

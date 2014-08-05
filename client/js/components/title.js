@@ -21,7 +21,8 @@ var Title = React.createClass({
     var page = flux.store('article').state.getCurrentPage();
     var index = flux.store('directory').state.getCurrentIndex();
     return {
-      title: page && page.name ? page.name : index.name
+      title: page && page.name ? page.name :
+        index && index.name ? index.name : ''
     };
   },
 

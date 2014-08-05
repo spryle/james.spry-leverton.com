@@ -22,7 +22,10 @@ class MarkdownRender(Renderer):
         if not lang:
             return '<pre><code>{0}</code></pre>'.format(escape(code))
         lexer = get_lexer_by_name(lang, stripall=True)
-        formatter = HtmlFormatter()
+        formatter = HtmlFormatter(
+            linenos='table',
+            style='railscasts',
+            cssclass='b-codeblock')
         return highlight(code, lexer, formatter)
 
     def paragraph(self, text):

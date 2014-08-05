@@ -1,22 +1,61 @@
+.b-article-icon(@icon) {
+  .fa;
+  .fa-fw;
+  content: @icon;
+}
+
 .b-article {
   min-height: 600px;
   line-height: 1.6;
 
   ol, ul {
-    margin: 1em 0 1em 2em
+    margin: 0 0 1.4em 2em
   }
 
-  h1, h2, h3, h4, h5, h6 {
-    margin: 0 0 0.8em 0;
+  h2, h3, h4, h5, h6 {
+    margin: 0 0 1.4em 0;
   }
 
   p {
-    margin: 0 0 0.8em 0;
+    margin: 0 0 1.4em 0;
+  }
+
+  table {
+    display: block;
+    margin: 0 0 1.4em 0;
+    background-color: @t-tertiary-background;
+  }
+
+  table {
+    margin: 0 0 1.4em 0;
+  }
+
+  pre {
+    margin: 0;
+    padding: 0;
+  }
+
+  blockquote {
+    font-size: 1.2em;
+    font-style: italic;
+    padding: 0 3em 0 3em;
+  }
+
+  blockquote:before {
+    .b-article-icon(@fa-var-quote-left);
+    margin: 0 0 0 -2.5em;
+    float: left;
+  }
+
+  blockquote:after {
+    .b-article-icon(@fa-var-quote-right);
+    margin: -2em -1.5em 0 0;
+    float: right;
   }
 }
 
 .b-article-header {
-  padding: 10% 10% 0 10%;
+  padding: 8% 10% 7% 10%;
 }
 
 .b-article-body {
@@ -35,13 +74,27 @@
   float: left;
 }
 
+.b-article-date-title {
+  font-weight: bold;
+  width: 80px;
+  float: left;
+}
+
 .b-article-author {
-  width: 40%;
   float: right;
   text-align: right;
 }
 
+.b-article-author-name {
+  font-weight: bold;
+}
+
+.b-article-author-email {
+  font-style: italic;
+}
+
 .b-article-gravitar {
+  margin-top: -5px;
   width: 20%;
   float: left;
   text-align: center;

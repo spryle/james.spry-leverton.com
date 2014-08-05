@@ -8,61 +8,69 @@ var actions = require('./actions');
 var ready = require('./ready');
 
 var flux = new Fluxxor.Flux(stores, actions);
-window.flux = flux;
 
+if (window.Modernizr.mq('only screen and (max-width : 992px)')) {
+  var removeClass = require('./contrib/el/remove-class');
+  removeClass(document.body, 'is-pushed');
+}
 
 ready('title', function() {
 
   var Title = require('./components/title');
+  var mount = document.getElementById('b-title-mount');
 
-  return React.renderComponent(
+  return mount ? React.renderComponent(
     <Title flux={flux} />,
-    document.getElementById('b-title-mount')
-  );
+    mount
+  ) : null;
 
 });
 
 ready('sidebar-tab', function() {
 
   var SidebarTab = require('./components/sidebar-tab');
+  var mount = document.getElementById('b-sidebar-tab-mount');
 
-  return React.renderComponent(
+  return mount ? React.renderComponent(
     <SidebarTab flux={flux} />,
-    document.getElementById('b-sidebar-tab-mount')
-  );
+    mount
+  ) : null;
 
 });
 
 ready('sidebar-header', function() {
 
   var SidebarHeader = require('./components/sidebar-header');
+  mount = document.getElementById('b-sidebar-header-mount');
 
-  return React.renderComponent(
+  return mount ? React.renderComponent(
     <SidebarHeader flux={flux} />,
-    document.getElementById('b-sidebar-header-mount')
-  );
+    mount
+  ) : null;
 
 });
 
 ready('directory', function() {
 
   var Directory = require('./components/directory');
+  var mount = document.getElementById('b-directory-mount');
 
-  return React.renderComponent(
+  return mount ? React.renderComponent(
     <Directory flux={flux} />,
-     document.getElementById('b-directory-mount')
-  );
+     mount
+  ) : null;
 
 });
 
 ready('article', function() {
 
   var Article = require('./components/article');
+  var mount = document.getElementById('b-article-mount');
 
-  return React.renderComponent(
+  return mount ? React.renderComponent(
     <Article flux={flux} />,
-    document.getElementById('b-article-mount')
-  );
+    mount
+  ) : null;
 
 
 });
@@ -70,45 +78,55 @@ ready('article', function() {
 ready('asides', function() {
 
   var Aside = require('./components/aside');
+  var mount = document.getElementById('b-aside-mount');
 
-  return React.renderComponent(
+  return mount ? React.renderComponent(
     <Aside flux={flux}/>,
-    document.getElementById('b-aside-mount')
-  );
+    mount
+  ) : null;
 
 });
 
 ready('wallpaper', function() {
 
   var Wallpaper = require('./components/wallpaper');
+  var mount = document.getElementById('b-wallpaper-mount');
 
-  return React.renderComponent(
+  return mount ? React.renderComponent(
     <Wallpaper flux={flux}/>,
-    document.getElementById('b-wallpaper-mount')
-  );
+    mount
+  ) : null;
 
 });
 
 ready('wallpaper-debug-bar', function() {
 
   var WallpaperDebugBar = require('./components/wallpaper-debug-bar');
+  var mount = document.getElementById('b-wallpaper-debug-bar-mount');
 
-  return React.renderComponent(
+  return mount ? React.renderComponent(
     <WallpaperDebugBar flux={flux}/>,
-    document.getElementById('b-wallpaper-debug-bar-mount')
-  );
+    mount
+  ) : null;
 
 });
 
 ready('progress', function() {
 
   var Progress = require('./components/progress');
+  var mount = document.getElementById('b-progress-mount');
 
-  return React.renderComponent(
+  return mount ? React.renderComponent(
     <Progress flux={flux} />,
-    document.getElementById('b-progress-mount')
-  );
+    mount
+  ) : null;
 
+});
+
+ready('history', function() {
+  return flux.store('site').router.route('*notFound', '*', function(path) {
+    flux.actions.path.change(window.location.pathname);
+  });
 });
 
 // ready('router', function() {

@@ -11,12 +11,11 @@ TODO
 * above the fold css tweaks DONE!
 * context -> wallpaper data injection DONE!
 * defer/async script/css loading DONE!
-
-TUESDAY
-* html minification
-* code snippets css
-* pull quote css
-* footer css love
+* html minification DONE!
+* back/forward history support DONE!
+* code snippets css DONE!
+* pull quote css DONE!
+* footer css love DONE!
 
 FRIDAY
 * mobile hardening/navigation pusher in/out.

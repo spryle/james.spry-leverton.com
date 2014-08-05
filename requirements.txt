@@ -4,5 +4,6 @@ flask-collect
 vcs
 dulwich
 mistune
-slimmer
-ipdb
+htmlmin
+pygments
+pygments-style-railscasts

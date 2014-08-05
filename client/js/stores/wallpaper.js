@@ -27,7 +27,6 @@ module.exports = Fluxxor.createStore({
 
   refresh: function() {
     this._scheme.randomize();
-    console.log(this._scheme.toJSON());
     this.columns = this._scheme.generate();
     this.emit('change');
   },

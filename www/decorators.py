@@ -3,21 +3,32 @@ from __future__ import unicode_literals
 
 from functools import wraps
 from types import FunctionType
+from htmlmin import minify
 
-from flask import make_response
+from flask import current_app, make_response
 
 
 def add_response_headers(headers={}):
-    def decorator(f):
-        @wraps(f)
+    def decorator(func):
+        @wraps(func)
         def decorated_function(*args, **kwargs):
-            resp = make_response(f(*args, **kwargs))
+            resp = make_response(func(*args, **kwargs))
             h = resp.headers
             for header, value in headers.items():
                 h[header] = value
             return resp
         return decorated_function
     return decorator
+
+
+def html_minify(func):
+    @wraps(func)
+    def decorated_function(*args, **kwargs):
+        if current_app.config.get('DEBUG'):
+            return func(*args, **kwargs)
+        else:
+            return minify(func(*args, **kwargs))
+    return decorated_function
 
 
 def memoize_method(func):

@@ -23,7 +23,7 @@ module.exports = Fluxxor.createStore({
   actions: actions,
 
   change: function(path) {
-    this.router.navigate(path);
+    this.router.navigate(path, {trigger: false});
     this.state.status = 'LOADING';
     this.emit('change');
   },

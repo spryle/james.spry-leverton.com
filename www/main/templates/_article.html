@@ -18,13 +18,15 @@
       <div class="b-article-date">
         {% if page.date_added %}
         <div class="b-article-date-added">
-          Published {{ page.date_added.strftime('%d').strip('0')|ordinal_suffix }} {{ page.date_added.strftime('%B %Y') }}
+          <span class="b-article-date-title">Published</span>
+          {{ page.date_added.strftime('%d').strip('0')|ordinal_suffix }} {{ page.date_added.strftime('%B %Y') }}
         </div>
         {% endif %}
 
         {% if page.date_modified and page.date_modified != page.date_added %}
         <div class="b-article-date-modified">
-          Updated {{ page.date_modified.strftime('%d').strip('0')|ordinal_suffix }} {{ page.date_modified.strftime('%B %Y') }}
+          <span class="b-article-date-title">Updated</span> 
+          {{ page.date_modified.strftime('%d').strip('0')|ordinal_suffix }} {{ page.date_modified.strftime('%B %Y') }}
         </div>
         {% endif %}
       </div>
@@ -36,7 +38,7 @@
       {% endif %}
 
       <div class="b-article-author">
-        {% if  page.author_name %}
+        {% if page.author_name %}
           <div class="b-article-author-name">{{ page.author_name }}</div>
         {% endif %}
         {% if page.author_email %}

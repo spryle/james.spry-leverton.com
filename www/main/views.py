@@ -5,6 +5,7 @@ from flask import current_app as app
 from flask import Blueprint, render_template, abort
 
 from www.content import repository, exceptions
+from www.decorators import html_minify
 from www.main.parsers import parse
 from www.main.serializers import serialize
 
@@ -30,6 +31,7 @@ def get_context(repo, path, filename):
 
 @views.route('/')
 @views.route('/<path:path>/')
+@html_minify
 def index(path=''):
     try:
         repo = repository(app.config.get('CONTENT_ROOT'))
@@ -55,6 +57,7 @@ def index(path=''):
 
 @views.route('/<name>')
 @views.route('/<path:path>/<name>')
+@html_minify
 def file(name, path=''):
     try:
         repo = repository(app.config.get('CONTENT_ROOT'))

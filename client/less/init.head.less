@@ -1,10 +1,21 @@
-@import "libs/mixins.less";
+@import "libs/font-awesome/variables.less";
+@import "libs/font-awesome/core.less";
+@import "libs/font-awesome/fixed-width.less";
+
+@import "mixins.less";
 @import "variables.less";
+@import "themes/railscast.variables.less";
+
 @import "reset.less";
 @import "globals.less";
-@import "themes.less";
 @import "fonts.less";
-@import "layouts.less";
+@import "layouts/three-column-pusher.less";
+@import "themes/railscast.less";
+
+@import "blocks/sidebar.less";
+@import "blocks/footer.less";
+@import "blocks/logo.less";
+
 
 .no-js .b-article {
   visibility: visible;
@@ -39,15 +50,3 @@
   }
 }
 
-
-.no-js .b-sidebar-tab {
-  visibility: visible;
-}
-
-.js .b-sidebar-tab {
-  float: right;
-  visibility: hidden;
-  &.is-initialized {
-    visibility: visible;
-  }
-}

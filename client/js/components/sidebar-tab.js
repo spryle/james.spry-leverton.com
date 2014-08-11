@@ -9,7 +9,7 @@ var toggle = require('../contrib/el/toggle-class');
 var SidebarTab = React.createClass({
 
   toggle: function() {
-    toggle(document.body, 'is-pushed');
+    toggle(document.documentElement, 'is-pushed');
   },
 
   render: function() {

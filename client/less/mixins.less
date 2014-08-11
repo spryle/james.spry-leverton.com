@@ -76,11 +76,12 @@
   background-image: -o-linear-gradient(left, @startColor, @endColor);
 }
 
-.animation (@name, @duration: 300ms, @delay: 0, @ease: ease) {
-  -webkit-animation: @name @duration @delay @ease;
-  -moz-animation:    @name @duration @delay @ease;
-  -ms-animation:     @name @duration @delay @ease;
-  -o-animation:      @name @duration @delay @ease;
+.animation (@name, @duration: 300ms, @delay: 0s, @count: 1, @ease: ease, @mode: both) {
+  -webkit-animation: @name @duration @delay @count @ease @mode;
+  -moz-animation:    @name @duration @delay @count @ease @mode;
+  -ms-animation:     @name @duration @delay @count @ease @mode;
+  -o-animation:      @name @duration @delay @count @ease @mode;
+  animation:         @name @duration @delay @count @ease @mode;
 }
 
 .animation-fill-mode(@mode) {

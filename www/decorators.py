@@ -27,7 +27,10 @@ def html_minify(func):
         if current_app.config.get('DEBUG'):
             return func(*args, **kwargs)
         else:
-            return minify(func(*args, **kwargs))
+            return minify(
+                func(*args, **kwargs),
+                remove_optional_attribute_quotes=False
+            )
     return decorated_function
 
 

@@ -16,15 +16,26 @@ TODO
 * code snippets css DONE!
 * pull quote css DONE!
 * footer css love DONE!
+* mobile hardening/navigation pusher in/out. DONE!
+* logo/favicons? DONE
 
-FRIDAY
-* mobile hardening/navigation pusher in/out.
-* logo/favicons?
+TUESDAY/WEDNESDAY
 * reduce mutable state passed into react components
+* Fix asides not re-rendering issue.
+* Markdown tables/extra elements. (inline code?)
+* Modified/Published Dates when the same.
+* Image enlarge transition
+* Gallery click to page through.
+* Gallery left/right to page back and forth.
+* Min static.
+* Google Analytics
 
-THURSDAY/SATURDAY/SUNDAY?
-* Write launch content
+THURSDAY/FRIDAY
+* Write launch content / CV
+
+WEEKEND
 * Salt Config
 * Varnish/Nginx/Chaussette/Circus Config
 * Deployment
+* Job Applications
 

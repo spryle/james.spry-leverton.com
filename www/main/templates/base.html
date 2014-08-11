@@ -1,18 +1,19 @@
 <!DOCTYPE html>
-<html class="no-js" lang="en-gb">
+<html class="no-js is-pushed" lang="en-gb">
   <head>
   
     <span id="b-title-mount">
       <title>{% block title %}James Spry-Leverton{% endblock %}</title>
     </span>
 
-    {% include '_meta.html' %}
-    {% include '_client.html' %}
-    {% include '_static.html' %}
-
+    <div id="b-meta-mount">
+      {% include '_meta.html' %}
+      {% include '_client.html' %}
+      {% include '_static.html' %}
+    </div>
   </head>
 
-  <body class="l-three-column-pusher t-rails-cast is-pushed">
+  <body class="l-three-column-pusher t-railscast">
 
     {% include '_wallpaper.html' %}
     {% include '_progress.html' %}

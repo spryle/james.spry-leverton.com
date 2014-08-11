@@ -3,10 +3,14 @@ require('browsernizr/lib/html5shiv');
 require('browsernizr/lib/load');
 require('browsernizr/lib/mq');
 
+
 var Modernizr = require('browsernizr');
 var settings = require('settings');
+var removeClass = require('./contrib/el/remove-class');
 
-window.Modernizr = Modernizr;
+if (Modernizr.mq('only screen and (max-width : 992px)')) {
+  removeClass(document.documentElement, 'is-pushed');
+}
 
 Modernizr.load([{
   test: true,

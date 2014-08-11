@@ -9,11 +9,6 @@ var ready = require('./ready');
 
 var flux = new Fluxxor.Flux(stores, actions);
 
-if (window.Modernizr.mq('only screen and (max-width : 992px)')) {
-  var removeClass = require('./contrib/el/remove-class');
-  removeClass(document.body, 'is-pushed');
-}
-
 ready('title', function() {
 
   var Title = require('./components/title');
@@ -129,24 +124,29 @@ ready('history', function() {
   });
 });
 
-// ready('router', function() {
+ready('router', function() {
 
-  // document.body.addEventListener('click', _.bind(function(event) {
-  //   var elements = [];
-  //   var node = event.target;
-  //   while (node) {
-  //     elements.unshift(node.localName);
-  //     node = node.parentNode;
-  //   }
-  //   if (_.indexOf(elements, 'a') >= 0) {
-  //     var href = event.target.getAttribute('href');
-  //     if (!RegExp('^/').test(href)) {return;}
-  //     flux.actions.path.change(href);
-  //     event.preventDefault();
-  //     event.stopPropagation();
-  //   }
-  // }, this));
-  // return true;
+  document.body.addEventListener('click', _.bind(function(event) {
+    var elements = [];
+    var node = event.target;
+    while (node) {
+      elements.unshift(node.localName);
+      node = node.parentNode;
+    }
+    if (_.indexOf(elements, 'a') >= 0) {
+      var href = event.target.getAttribute('href');
+      if (!_.isNull(href) && !RegExp('^/').test(href)) {return;}
+      flux.actions.path.change(href || '/');
+      event.preventDefault();
+      event.stopPropagation();
+    }
+  }, this));
+  return true;
 
-// });
+});
+
+ready('ready', function() {
+  var addClass = require('./contrib/el/add-class');
+  addClass(document.documentElement, 'is-ready');
+});
 

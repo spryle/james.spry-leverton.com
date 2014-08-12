@@ -24,6 +24,7 @@ module.exports = Fluxxor.createStore({
 
   change: function(path) {
     this.router.navigate(path, {trigger: false});
+    if (window.ga) {window.ga('send', 'pageview');}
     this.state.status = 'LOADING';
     this.emit('change');
   },

@@ -11,6 +11,7 @@ from hashlib import md5
 from urlparse import urlparse
 from www.main.renderers import render
 from www.decorators import memoize_method
+from www.utils import ordinal_suffix
 
 
 def available_attrs(fn):
@@ -177,8 +178,22 @@ class FileSerializer(NodeSerializer):
         return self.object.date_added
 
     @serializer()
+    def date_added_formatted(self):
+        return '{0} {1}'.format(
+            ordinal_suffix(self.object.date_added.day),
+            self.object.date_added.strftime('%B %Y')
+        )
+
+    @serializer()
     def date_modified(self):
         return self.object.date_modified
+
+    @serializer()
+    def date_modified_formatted(self):
+        return '{0} {1}'.format(
+            ordinal_suffix(self.object.date_modified.day),
+            self.object.date_modified.strftime('%B %Y')
+        )
 
     @serializer()
     def content(self):

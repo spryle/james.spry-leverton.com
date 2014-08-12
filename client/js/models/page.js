@@ -16,7 +16,9 @@ var Page = Model.extend({
     author_hash: 'string',
     tags: 'array',
     date_added: 'date',
+    date_added_formatted: 'string',
     date_modified: 'date',
+    date_modified_formatted: 'string',
     positions: 'object'
   },
 

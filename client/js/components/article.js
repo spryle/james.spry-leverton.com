@@ -2,7 +2,6 @@
  * @jsx React.DOM
  */
 var _ = require('underscore');
-var moment = require('moment');
 var React = require('react');
 var Fluxxor = require('fluxxor');
 var FluxMixin = Fluxxor.FluxMixin(React);
@@ -68,44 +67,33 @@ var ArticleGravitar = React.createClass({
 
 var ArticleDate = React.createClass({
 
-  modified: function() {
-    return this.props.modified ?
-      moment(this.props.modified).format('Do MMMM YYYY') : '';
-  },
-
-  added: function() {
-    return this.props.added ?
-      moment(this.props.added).format('Do MMMM YYYY') : '';
-  },
-
-  dateModified: function() {
+  dateAdded: function() {
     return (
       <div className="b-article-date-added">
         <span className="b-article-date-title">Published</span>
-        {this.added()}
+        {this.props.added}
       </div>
     );
   },
 
-  dateAdded: function() {
-    if (!this.props.added) {return '';}
-    return (
-      <div className="b-article-date-added">
-        <span className="b-article-date-title">Updated</span>
-        {this.modified()}
-      </div>
-    );
+  dateModified: function() {
+    if (this.props.added && this.props.modified !== this.props.added) {
+      return (
+        <div className="b-article-date-added">
+          <span className="b-article-date-title">Updated</span>
+          {this.props.modified}
+        </div>
+      );
+    } else {
+      return '';
+    }
   },
 
   render: function() {
-
     return (
       <div className="b-article-date">
-        {this.props.added ? this.dateAdded() : ''}
-        {
-          this.props.modified && this.props.modified !== this.props.added ?
-          this.dateModified() : ''
-        }
+        {this.dateAdded()}
+        {this.dateModified()}
       </div>
     );
   }
@@ -143,33 +131,34 @@ var Article = React.createClass({
   ],
 
   getStateFromFlux: function() {
-    var flux = this.getFlux();
     return {
-      page: flux.store('article').state.getCurrentPage(),
+      page: this.getFlux().store('article').state.getCurrentPage(),
     };
+  },
+
+  title: function() {
+    return this.state.page.title || (this.state.page.status_code || 'Ooops!');
+  },
+
+  content: function() {
+    return this.state.page.content || (
+      this.state.page.status_message || this.state.page.status_code === 0 ?
+      'Having connection Issues.' : ''
+    );
   },
 
   render: function() {
     if (this.state.page) {
       return (
         <div className="b-article is-initialized">
-          <ArticleHeader title={
-            this.state.page.title || (
-              this.state.page.status_code || 'Ooops!')
-          } />
-          <ArticleBody content={
-            this.state.page.content || (
-              this.state.page.status_message ||
-                this.state.page.status_code === 0 ?
-                  'Having connection Issues.' :
-                  '')
-          } />
+          <ArticleHeader title={this.title()} />
+          <ArticleBody content={this.content()} />
           <ArticleFooter
             name={this.state.page.author_name}
             email={this.state.page.author_email}
             hash={this.state.page.author_hash}
-            modified={this.state.page.date_modified}
-            added={this.state.page.date_added} />
+            modified={this.state.page.date_modified_formatted}
+            added={this.state.page.date_added_formatted} />
         </div>
       );
     } else {

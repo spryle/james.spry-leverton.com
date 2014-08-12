@@ -1,5 +1,8 @@
 import os
 
+DEBUG = True
+GOOGLE_ANALYTICS = False
+
 DIRNAME = os.path.abspath(os.path.dirname(__file__))
 
 MEDIA_URL = '//spry-leverton.imgix.net/'

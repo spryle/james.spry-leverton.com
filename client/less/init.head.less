@@ -17,36 +17,48 @@
 @import "blocks/logo.less";
 
 
-.no-js .b-article {
+html.no-js .b-article,
+html.is-ready .b-article {
   visibility: visible;
 }
 
-.js .b-article {
+html.js .b-article {
   visibility: hidden;
   &.is-initialized {
     visibility: visible;
   }
 }
 
-.no-js .b-directory {
+html.no-js .b-directory,
+html.is-ready .b-directory {
   visibility: visible;
 }
 
-.js .b-directory {
+html.js .b-directory {
   visibility: hidden;
   &.is-initialized {
     visibility: visible;
   }
 }
 
-.no-js .b-sidebar-header {
+html.no-js .b-sidebar-header,
+html.is-ready .b-sidebar-header {
   visibility: visible;
 }
 
-.js .b-sidebar-header {
+html.js .b-sidebar-header {
   visibility: hidden;
   &.is-initialized {
     visibility: visible;
   }
+}
+
+html.no-js .b-logo,
+html.is-ready .b-logo {
+  visibility: visible;
+}
+
+.b-logo {
+  visibility: hidden;
 }
 

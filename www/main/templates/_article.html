@@ -19,14 +19,14 @@
         {% if page.date_added %}
         <div class="b-article-date-added">
           <span class="b-article-date-title">Published</span>
-          {{ page.date_added.strftime('%d').strip('0')|ordinal_suffix }} {{ page.date_added.strftime('%B %Y') }}
+          {{ page.date_added_formatted }}
         </div>
         {% endif %}
 
         {% if page.date_modified and page.date_modified != page.date_added %}
         <div class="b-article-date-modified">
           <span class="b-article-date-title">Updated</span> 
-          {{ page.date_modified.strftime('%d').strip('0')|ordinal_suffix }} {{ page.date_modified.strftime('%B %Y') }}
+          {{ page.date_modified_formatted }}
         </div>
         {% endif %}
       </div>

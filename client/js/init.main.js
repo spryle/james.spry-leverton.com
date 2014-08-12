@@ -148,5 +148,6 @@ ready('router', function() {
 ready('ready', function() {
   var addClass = require('./contrib/el/add-class');
   addClass(document.documentElement, 'is-ready');
+  return true;
 });
 

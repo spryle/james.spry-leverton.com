@@ -17,18 +17,22 @@ TODO
 * pull quote css DONE!
 * footer css love DONE!
 * mobile hardening/navigation pusher in/out. DONE!
-* logo/favicons? DONE
+* logo/favicons? DONE!
+* Google Analytics DONE!
+* Modified/Published Dates when the same. DONE!
+* Markdown tables/extra elements. (inline code?) DONE!
+
 
 TUESDAY/WEDNESDAY
+
 * reduce mutable state passed into react components
 * Fix asides not re-rendering issue.
-* Markdown tables/extra elements. (inline code?)
-* Modified/Published Dates when the same.
+
 * Image enlarge transition
 * Gallery click to page through.
 * Gallery left/right to page back and forth.
+
 * Min static.
-* Google Analytics
 
 THURSDAY/FRIDAY
 * Write launch content / CV

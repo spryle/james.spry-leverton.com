@@ -14,7 +14,7 @@ def ordinal_suffix(day):
         suffix = 'th'
     else:
         suffix = ['st', 'nd', 'rd'][day % 10 - 1]
-    return '%s%s' % (day, suffix)
+    return '{0}{1}'.format(day, suffix)
 
 
 @filters.app_template_filter('without')

@@ -14,3 +14,12 @@ def import_from_string(val):
         format = "Could not import '%s' for pages setting pages. %s."
         msg = format % (val, exc)
         raise ImportError(msg)
+
+
+def ordinal_suffix(day):
+    day = int(day)
+    if 4 <= day <= 20 or 24 <= day <= 30:
+        suffix = 'th'
+    else:
+        suffix = ['st', 'nd', 'rd'][day % 10 - 1]
+    return '{0}{1}'.format(day, suffix)

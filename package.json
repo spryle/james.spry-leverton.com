@@ -16,7 +16,6 @@
     "ampersand-collection-underscore-mixin": "^1.0.0",
     "backbone-events-standalone": "^0.2.2",
     "ampersand-class-extend": "^1.0.0",
-    "moment": "^2.7.0",
     "ampersand-router": "^1.0.1",
     "xhr": "^1.13.0",
     "ampersand-model": "^3.0.4",

@@ -17,7 +17,6 @@ module.exports = Fluxxor.createStore({
   initialize: function(initial) {
     this.state = new SiteState(initial);
     this.router = new Router();
-    this.router.history.start(initial.history || {});
   },
 
   actions: actions,

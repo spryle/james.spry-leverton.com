@@ -14,17 +14,7 @@ var Node = Model.extend({
     slug: 'string'
   },
 
-  idAttribute: 'path',
-
-  derived: {
-    isCurrentPage: {
-      deps: ['path'],
-      fn: function () {
-        return isCurrentPage(this.path);
-      },
-      cache: false
-    }
-  },
+  idAttribute: 'path'
 
 });
 

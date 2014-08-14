@@ -3,7 +3,7 @@
  */
 var _ = require('underscore');
 var React = require('react');
-var cx = require('react-classset');
+var cx = require('react/addons').addons.classSet;
 var Fluxxor = require('fluxxor');
 var FluxMixin = Fluxxor.FluxMixin(React);
 var FluxChildMixin = Fluxxor.FluxChildMixin(React);
@@ -81,7 +81,7 @@ var Wallpaper = React.createClass({
   getStateFromFlux: function() {
     var flux = this.getFlux();
     return {
-      wallpaper: flux.store('wallpaper')._wallpaper,
+      wallpaper: flux.store('wallpaper').wallpaper,
       columns: flux.store('wallpaper').columns,
       status: flux.store('site').state.status
     };

@@ -10,7 +10,7 @@ var Indexes = Collection.extend(UnderscoreMixin, {
   model: Index,
 
   getCurrentIndex: function() {
-    return this.findWhere({isCurrentIndex: true});
+    return this.findWhere({is_current_index: true});
   }
 
 });

@@ -4,7 +4,8 @@
 
 var _ = require('underscore');
 var React = require('react');
-var cx = require('react-classset');
+var cx = require('react/addons').addons.classSet;
+var PureRenderMixin = require('react/addons').addons.PureRenderMixin;
 var image = require('../contrib/image');
 var Fluxxor = require('fluxxor');
 var FluxMixin = Fluxxor.FluxMixin(React);
@@ -14,6 +15,10 @@ var constants = require('../constants');
 
 
 var AsideImage = React.createClass({
+
+  mixins: [
+    PureRenderMixin
+  ],
 
   classes: function() {
     return cx({
@@ -37,7 +42,10 @@ var AsideImage = React.createClass({
   },
 
   src: function() {
-    return image(this.props.src, {h: this.height(), w: this.width()});
+    return image(this.props.src, {
+      h: this.height(),
+      w: this.width()
+    });
   },
 
   text: function() {
@@ -71,6 +79,10 @@ var AsideImage = React.createClass({
 
 var AsideGallery = React.createClass({
 
+  mixins: [
+    PureRenderMixin
+  ],
+
   getInitialState: function() {
     return {
       index: 0
@@ -99,7 +111,7 @@ var AsideGallery = React.createClass({
   },
 
   image: function() {
-    return this.props.images[this.index()];
+    return this.props.images.get(this.index()).toObject();
   },
 
   src: function() {
@@ -176,6 +188,10 @@ var AsideGallery = React.createClass({
 
 var AsideItem = React.createClass({
 
+  mixins: [
+    PureRenderMixin
+  ],
+
   componentWillMount: function() {
     window.addEventListener('scroll', this.scroll);
   },
@@ -185,9 +201,7 @@ var AsideItem = React.createClass({
   },
 
   getInitialState: function() {
-    var el = document.getElementById(this.props.target);
     return {
-      top: el ? el.offsetTop: 0,
       enlarged: false
     };
   },
@@ -213,7 +227,7 @@ var AsideItem = React.createClass({
 
   isEnlargeable: function() {
     if (_.has(this.props, 'is_enlargeable')) {
-      return this.props.enlargeable;
+      return this.props.is_enlargeable;
     } else {
       return true;
     }
@@ -227,8 +241,9 @@ var AsideItem = React.createClass({
   },
 
   styles: function() {
+    var el = document.getElementById(this.props.target);
     return {
-      top: this.state.enlarged ? this.state.scrollY: this.state.top,
+      top: this.state.enlarged ? this.state.scrollY: el ? el.offsetTop : 0,
       position: 'absolute'
     };
   },
@@ -237,7 +252,9 @@ var AsideItem = React.createClass({
     if (!_.has(this.asides, this.props.type)) {
       throw 'Invalid aside type ' + this.state.type;
     }
-    return this.asides[this.props.type](context);
+    return this.asides[this.props.type](_.extend({
+      enlarged: this.state.enlarged,
+    }, this.props));
   },
 
   render: function() {
@@ -246,11 +263,7 @@ var AsideItem = React.createClass({
         className={this.classes()}
         style={this.styles()}
         onClick={this.isEnlargeable() ? this.enlarge : undefined}>
-
-        {this.aside(_.extend({
-          enlarged: this.state.enlarged
-        }, this.props))}
-
+          {this.aside()}
       </li>
     );
   }
@@ -259,12 +272,15 @@ var AsideItem = React.createClass({
 
 var AsideList = React.createClass({
 
+  mixins: [
+    PureRenderMixin
+  ],
 
   items: function() {
     var item = {};
-    this.props.page.asides.each(_.bind(function(data) {
-      item[data.target] = AsideItem(data.toJSON());
-    }, this));
+    this.props.page.get('asides').forEach(function(aside) {
+      item[aside.get('target')] = AsideItem(aside.toObject());
+    });
     return item;
   },
 
@@ -280,13 +296,13 @@ var Aside = React.createClass({
 
   mixins: [
     FluxMixin,
-    StoreWatchMixin('article')
+    StoreWatchMixin('article'),
+    PureRenderMixin
   ],
 
   getStateFromFlux: function() {
-    var flux = this.getFlux();
     return {
-      page: flux.store('article').state.getCurrentPage(),
+      page: this.getFlux().store('article').page,
     };
   },
 

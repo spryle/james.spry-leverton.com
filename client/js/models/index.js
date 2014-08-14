@@ -34,7 +34,7 @@ var Index = Model.extend({
   },
 
   derived: {
-    isCurrentIndex: {
+    is_current_index: {
       deps: ['path'],
       fn: function () {
         return isCurrentIndex(this.path);
@@ -42,6 +42,7 @@ var Index = Model.extend({
       cache: false
     }
   }
+
 
 });
 

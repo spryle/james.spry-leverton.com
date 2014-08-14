@@ -18,11 +18,6 @@ var directory = _.extend({
 
 var site = {
   status: 'WAITING',
-  history: {
-    pushState: true,
-    hashChange: true,
-    silent: true
-  }
 };
 
 module.exports = {

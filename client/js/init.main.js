@@ -57,6 +57,7 @@ ready('directory', function() {
 
 });
 
+
 ready('article', function() {
 
   var Article = require('./components/article');
@@ -67,8 +68,8 @@ ready('article', function() {
     mount
   ) : null;
 
-
 });
+
 
 ready('asides', function() {
 
@@ -82,6 +83,7 @@ ready('asides', function() {
 
 });
 
+
 ready('wallpaper', function() {
 
   var Wallpaper = require('./components/wallpaper');
@@ -93,6 +95,7 @@ ready('wallpaper', function() {
   ) : null;
 
 });
+
 
 ready('wallpaper-debug-bar', function() {
 
@@ -106,6 +109,7 @@ ready('wallpaper-debug-bar', function() {
 
 });
 
+
 ready('progress', function() {
 
   var Progress = require('./components/progress');
@@ -118,13 +122,19 @@ ready('progress', function() {
 
 });
 
-ready('history', function() {
-  return flux.store('site').router.route('*notFound', '*', function(path) {
+ready('router', function() {
+
+  var site = flux.store('site');
+
+  site.router.history.start({
+    pushState: true,
+    hashChange: true,
+    silent: true
+  });
+
+  site.router.route('*notFound', '*', function(path) {
     flux.actions.path.change(window.location.pathname);
   });
-});
-
-ready('router', function() {
 
   document.body.addEventListener('click', _.bind(function(event) {
     var elements = [];

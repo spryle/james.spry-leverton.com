@@ -3,6 +3,7 @@
  */
 var _ = require('underscore');
 var React = require('react');
+var PureRenderMixin = require('react/addons').addons.PureRenderMixin;
 var Fluxxor = require('fluxxor');
 var FluxMixin = Fluxxor.FluxMixin(React);
 var StoreWatchMixin = Fluxxor.StoreWatchMixin;
@@ -10,6 +11,10 @@ var constants = require('../constants');
 
 
 var ArticleHeader = React.createClass({
+
+  mixins: [
+    PureRenderMixin
+  ],
 
   render: function() {
     return (
@@ -22,6 +27,10 @@ var ArticleHeader = React.createClass({
 });
 
 var ArticleBody = React.createClass({
+
+  mixins: [
+    PureRenderMixin
+  ],
 
   render: function() {
     return (
@@ -37,6 +46,10 @@ var ArticleBody = React.createClass({
 
 var ArticleAuthor = React.createClass({
 
+  mixins: [
+    PureRenderMixin
+  ],
+
   render: function() {
     return (
       <div className="b-article-author">
@@ -50,6 +63,10 @@ var ArticleAuthor = React.createClass({
 
 
 var ArticleGravitar = React.createClass({
+
+  mixins: [
+    PureRenderMixin
+  ],
 
   src: function() {
     return 'http://www.gravatar.com/avatar/' + this.props.hash + '?s=60';
@@ -66,6 +83,10 @@ var ArticleGravitar = React.createClass({
 });
 
 var ArticleDate = React.createClass({
+
+  mixins: [
+    PureRenderMixin
+  ],
 
   dateAdded: function() {
     return (
@@ -102,6 +123,10 @@ var ArticleDate = React.createClass({
 
 var ArticleFooter = React.createClass({
 
+  mixins: [
+    PureRenderMixin
+  ],
+
   render: function() {
     return (
       <footer className="b-article-footer t-tertiary g-clearfix">
@@ -127,24 +152,27 @@ var Article = React.createClass({
 
   mixins: [
     FluxMixin,
-    StoreWatchMixin('article')
+    StoreWatchMixin('article'),
+    PureRenderMixin
   ],
 
   getStateFromFlux: function() {
     return {
-      page: this.getFlux().store('article').state.getCurrentPage(),
+      page: this.getFlux().store('article').page,
     };
   },
 
   title: function() {
-    return this.state.page.title || (this.state.page.status_code || 'Ooops!');
+    return this.state.page.get('title') || (
+      this.state.page.get('status_code') || 'Ooops!'
+    );
   },
 
   content: function() {
-    return this.state.page.content || (
-      this.state.page.status_message || this.state.page.status_code === 0 ?
-      'Having connection Issues.' : ''
-    );
+    return this.state.page.get('content') || (
+      this.state.page.get('status_message') ||
+        this.state.page.get('status_code') === 0 ?
+          'Having connection Issues.' : '');
   },
 
   render: function() {
@@ -154,11 +182,11 @@ var Article = React.createClass({
           <ArticleHeader title={this.title()} />
           <ArticleBody content={this.content()} />
           <ArticleFooter
-            name={this.state.page.author_name}
-            email={this.state.page.author_email}
-            hash={this.state.page.author_hash}
-            modified={this.state.page.date_modified_formatted}
-            added={this.state.page.date_added_formatted} />
+            name={this.state.page.get('author_name')}
+            email={this.state.page.get('author_email')}
+            hash={this.state.page.get('author_hash')}
+            modified={this.state.page.get('date_modified_formatted')}
+            added={this.state.page.get('date_added_formatted')} />
         </div>
       );
     } else {

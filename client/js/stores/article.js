@@ -1,6 +1,7 @@
 var _ = require('underscore');
 var Fluxxor = require('fluxxor');
 var PagesCollection = require('../collections/pages.js');
+var Immutable = require('immutable');
 var constants = require('../constants');
 
 
@@ -17,7 +18,8 @@ actions[constants.ACTIONS.ARTICLE_FAILED] = 'update';
 module.exports = Fluxxor.createStore({
 
   initialize: function(initial) {
-    this.state = new PagesCollection(initial);
+    this.pages = new PagesCollection(initial);
+    this.page = Immutable.fromJS(this.pages.getCurrentPage().toJSON());
   },
 
   actions: actions,
@@ -38,6 +40,7 @@ module.exports = Fluxxor.createStore({
   },
 
   update: function() {
+    this.page = Immutable.fromJS(this.pages.getCurrentPage().toJSON());
     this.emit('change');
   },
 
@@ -45,11 +48,11 @@ module.exports = Fluxxor.createStore({
     if (isIndex(path)) {
       path = path + 'index';
     }
-    var page = this.state.get(path);
+    var page = this.pages.get(path);
     if (page && page.status_code === 200) {
       return _.defer(this.flux.actions.article.loaded, page.path);
     }
-    this.state.add({path: path}).fetch({
+    this.pages.add({path: path}).fetch({
       success: this.success,
       error: this.error
     });

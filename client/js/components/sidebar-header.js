@@ -3,6 +3,7 @@
  */
 var _ = require('underscore');
 var React = require('react');
+var PureRenderMixin = require('react/addons').addons.PureRenderMixin;
 var Fluxxor = require('fluxxor');
 var FluxMixin = Fluxxor.FluxMixin(React);
 var FluxChildMixin = Fluxxor.FluxChildMixin(React);
@@ -13,7 +14,8 @@ var constants = require('../constants');
 var SidebarSubTitle = React.createClass({
 
   mixins: [
-    FluxChildMixin
+    FluxChildMixin,
+    PureRenderMixin
   ],
 
   change: function(event) {
@@ -55,7 +57,7 @@ var SidebarHeader = React.createClass({
 
   getStateFromFlux: function() {
     return {
-      index: this.getFlux().store('directory').state.getCurrentIndex(),
+      index: this.getFlux().store('directory').index,
     };
   },
 
@@ -74,8 +76,8 @@ var SidebarHeader = React.createClass({
           </a>
         </h2>
         <SidebarSubTitle
-          href={this.state.index.path || null}
-          text={this.state.index.name || this.state.defaultName}
+          href={this.state.index.get('path') || null}
+          text={this.state.index.get('name') || this.state.defaultName}
         />
       </header>
     );

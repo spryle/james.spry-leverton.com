@@ -36,7 +36,7 @@ var Page = Model.extend({
   },
 
   derived: {
-    isCurrentPage: {
+    is_current_page: {
       deps: ['path'],
       fn: function () {
         return isCurrentPage(this.path);
@@ -48,6 +48,7 @@ var Page = Model.extend({
   collections: {
     asides: Asides
   }
+
 
 });
 

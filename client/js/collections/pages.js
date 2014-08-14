@@ -9,7 +9,7 @@ var Pages = Collection.extend(UnderscoreMixin, {
   model: Page,
 
   getCurrentPage: function() {
-    return this.findWhere({isCurrentPage: true});
+    return this.findWhere({is_current_page: true});
   }
 
 });

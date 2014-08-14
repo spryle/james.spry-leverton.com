@@ -3,7 +3,8 @@
  */
 var _ = require('underscore');
 var React = require('react');
-var cx = require('react-classset');
+var cx = require('react/addons').addons.classSet;
+var PureRenderMixin = require('react/addons').addons.PureRenderMixin;
 var Fluxxor = require('fluxxor');
 var FluxMixin = Fluxxor.FluxMixin(React);
 var FluxChildMixin = Fluxxor.FluxChildMixin(React);
@@ -14,7 +15,8 @@ var constants = require('../constants');
 var DirectoryItemText = React.createClass({
 
   mixins: [
-    FluxChildMixin
+    FluxChildMixin,
+    PureRenderMixin
   ],
 
   change: function(event) {
@@ -24,7 +26,7 @@ var DirectoryItemText = React.createClass({
   },
 
   render: function() {
-    if (this.props.isCurrentPage) {
+    if (this.props.current) {
       return (
         <span className='b-directory-item-text'>{this.props.content}</span>
       );
@@ -45,7 +47,8 @@ var DirectoryItemText = React.createClass({
 var DirectoryItem = React.createClass({
 
   mixins: [
-    FluxChildMixin
+    FluxChildMixin,
+    PureRenderMixin
   ],
 
   isCurrent: function() {
@@ -57,7 +60,7 @@ var DirectoryItem = React.createClass({
       'b-directory-item': true,
       'is-directory': this.props.is_directory,
       'is-file': this.props.is_file,
-      'is-current': this.props.isCurrentPage,
+      'is-current': this.props.current,
       'is-first': this.props.index === 0
     });
   },
@@ -67,7 +70,7 @@ var DirectoryItem = React.createClass({
       <li className={this.classes()} >
         <span className="b-directory-item-content">
           <DirectoryItemText
-            isCurrentPage={this.props.isCurrentPage}
+            current={this.props.current}
             path={this.props.path}
             content={this.props.content}
           />
@@ -81,23 +84,24 @@ var DirectoryItem = React.createClass({
 var DirectoryListing = React.createClass({
 
   mixins: [
-    FluxChildMixin
+    FluxChildMixin,
+    PureRenderMixin
   ],
 
   items: function() {
     var item = [];
-    this.props.index.children.each(_.bind(function(node, index) {
-      item.push(DirectoryItem(_.extend(node.toJSON(), {
-        key: node.path,
-        content: node.name,
-        isCurrentPage: node.isCurrentPage,
-        index: this.props.index.level === 0 ? index : index + 1
+    this.props.index.get('children').forEach(_.bind(function(node, index) {
+      item.push(DirectoryItem(_.extend(node.toObject(), {
+        key: node.get('path'),
+        content: node.get('name'),
+        current: node.get('path') === this.props.page.get('path'),
+        index: this.props.index.get('level') === 0 ? index : index + 1
       })));
     }, this));
-    if (this.props.index.level > 0) {
-      item.unshift(DirectoryItem(_.extend(this.props.index.toJSON(), {
-        key: this.props.index.parent.path,
-        path: this.props.index.parent.path,
+    if (this.props.index.get('level') > 0) {
+      item.unshift(DirectoryItem(_.extend(this.props.index.toObject(), {
+        key: this.props.index.get('parent').get('path'),
+        path: this.props.index.get('parent').get('path'),
         content: 'Back',
         index: 0
       })));
@@ -119,13 +123,15 @@ var Directory = React.createClass({
 
   mixins: [
     FluxMixin,
-    StoreWatchMixin('article', 'directory')
+    StoreWatchMixin('article', 'directory'),
+    PureRenderMixin
   ],
 
   getStateFromFlux: function() {
     var flux = this.getFlux();
     return {
-      index: flux.store('directory').state.getCurrentIndex(),
+      page: flux.store('article').page,
+      index: flux.store('directory').index
     };
   },
 
@@ -133,8 +139,11 @@ var Directory = React.createClass({
     return (
       <div
         className="b-directory is-initialized"
-        data-level={this.state.index.level}>
-        <DirectoryListing index={this.state.index}/>
+        data-level={this.state.index.get('level')}>
+        <DirectoryListing
+         page={this.state.page}
+         index={this.state.index}
+        />
       </div>
     );
   }

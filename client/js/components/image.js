@@ -4,14 +4,17 @@
 
 var _ = require('underscore');
 var React = require('react');
-var cx = require('react-classset');
+var cx = require('react/addons').addons.classSet;
+var PureRenderMixin = require('react/addons').addons.PureRenderMixin;
+
 var LoaderMixin = require('react-loadermixin');
 
 
 module.exports =  React.createClass({
 
   mixins: [
-    LoaderMixin
+    LoaderMixin,
+    PureRenderMixin
   ],
 
   getInitialState: function() {

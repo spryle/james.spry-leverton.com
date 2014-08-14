@@ -21,23 +21,19 @@ TODO
 * Google Analytics DONE!
 * Modified/Published Dates when the same. DONE!
 * Markdown tables/extra elements. (inline code?) DONE!
+* reduce mutable state passed into react components DONE!
+* Fix asides not re-rendering issue. DONE!
 
-
-TUESDAY/WEDNESDAY
-
-* reduce mutable state passed into react components
-* Fix asides not re-rendering issue.
-
+FRIDAY
 * Image enlarge transition
 * Gallery click to page through.
 * Gallery left/right to page back and forth.
-
 * Min static.
 
-THURSDAY/FRIDAY
+SATURDAY
 * Write launch content / CV
 
-WEEKEND
+SUNDAY
 * Salt Config
 * Varnish/Nginx/Chaussette/Circus Config
 * Deployment

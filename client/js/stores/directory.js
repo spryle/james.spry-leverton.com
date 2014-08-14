@@ -1,6 +1,7 @@
 var _ = require('underscore');
 var Fluxxor = require('fluxxor');
 var IndexesCollection = require('../collections/indexes');
+var Immutable = require('immutable');
 var constants = require('../constants');
 
 
@@ -17,7 +18,8 @@ actions[constants.ACTIONS.DIRECTORY_FAILED] = 'update';
 module.exports = Fluxxor.createStore({
 
   initialize: function(initial) {
-    this.state = new IndexesCollection(initial);
+    this.indexes = new IndexesCollection(initial);
+    this.index = Immutable.fromJS(this.indexes.getCurrentIndex().toJSON());
   },
 
   actions: actions,
@@ -38,16 +40,17 @@ module.exports = Fluxxor.createStore({
   },
 
   update: function() {
+    this.index = Immutable.fromJS(this.indexes.getCurrentIndex().toJSON());
     this.emit('change');
   },
 
   path: function(path) {
     if (!isIndex(path)) {return;}
-    var index = this.state.get(path);
+    var index = this.indexes.get(path);
     if (index && index.status_code === 200) {
       return _.defer(this.flux.actions.directory.loaded, index.path);
     }
-    this.state.add({path: path}).fetch({
+    this.indexes.add({path: path}).fetch({
       success: this.success,
       error: this.error
     });

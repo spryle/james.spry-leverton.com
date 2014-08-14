@@ -2,7 +2,7 @@
  * @jsx React.DOM
  */
 var _ = require('underscore');
-var cx = require('react-classset');
+var cx = require('react/addons').addons.classSet;
 var React = require('react');
 var Fluxxor = require('fluxxor');
 var FluxMixin = Fluxxor.FluxMixin(React);
@@ -135,7 +135,7 @@ var WallpaperDebugBar = React.createClass({
 
   getStateFromFlux: function() {
     return {
-      wallpaper: this.getFlux().store('wallpaper')._wallpaper,
+      wallpaper: this.getFlux().store('wallpaper').wallpaper,
     };
   },
 

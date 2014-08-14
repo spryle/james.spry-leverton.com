@@ -17,32 +17,31 @@ actions[constants.ACTIONS.WALLPAPER_CLEAR] = 'clear';
 module.exports = Fluxxor.createStore({
 
   initialize: function(data) {
-    this._wallpaper = wallpaper();
-    this._scheme = new Scheme();
-    this._scheme.randomize();
-    this.columns = this._scheme.generate();
+    this.wallpaper = wallpaper();
+    this.scheme = new Scheme().randomize();
+    this.columns = this.scheme.generate();
   },
 
   actions: actions,
 
   refresh: function() {
-    this._scheme.randomize();
-    this.columns = this._scheme.generate();
+    this.scheme.randomize();
+    this.columns = this.scheme.generate();
     this.emit('change');
   },
 
   play: function() {
-    this._wallpaper.start();
+    this.wallpaper.start();
     this.emit('change');
   },
 
   pause: function() {
-    this._wallpaper.stop();
+    this.wallpaper.stop();
     this.emit('change');
   },
 
   clear: function() {
-    this._wallpaper.clear();
+    this.wallpaper.clear();
     this.emit('change');
   }
 

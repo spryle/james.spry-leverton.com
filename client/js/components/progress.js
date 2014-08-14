@@ -3,7 +3,8 @@
  */
 var _ = require('underscore');
 var React = require('react');
-var cx = require('react-classset');
+var cx = require('react/addons').addons.classSet;
+var PureRenderMixin = require('react/addons').addons.PureRenderMixin;
 var Fluxxor = require('fluxxor');
 var FluxMixin = Fluxxor.FluxMixin(React);
 var StoreWatchMixin = Fluxxor.StoreWatchMixin;
@@ -11,6 +12,12 @@ var constants = require('../constants');
 
 
 var Progress = React.createClass({
+
+  mixins: [
+    FluxMixin,
+    StoreWatchMixin('site'),
+    PureRenderMixin
+  ],
 
   getInitialState: function() {
     return {
@@ -31,13 +38,8 @@ var Progress = React.createClass({
     }
   },
 
-  mixins: [
-    FluxMixin,
-    StoreWatchMixin('site')
-  ],
-
   getStateFromFlux: function() {
-    return  this.getFlux().store('site').state.toJSON();
+    return this.getFlux().store('site').state.toJSON();
   },
 
   classes: function() {

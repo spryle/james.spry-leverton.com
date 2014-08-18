@@ -2,6 +2,7 @@
  * @jsx React.DOM
  */
 var Fluxxor = require('fluxxor');
+var Keyboard = require('./contrib/keyboard.js');
 var React = require('react');
 var stores = require('./stores');
 var actions = require('./actions');
@@ -9,13 +10,22 @@ var ready = require('./ready');
 
 var flux = new Fluxxor.Flux(stores, actions);
 
+var keyboard = new Keyboard({
+  'esc': 'esc',
+  'left': 'left',
+  'right': 'right',
+  'tab': 'tab',
+}, {
+  'up up down down left right left right b a enter': 'konami'
+}).start();
+
 ready('title', function() {
 
   var Title = require('./components/title');
   var mount = document.getElementById('b-title-mount');
 
   return mount ? React.renderComponent(
-    <Title flux={flux} />,
+    <Title flux={flux} keyboard={keyboard} />,
     mount
   ) : null;
 
@@ -27,7 +37,7 @@ ready('sidebar-tab', function() {
   var mount = document.getElementById('b-sidebar-tab-mount');
 
   return mount ? React.renderComponent(
-    <SidebarTab flux={flux} />,
+    <SidebarTab flux={flux} keyboard={keyboard} />,
     mount
   ) : null;
 
@@ -39,7 +49,7 @@ ready('sidebar-header', function() {
   mount = document.getElementById('b-sidebar-header-mount');
 
   return mount ? React.renderComponent(
-    <SidebarHeader flux={flux} />,
+    <SidebarHeader flux={flux} keyboard={keyboard} />,
     mount
   ) : null;
 
@@ -51,7 +61,7 @@ ready('directory', function() {
   var mount = document.getElementById('b-directory-mount');
 
   return mount ? React.renderComponent(
-    <Directory flux={flux} />,
+    <Directory flux={flux} keyboard={keyboard} />,
      mount
   ) : null;
 
@@ -64,7 +74,7 @@ ready('article', function() {
   var mount = document.getElementById('b-article-mount');
 
   return mount ? React.renderComponent(
-    <Article flux={flux} />,
+    <Article flux={flux} keyboard={keyboard} />,
     mount
   ) : null;
 
@@ -77,7 +87,7 @@ ready('asides', function() {
   var mount = document.getElementById('b-aside-mount');
 
   return mount ? React.renderComponent(
-    <Aside flux={flux}/>,
+    <Aside flux={flux} keyboard={keyboard} />,
     mount
   ) : null;
 
@@ -90,7 +100,7 @@ ready('wallpaper', function() {
   var mount = document.getElementById('b-wallpaper-mount');
 
   return mount ? React.renderComponent(
-    <Wallpaper flux={flux}/>,
+    <Wallpaper flux={flux} keyboard={keyboard} />,
     mount
   ) : null;
 
@@ -103,7 +113,7 @@ ready('wallpaper-debug-bar', function() {
   var mount = document.getElementById('b-wallpaper-debug-bar-mount');
 
   return mount ? React.renderComponent(
-    <WallpaperDebugBar flux={flux}/>,
+    <WallpaperDebugBar flux={flux} keyboard={keyboard} />,
     mount
   ) : null;
 
@@ -116,7 +126,7 @@ ready('progress', function() {
   var mount = document.getElementById('b-progress-mount');
 
   return mount ? React.renderComponent(
-    <Progress flux={flux} />,
+    <Progress flux={flux} keyboard={keyboard} />,
     mount
   ) : null;
 

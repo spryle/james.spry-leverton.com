@@ -10,6 +10,8 @@ var image = require('../contrib/image');
 var Fluxxor = require('fluxxor');
 var FluxMixin = Fluxxor.FluxMixin(React);
 var StoreWatchMixin = Fluxxor.StoreWatchMixin;
+var KeyboardMixin = require('../mixins/keyboard-mixin');
+var KeyboardChildMixin = require('../mixins/keyboard-child-mixin');
 var Image = require('./image');
 var constants = require('../constants');
 
@@ -17,7 +19,8 @@ var constants = require('../constants');
 var AsideImage = React.createClass({
 
   mixins: [
-    PureRenderMixin
+    PureRenderMixin,
+    KeyboardChildMixin
   ],
 
   classes: function() {
@@ -26,24 +29,12 @@ var AsideImage = React.createClass({
     });
   },
 
-  styles: function() {
-    return {
-      height: this.props.enlarged ? window.outerHeight : undefined,
-      width: this.props.enlarged ? window.outerWidth: undefined
-    };
-  },
-
-  height: function() {
-    return this.props.enlarged ? window.outerHeight * 0.8 : undefined;
-  },
-
   width: function() {
-    return this.props.enlarged ? undefined: 200;
+    return this.props.enlarged ? 700: 200;
   },
 
   src: function() {
     return image(this.props.src, {
-      h: this.height(),
       w: this.width()
     });
   },
@@ -57,15 +48,12 @@ var AsideImage = React.createClass({
   },
 
   render: function() {
-    var classes = this.classes();
-    var styles = this.styles();
     return (
-      <aside className={classes} style={styles}>
+      <aside className={this.classes()}>
         <div className="b-aside-image">
           <Image
             src={this.src()}
             alt={this.props.alt}
-            height={this.height()}
             width={this.width()}
           />
           {this.props.text ? this.text() : null}
@@ -80,8 +68,21 @@ var AsideImage = React.createClass({
 var AsideGallery = React.createClass({
 
   mixins: [
-    PureRenderMixin
+    PureRenderMixin,
+    KeyboardChildMixin
   ],
+
+  componentDidMount: function() {
+    this.getKeyboard().on('left', this.prev, this);
+    this.getKeyboard().on('right', this.next, this);
+    this.getKeyboard().on('tab', this.next, this);
+  },
+
+  componentWillUnmount: function() {
+    this.getKeyboard().off('left', this.prev);
+    this.getKeyboard().off('right', this.next);
+    this.getKeyboard().off('tab', this.next);
+  },
 
   getInitialState: function() {
     return {
@@ -95,19 +96,8 @@ var AsideGallery = React.createClass({
     });
   },
 
-  height: function() {
-    return this.props.enlarged ? window.outerHeight * 0.8 : undefined;
-  },
-
   width: function() {
-    return this.props.enlarged ? undefined: 200;
-  },
-
-  styles: function() {
-    return {
-      height: this.props.enlarged ? window.outerHeight : undefined,
-      width: this.props.enlarged ? window.outerWidth: undefined
-    };
+    return this.props.enlarged ? 700: 200;
   },
 
   image: function() {
@@ -116,8 +106,7 @@ var AsideGallery = React.createClass({
 
   src: function() {
     return image(this.image().src, {
-      h: this.props.enlarged ? window.outerHeight * 0.8 : undefined,
-      w: this.props.enlarged ? undefined: 200
+      w: this.width()
     });
   },
 
@@ -132,6 +121,7 @@ var AsideGallery = React.createClass({
   },
 
   next: function(event) {
+    event.preventDefault();
     event.stopPropagation();
     this.setState({
       index: this.state.index >= this.props.images.length - 1 ?
@@ -140,6 +130,7 @@ var AsideGallery = React.createClass({
   },
 
   prev: function(event) {
+    event.preventDefault();
     event.stopPropagation();
     this.setState({
       index: this.state.index <= 0 ?
@@ -155,17 +146,13 @@ var AsideGallery = React.createClass({
 
   render: function() {
     if (!this.image()) {return null;}
-    var classes = this.classes();
-    var styles = this.styles();
     return (
-      <aside className={classes} style={styles}>
-        <div className="b-aside-gallery">
+      <aside className={this.classes()}>
+        <div className="b-aside-gallery" onClick={this.click}>
           <Image
             src={this.src()}
             alt={this.image().alt}
-            height={this.height()}
             width={this.width()}
-            onClick={this.click}
           />
           <p className="b-aside-component-context">
             <span
@@ -189,16 +176,9 @@ var AsideGallery = React.createClass({
 var AsideItem = React.createClass({
 
   mixins: [
-    PureRenderMixin
+    PureRenderMixin,
+    KeyboardChildMixin
   ],
-
-  componentWillMount: function() {
-    window.addEventListener('scroll', this.scroll);
-  },
-
-  componentWillUnmount: function() {
-    window.removeEventListener('scroll', this.scroll);
-  },
 
   getInitialState: function() {
     return {
@@ -206,21 +186,31 @@ var AsideItem = React.createClass({
     };
   },
 
+  componentDidMount: function() {
+    this.getKeyboard().on('esc', this.close, this);
+  },
+
+  componentWillUnmount: function() {
+    this.getKeyboard().off('esc', this.close, this);
+  },
+
   asides: {
     'image': AsideImage,
     'gallery': AsideGallery
   },
 
-  scroll: function() {
-    if (!this.state.enlarged) {return;}
+  close: function(event) {
+    if (this.state.enlarged) {
+      event.stopPropagation();
+      event.preventDefault();
+    }
     this.setState({
-      scrollY: window.scrollY
+      enlarged: false
     });
   },
 
-  enlarge: function() {
+  toggle: function() {
     this.setState({
-      scrollY: window.scrollY,
       enlarged: !this.state.enlarged
     });
   },
@@ -243,7 +233,7 @@ var AsideItem = React.createClass({
   styles: function() {
     var el = document.getElementById(this.props.target);
     return {
-      top: this.state.enlarged ? this.state.scrollY: el ? el.offsetTop : 0,
+      top: this.state.enlarged ?  window.scrollY : el ? el.offsetTop : 0,
       position: 'absolute'
     };
   },
@@ -262,7 +252,7 @@ var AsideItem = React.createClass({
       <li
         className={this.classes()}
         style={this.styles()}
-        onClick={this.isEnlargeable() ? this.enlarge : undefined}>
+        onClick={this.isEnlargeable() ? this.toggle : undefined}>
           {this.aside()}
       </li>
     );
@@ -273,7 +263,8 @@ var AsideItem = React.createClass({
 var AsideList = React.createClass({
 
   mixins: [
-    PureRenderMixin
+    PureRenderMixin,
+    KeyboardChildMixin
   ],
 
   items: function() {
@@ -297,7 +288,8 @@ var Aside = React.createClass({
   mixins: [
     FluxMixin,
     StoreWatchMixin('article'),
-    PureRenderMixin
+    PureRenderMixin,
+    KeyboardMixin
   ],
 
   getStateFromFlux: function() {

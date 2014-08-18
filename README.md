@@ -23,17 +23,13 @@ TODO
 * Markdown tables/extra elements. (inline code?) DONE!
 * reduce mutable state passed into react components DONE!
 * Fix asides not re-rendering issue. DONE!
+* Image enlarge transition DONE!
+* Gallery click to page through. DONE!
+* Gallery left/right to page back and forth. DONE!
 
-FRIDAY
-* Image enlarge transition
-* Gallery click to page through.
-* Gallery left/right to page back and forth.
+LAUNCH PREP.
 * Min static.
-
-SATURDAY
 * Write launch content / CV
-
-SUNDAY
 * Salt Config
 * Varnish/Nginx/Chaussette/Circus Config
 * Deployment

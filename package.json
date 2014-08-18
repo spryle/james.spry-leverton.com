@@ -25,7 +25,8 @@
     "url-join": "0.0.1",
     "react-loadermixin": "^1.0.4",
     "browsernizr": "^1.0.2",
-    "immutable": "^2.0.9"
+    "immutable": "^2.0.9",
+    "mousetrap": "0.0.1"
   },
   "devDependencies": {
     "browserify": "^4.1.11",

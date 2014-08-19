@@ -8,7 +8,7 @@ from www.content import repository, exceptions
 from www.main.parsers import parse
 from www.main.serializers import serialize
 from www.main.exceptions import ApiError
-from www.decorators import add_response_headers
+from www.decorators import add_headers, cache_headers
 
 
 api = Blueprint('main-api', __name__, subdomain='api')
@@ -31,7 +31,8 @@ def get_context(repo, path, filename):
 
 @api.route('/')
 @api.route('/<path:path>/')
-@add_response_headers({'Access-Control-Allow-Origin': '*'})
+@add_headers({'Access-Control-Allow-Origin': '*'})
+@cache_headers(seconds=3600)
 def index(path=''):
     try:
         repo = repository(app.config.get('CONTENT_ROOT'))
@@ -46,7 +47,8 @@ def index(path=''):
 
 @api.route('/<name>')
 @api.route('/<path:path>/<name>')
-@add_response_headers({'Access-Control-Allow-Origin': '*'})
+@add_headers({'Access-Control-Allow-Origin': '*'})
+@cache_headers(seconds=3600)
 def file(name, path=''):
     try:
         repo = repository(app.config.get('CONTENT_ROOT'))

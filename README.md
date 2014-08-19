@@ -26,12 +26,12 @@ TODO
 * Image enlarge transition DONE!
 * Gallery click to page through. DONE!
 * Gallery left/right to page back and forth. DONE!
+* Min static. DONE!
+* Cache headers. DONE!
 
-LAUNCH PREP.
-* Min static.
+
 * Write launch content / CV
 * Salt Config
 * Varnish/Nginx/Chaussette/Circus Config
 * Deployment
-* Job Applications
 

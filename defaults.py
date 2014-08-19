@@ -1,7 +1,8 @@
 import os
 
-DEBUG = True
+DEBUG = False
 GOOGLE_ANALYTICS = False
+MINIFIED_STATIC = True
 
 DIRNAME = os.path.abspath(os.path.dirname(__file__))
 

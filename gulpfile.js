@@ -5,6 +5,7 @@ var refresh = require('gulp-livereload');
 var less = require('gulp-less');
 var shell = require('gulp-shell');
 var jsmin = require('gulp-jsmin');
+var cssmin = require('gulp-cssmin');
 var source = require('vinyl-source-stream');
 var browserify = require('browserify');
 var watchify = require('watchify');
@@ -63,19 +64,23 @@ gulp.task('serve', shell.task([
 ]));
 
 gulp.task('main-styles', function() {
+
   return gulp.src(src.styles.main)
     .pipe(less().on('error', error('styles')))
     .pipe(rename('main.css'))
-    .pipe(gulp.dest(dest.styles))
-    .pipe(notify({title: '[Styles] CSS Ready'}));
+    .pipe(gulp.dest(dest.styles));
+    // .pipe(notify({title: '[Styles] CSS Ready'}));
+
 });
 
 gulp.task('head-styles', function() {
+
   return gulp.src(src.styles.head)
     .pipe(less().on('error', error('styles')))
     .pipe(rename('head.css'))
-    .pipe(gulp.dest(dest.styles))
-    .pipe(notify({title: '[Styles] CSS Ready'}));
+    .pipe(gulp.dest(dest.styles));
+    // .pipe(notify({title: '[Styles] CSS Ready'}));
+
 });
 
 gulp.task('main-scripts', function() {
@@ -107,7 +112,6 @@ gulp.task('head-scripts', function() {
     head.external(lib);
   });
 
-
   var refresh = function() {
     var stream = head.bundle({debug: false});
     stream.on('error', error('scripts'));
@@ -122,10 +126,22 @@ gulp.task('head-scripts', function() {
 
 });
 
-gulp.task('build', function() {
-  return gulp.src([dest.scripts + "*.js"])
+gulp.task('min-scripts', function() {
+
+  return gulp.src([dest.scripts + '*.js', '!' + dest.scripts + '*.min.js'])
     .pipe(jsmin())
+    .pipe(rename({suffix: '.min'}))
     .pipe(gulp.dest(dest.scripts));
+
+});
+
+gulp.task('min-styles', function() {
+
+  return gulp.src([dest.styles + '*.css', '!' + dest.styles + '*.min.css'])
+    .pipe(cssmin())
+    .pipe(rename({suffix: '.min'}))
+    .pipe(gulp.dest(dest.styles));
+
 });
 
 gulp.task('watch', function() {
@@ -134,6 +150,7 @@ gulp.task('watch', function() {
     'main-scripts',
     'head-scripts'
   ]);
+
   var styles = gulp.watch(src.styles.files, [
     'main-styles',
     'head-styles'
@@ -151,6 +168,15 @@ gulp.task('watch', function() {
 
 });
 
+gulp.task('build', [
+  'main-styles',
+  'head-styles',
+  'main-scripts',
+  'head-scripts',
+  'min-scripts',
+  'min-styles',
+]);
+
 gulp.task('default', [
   'main-styles',
   'head-styles',
@@ -158,5 +184,7 @@ gulp.task('default', [
   'head-scripts',
   'watch',
 ]);
+
+
 
 

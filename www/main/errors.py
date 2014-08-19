@@ -3,13 +3,13 @@ from __future__ import unicode_literals
 
 from flask import render_template, jsonify
 from www.main.exceptions import ApiError
-from www.decorators import add_response_headers
+from www.decorators import add_headers
 
 
 def init_app(app):
 
     @app.errorhandler(ApiError)
-    @add_response_headers({'Access-Control-Allow-Origin': '*'})
+    @add_headers({'Access-Control-Allow-Origin': '*'})
     def api_error(error):
         response = jsonify(error.to_dict())
         response.status_code = error.status_code

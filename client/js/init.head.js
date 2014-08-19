@@ -12,11 +12,14 @@ if (Modernizr.mq('only screen and (max-width : 992px)')) {
   removeClass(document.documentElement, 'is-pushed');
 }
 
+
 Modernizr.load([{
   test: true,
-  yep: settings.STATIC_URL + '/css/main.css'
+  yep: settings.STATIC_URL + '/css/main' + (
+    settings.MINIFIED_STATIC ? '.min.css' : '.css')
 }, {
   test: true,
-  yep: settings.STATIC_URL + '/js/main.js'
+  yep: settings.STATIC_URL + '/js/main' + (
+    settings.MINIFIED_STATIC ? '.min.js' : '.js')
 }]);
 

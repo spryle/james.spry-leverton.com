@@ -4,24 +4,45 @@ from __future__ import unicode_literals
 from functools import wraps
 from types import FunctionType
 from htmlmin import minify
+from datetime import datetime, timedelta
+from hashlib import sha1
 
 from flask import current_app, make_response
 
 
-def add_response_headers(headers={}):
+def add_headers(headers=None):
+    headers = headers if headers else {}
+
     def decorator(func):
         @wraps(func)
         def decorated_function(*args, **kwargs):
-            resp = make_response(func(*args, **kwargs))
-            h = resp.headers
+            response = make_response(func(*args, **kwargs))
             for header, value in headers.items():
-                h[header] = value
-            return resp
+                response.headers[header] = value
+            return response
+        return decorated_function
+    return decorator
+
+
+def cache_headers(seconds=0, public=True, vary='Accept-Encoding', etag=True):
+
+    def decorator(func):
+        @wraps(func)
+        def decorated_function(*args, **kwargs):
+            response = make_response(func(*args, **kwargs))
+            response.cache_control.public = public
+            response.cache_control.max_age = seconds
+            response.expires = datetime.now() + timedelta(seconds=seconds)
+            response.vary = vary
+            if etag:
+                response.set_etag(sha1(response.data).hexdigest())
+            return response
         return decorated_function
     return decorator
 
 
 def html_minify(func):
+
     @wraps(func)
     def decorated_function(*args, **kwargs):
         if current_app.config.get('DEBUG'):

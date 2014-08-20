@@ -90,7 +90,7 @@ var Wallpaper = React.createClass({
   getInitialState: function() {
     return {
       height: window.outerHeight * 1.05,
-      width: window.outerWidth * 0.60,
+      width: window.outerWidth * 1.05,
       scrollY: window.scrollY
     };
   },

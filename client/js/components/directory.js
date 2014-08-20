@@ -93,7 +93,7 @@ var DirectoryListing = React.createClass({
     this.props.index.get('children').forEach(_.bind(function(node, index) {
       item.push(DirectoryItem(_.extend(node.toObject(), {
         key: node.get('path'),
-        content: node.get('name'),
+        content: node.get('title') || node.get('name'),
         current: node.get('path') === this.props.page.get('path'),
         index: this.props.index.get('level') === 0 ? index : index + 1
       })));

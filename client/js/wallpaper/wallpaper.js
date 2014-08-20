@@ -146,11 +146,16 @@ var Wallpaper = Tarka.extend({
   },
 
   change: function(scheme) {
-    var xid = _.filter(_.range(-4, 8), function() {
-      return _.random(0, 100) > 40;
+    var xrange = _.range(-Math.ceil(this.options.numX / 4), 0);
+    var yrange = _.range(
+      Math.ceil(this.options.numY / 2),
+      Math.ceil(this.options.numY / 2) + Math.ceil(this.options.numX / 4)
+    );
+    var xid = _.filter(xrange, function() {
+      return _.random(0, 100) <= 50;
     });
-    var yid = _.filter(_.range(6, 18), function() {
-      return _.random(0, 100) > 40;
+    var yid = _.filter(yrange, function() {
+      return _.random(0, 100) <= 50;
     });
 
     _.map(xid, _.bind(function(id) {
@@ -187,8 +192,8 @@ module.exports = function(options) {
     frameLength: 1000 / 4,
   }, options);
 
-  options.numX = parseInt(window.outerWidth * 0.65 / options.size, 10);
-  options.numY = parseInt(window.outerHeight / options.size, 10);
+  options.numX = parseInt(window.outerWidth * 1.05 / options.size, 10);
+  options.numY = parseInt(window.outerHeight * 1.05 / options.size, 10);
 
   var engine = new Engine();
   engine.systems.add(new Mix(engine));

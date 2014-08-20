@@ -28,7 +28,12 @@ TODO
 * Gallery left/right to page back and forth. DONE!
 * Min static. DONE!
 * Cache headers. DONE!
+* Tweak Header Design DONE!
+* Autoprefix / CSS tidy up DONE!
 
+* Tidy up serializers
+* Tidy up React components
+* Tidy up wallpaper initialization / params
 
 * Write launch content / CV
 * Salt Config

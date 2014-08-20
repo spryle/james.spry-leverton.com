@@ -6,11 +6,12 @@ var less = require('gulp-less');
 var shell = require('gulp-shell');
 var jsmin = require('gulp-jsmin');
 var cssmin = require('gulp-cssmin');
+var rename = require('gulp-rename');
+var prefix = require('gulp-autoprefixer');
 var source = require('vinyl-source-stream');
 var browserify = require('browserify');
 var watchify = require('watchify');
 var reactify = require('reactify');
-var rename = require('gulp-rename');
 
 var root = './client/';
 
@@ -67,6 +68,7 @@ gulp.task('main-styles', function() {
 
   return gulp.src(src.styles.main)
     .pipe(less().on('error', error('styles')))
+    .pipe(prefix('last 10 version'))
     .pipe(rename('main.css'))
     .pipe(gulp.dest(dest.styles));
     // .pipe(notify({title: '[Styles] CSS Ready'}));
@@ -77,6 +79,7 @@ gulp.task('head-styles', function() {
 
   return gulp.src(src.styles.head)
     .pipe(less().on('error', error('styles')))
+    .pipe(prefix('last 10 version'))
     .pipe(rename('head.css'))
     .pipe(gulp.dest(dest.styles));
     // .pipe(notify({title: '[Styles] CSS Ready'}));

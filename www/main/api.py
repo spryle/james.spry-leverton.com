@@ -5,7 +5,6 @@ from httplib import responses
 from flask import current_app as app
 from flask import Blueprint, jsonify
 from www.content import repository, exceptions
-from www.main.parsers import parse
 from www.main.serializers import serialize
 from www.main.exceptions import ApiError
 from www.decorators import add_headers, cache_headers
@@ -16,17 +15,6 @@ api = Blueprint('main-api', __name__, subdomain='api')
 
 def abort(status_code):
     raise ApiError(responses.get(status_code, ''), status_code=status_code)
-
-
-def get_context(repo, path, filename):
-    try:
-        return parse(
-            repo.find_file(
-                path, filename,  app.config.get('FILE_PARSERS', {}).keys()),
-            local=app.config.get('FILE_READ_LOCAL', False)
-        )
-    except exceptions.NodeDoesNotExistError:
-        return {}
 
 
 @api.route('/')
@@ -42,7 +30,7 @@ def index(path=''):
         directory = repo.get_directory(path)
     except exceptions.NodeDoesNotExistError:
         abort(404)
-    return jsonify(serialize(directory))
+    return jsonify(serialize(directory, config=app.config))
 
 
 @api.route('/<name>')
@@ -59,6 +47,4 @@ def file(name, path=''):
             path, name, app.config.get('FILE_RENDERERS', {}).keys())
     except exceptions.NodeDoesNotExistError:
         abort(404)
-    else:
-        page.context = get_context(repo, path, '.' + name)
-    return jsonify(serialize(page))
+    return jsonify(serialize(page, config=app.config))

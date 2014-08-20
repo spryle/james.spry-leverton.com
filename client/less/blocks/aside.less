@@ -6,48 +6,8 @@
   content: @icon;
 }
 
-@-webkit-keyframes intro {
-  from {
-    opacity:0;
-    -webkit-filter: blur(5px);
-  }
-  to {
-    opacity:1;
-    -webkit-filter: blur(0);
-  }
-}
-@-moz-keyframes intro {
-  from {
-    opacity:0;
-    -moz-filter: blur(5px);
-  }
-  to {
-    opacity:1;
-    -moz-filter: blur(0);
-  }
-}
-@-ms-keyframes intro {
-  from {
-    opacity:0;
-    -ms-filter: blur(5px);
-  }
-  to {
-    opacity:1;
-    -ms-filter: blur(0);
-  }
-}
-@keyframes intro {
-  from {
-    opacity:0;
-    filter: blur(5px);
-  } to {
-    filter: blur(0);
-    opacity:1;
-  }
-}
-
 .b-aside {
-  margin: 0 0 0 20%;
+  margin: 0 0 0 15%;
 }
 
 .b-aside.is-initialized {
@@ -120,12 +80,22 @@
 
 }
 
+@keyframes intro {
+  from {
+    opacity:0;
+    filter: blur(5px);
+  } to {
+    filter: blur(0);
+    opacity:1;
+  }
+}
+
 .b-aside-list-item.is-enlarged {
 
   .b-aside-image,
   .b-aside-gallery {
 
-    .animation(intro, 200ms);
+    animation: intro 200ms 0s 1 ease both;
 
     img {
       min-width: 700px;

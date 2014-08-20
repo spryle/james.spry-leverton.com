@@ -13,9 +13,6 @@
     width: 100%;
     z-index: 5;
     height: 2.5px;
-
-    -webkit-appearance: none;
-    -moz-appearance: none;
     appearance: none;
     border: none;
     background-size: auto;
@@ -55,14 +52,14 @@
 .b-progress.is-loading,
 .b-progress.is-updated {
   progress::-moz-progress-bar {
-    .transition(all 0.1s linear);
+    transition: all 0.1s linear;
   }
 
   progress::-webkit-progress-value {
-    .transition(all 0.1s linear);
+    transition: all 0.1s linear;
   }
 
   progress[aria-valuenow]:before  {
-    .transition(all 0.1s linear);
+    transition: all 0.1s linear;
   }
 }

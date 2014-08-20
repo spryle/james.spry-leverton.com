@@ -1,4 +1,3 @@
-
 .l-container {
 
   overflow: hidden;
@@ -7,44 +6,49 @@
 
 .l-left {
 
+  box-shadow: 20px 0px 120px 0px rgba(0,0,0,.65);
   float: left;
 
   @media only screen and (min-width : 321px) {
     width: 300px;
   }
+
   @media only screen and (min-width : 992px) {
     width: 25%;
   }
-
 }
 
 .l-middle {
 
-  .box-shadow(20px 0px 120px 0px rgba(0,0,0,.65));
+  // box-shadow: 20px 0px 120px 0px rgba(0,0,0,.65);
   float: left;
 
   @media only screen and (min-width : 321px) {
     width: 310px
   }
+
   @media only screen and (min-width : 538px) {
     width: 450px
   }
+
   @media only screen and (min-width : 768px) {
     width: 550px
   }
+
   @media only screen and (min-width : 992px) {
     width: 50%;
     max-width: 650px;
   }
-
 }
 
 .l-middle-container {
-  overflow-y: hidden;
+
+  overflow-y: visible;
   min-height: 700px;
   float: left;
   width: 100%;
   height: 100%;
+
 }
 
 
@@ -65,10 +69,7 @@
 }
 
 html.is-ready .l-pusher {
-  .transition(transform 0.25s ease-in-out);
-  -webkit-transition: -webkit-transform 0.25s ease-in-out;
-  -moz-transition: -moz-transform 0.25s ease-in-out;
-  -ms-transition: -ms-transform 0.25s ease-in-out;
+  transition: transform 0.25s ease-in-out;
 }
 
 .l-pusher {
@@ -80,14 +81,17 @@ html.is-ready .l-pusher {
   @media only screen and (max-width : 992px) {
     width: 9999px;
   }
+
   @media only screen and (min-width : 321px) {
-    .transform(translate3d(-260px, 0, 0));
+    transform: translate3d(-260px, 0, 0);
   }
+
   @media only screen and (min-width : 768px) {
-    .transform(translate3d(-260px, 0, 0));
+    transform: translate3d(-260px, 0, 0);
   }
+
   @media only screen and (min-width : 992px) {
-    .transform(translate3d(-21.75%, 0, 0));
+    transform: translate3d(-21.75%, 0, 0);
   }
 
 }
@@ -95,13 +99,15 @@ html.is-ready .l-pusher {
 html.is-pushed .l-pusher {
 
   @media only screen and (min-width : 321px) {
-    .transform(translate3d(0, 0, 0));
+    transform: translate3d(0, 0, 0);
   }
+
   @media only screen and (min-width : 768px) {
-    .transform(translate3d(0, 0, 0));
+    transform: translate3d(0, 0, 0);
   }
+
   @media only screen and (min-width : 992px) {
-    .transform(translate3d(0, 0, 0));
+    transform: translate3d(0, 0, 0);
   }
 
 }

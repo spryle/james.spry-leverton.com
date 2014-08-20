@@ -11,6 +11,7 @@ var Node = Model.extend({
     is_directory: 'boolean',
     name: 'string',
     path: 'string',
+    title: 'string',
     slug: 'string'
   },
 

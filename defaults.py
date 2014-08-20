@@ -2,7 +2,7 @@ import os
 
 DEBUG = False
 GOOGLE_ANALYTICS = False
-MINIFIED_STATIC = True
+MINIFIED_STATIC = False
 
 DIRNAME = os.path.abspath(os.path.dirname(__file__))
 

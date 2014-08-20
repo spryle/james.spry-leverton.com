@@ -6,8 +6,8 @@ module.exports = {
 };
 },{}],"settings":[function(require,module,exports){
 module.exports = {
-  DEBUG: '{{ config.DEBUG }}',
-  MINIFIED_STATIC: '{{ config.MINIFIED_STATIC }}',
+  DEBUG: {{ 'true' if config.DEBUG else 'false'  }},
+  MINIFIED_STATIC: {{ 'true' if config.MINIFIED_STATIC else 'false' }},
   STATIC_URL: '{{ config.STATIC_URL }}',
   MEDIA_URL: '{{ config.MEDIA_URL }}'
 };

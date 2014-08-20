@@ -1,7 +1,6 @@
 # -*- coding: utf-8
 from __future__ import unicode_literals
 
-from flask import current_app as app
 from flask import url_for
 from inspect import isclass
 from os.path import split, splitext, join
@@ -10,6 +9,8 @@ from functools import wraps, WRAPPER_ASSIGNMENTS
 from hashlib import md5
 from urlparse import urlparse
 from www.main.renderers import render
+from www.main.parsers import parse
+from www.content import exceptions
 from www.decorators import memoize_method
 from www.utils import ordinal_suffix
 
@@ -20,8 +21,9 @@ def available_attrs(fn):
 
 class Serializer(object):
 
-    def __init__(self, target, *args, **kwargs):
+    def __init__(self, target, config, *args, **kwargs):
         self.object = target
+        self.config = config
 
     def to_dict(self, fields=None, exclude=None):
         if self.object is None:
@@ -48,7 +50,10 @@ class Serializer(object):
             try:
                 if isclass(method) and issubclass(method, Serializer):
                     result.update({
-                        method_name: method(self.object).to_dict()
+                        method_name: method(
+                            self.object,
+                            config=self.config
+                        ).to_dict()
                     })
             except TypeError:
                 continue
@@ -83,6 +88,10 @@ class NodeSerializer(Serializer):
         )[1:] if self.object.name else ''
 
     @serializer()
+    def title(self):
+        return self.context.get('title', self.name())
+
+    @serializer()
     def slug(self):
         return self.object.name
 
@@ -110,6 +119,26 @@ class NodeSerializer(Serializer):
                 url_for('main-views.file', path=path, name=name)
             ).path
         return None
+
+    @property
+    @memoize_method
+    def context(self):
+        try:
+            path = (
+                self.object.path if self.object.is_file
+                else join(self.object.path, ''))
+            path, _ = split(path)
+            node = self.object._repo.find_file(
+                path,
+                '.' + self.object.name if self.object.is_file else '.index',
+                self.config.get('FILE_PARSERS', {}).keys()
+            )
+            return parse(
+                node,
+                local=self.config.get('FILE_READ_LOCAL', False)
+            )
+        except exceptions.NodeDoesNotExistError:
+            return {}
 
 
 class BaseDirectorySerializer(NodeSerializer):
@@ -139,11 +168,11 @@ class DirectorySerializer(BaseDirectorySerializer):
     @serializer()
     def children(self):
         return [
-            NodeSerializer(child).to_dict() for
+            NodeSerializer(child, config=self.config).to_dict() for
             child in self.object.children.filter(
-                *app.config.get('DIRECTORY_FILTER', [])
+                *self.config.get('DIRECTORY_FILTER', [])
             ).exclude(
-                *app.config.get('DIRECTORY_EXCLUDE', [])
+                *self.config.get('DIRECTORY_EXCLUDE', [])
             )
         ]
 
@@ -153,11 +182,7 @@ class FileSerializer(NodeSerializer):
     @property
     @memoize_method
     def _author(self):
-        return parseaddr(self.object.context.get('author', ''))
-
-    @serializer()
-    def title(self):
-        return self.object.context.get('title', self.name())
+        return parseaddr(self.context.get('author', ''))
 
     @serializer()
     def author_name(self):
@@ -199,19 +224,26 @@ class FileSerializer(NodeSerializer):
     def content(self):
         return render(
             self.object,
-            local=app.config.get('FILE_READ_LOCAL', False)
+            local=self.config.get('FILE_READ_LOCAL', False)
         )
 
     @serializer()
-    def context(self):
-        return self.object.context
+    def context_data(self):
+        return self.context
 
 
-def serialize(node, default=None, fields=None, exclude=None):
+def serialize(node, default=None, config=None, fields=None, exclude=None):
+    config = config if config else {}
     if not node:
         return default
     if node.is_directory:
-        return DirectorySerializer(node, fields, exclude).to_dict()
+        return DirectorySerializer(node, config).to_dict(
+            fields=fields,
+            exclude=exclude
+        )
     elif node.is_file:
-        return FileSerializer(node, fields, exclude).to_dict()
+        return FileSerializer(node, config).to_dict(
+            fields=fields,
+            exclude=exclude
+        )
     return ValueError('Node is not a directory or file.')

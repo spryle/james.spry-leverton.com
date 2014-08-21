@@ -17,4 +17,4 @@ COLLECT_STATIC_ROOT = '{0}/assets'.format(DIRNAME)
 STATIC_ROOT = '{0}/assets/'.format(DIRNAME)
 
 # STATIC_URL = '//s3-eu-west-1.amazonaws.com/static.spry-leverton.com/'
-STATIC_URL = '/static/'
+STATIC_URL = '/static'

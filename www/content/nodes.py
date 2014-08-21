@@ -74,8 +74,7 @@ class Directory(Node):
     @property
     @memoize_method
     def children(self):
-        from www.content import managers
-        return managers.ChildManager(self)
+        return ChildManager(self)
 
     @property
     def level(self):

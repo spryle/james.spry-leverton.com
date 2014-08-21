@@ -30,11 +30,13 @@ TODO
 * Cache headers. DONE!
 * Tweak Header Design DONE!
 * Autoprefix / CSS tidy up DONE!
+* Sort out setting paths/roots. DONE!
 
+* Live static paths sorted out (urls to font resources) use less params.
 * Tidy up serializers
 * Tidy up React components
 * Tidy up wallpaper initialization / params
-* Sort out setting paths/roots
+
 * Sort out css dev/live paths
 
 * Write launch content / CV

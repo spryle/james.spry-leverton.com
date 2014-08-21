@@ -1,6 +1,7 @@
 # -*- coding: utf-8
 from __future__ import unicode_literals
 
+from os.path import abspath
 from flask import Blueprint, Flask
 from pkgutil import iter_modules
 from importlib import import_module
@@ -32,7 +33,12 @@ def build(
     application.config.from_object('defaults')
     application.config.from_pyfile('config.py', silent=True)
     application.config.from_envvar('CONFIG')
-    application.static_url_path = application.config.get('STATIC_PATH')
-    application.static_folder = application.config.get('STATIC_ROOT')
+    application.static_url_path = abspath(
+        application.config.get('STATIC_URL', None)
+    )
+    print application.static_url_path
+    application.static_folder = abspath(
+        application.config.get('STATIC_ROOT')
+    )
     register_blueprints(application, package_name, package_path)
     return application

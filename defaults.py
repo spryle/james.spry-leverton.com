@@ -13,8 +13,8 @@ MEDIA_S3_REGION = 'eu-west-1'
 STATIC_S3_MEDIA_BUCKET = 's3://static.spry-leverton.com/'
 STATIC_S3_REGION = 'eu-west-1'
 
-COLLECT_STATIC_ROOT = '{0}/assets'.format(DIRNAME)
+COLLECT_STATIC_ROOT = '{0}/assets/'.format(DIRNAME)
 STATIC_ROOT = '{0}/assets/'.format(DIRNAME)
 
 # STATIC_URL = '//s3-eu-west-1.amazonaws.com/static.spry-leverton.com/'
-STATIC_URL = '/static'
+STATIC_URL = '/static/'

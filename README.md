@@ -34,6 +34,8 @@ TODO
 * Tidy up serializers
 * Tidy up React components
 * Tidy up wallpaper initialization / params
+* Sort out setting paths/roots
+* Sort out css dev/live paths
 
 * Write launch content / CV
 * Salt Config

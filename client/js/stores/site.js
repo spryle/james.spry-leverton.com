@@ -30,7 +30,7 @@ module.exports = Fluxxor.createStore({
 
   updated: function() {
     this.state.status = 'UPDATED';
-    _.delay(this.flux.actions.site.waiting, 350);
+    _.delay(this.flux.actions.site.waiting, 600);
     this.emit('change');
   },
 

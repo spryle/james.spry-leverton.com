@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from flask import current_app as app
-from flask import Blueprint, render_template, abort
+from flask import Blueprint, render_template, abort, redirect
 
 from www.content import repository, exceptions
 from www.decorators import html_minify, cache_headers
@@ -12,9 +12,16 @@ from www.main.serializers import serialize
 views = Blueprint('main-views', __name__, static_folder='static')
 
 
-@views.route('/favicon.ico')
-def favicon():
-    return render_template('error/404.html'), 404
+@views.route('/browserconfig.xml')
+def browser_config(extension):
+    return redirect(
+        app.config.get('MEDIA_URL') + 'browserconfig.xml' + extension
+    )
+
+
+@views.route('/favicon.<extension>')
+def favicon(extension):
+    return redirect(app.config.get('MEDIA_URL') + 'favi.' + extension)
 
 
 @views.route('/')

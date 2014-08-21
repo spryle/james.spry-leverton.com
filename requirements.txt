@@ -4,6 +4,8 @@ flask-collect
 vcs
 dulwich
 mistune
+mercurial
 htmlmin
 pygments
 pygments-style-railscasts
+awscli

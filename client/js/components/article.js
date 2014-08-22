@@ -91,8 +91,12 @@ var ArticleDate = React.createClass({
   dateAdded: function() {
     return (
       <div className="b-article-date-added">
-        <span className="b-article-date-title">Published</span>
-        {this.props.added}
+        <span className="b-article-date-title">
+          Published
+        </span>
+        <span className="b-article-date-formatted">
+          {this.props.added}
+        </span>
       </div>
     );
   },
@@ -101,8 +105,12 @@ var ArticleDate = React.createClass({
     if (this.props.added && this.props.modified !== this.props.added) {
       return (
         <div className="b-article-date-added">
-          <span className="b-article-date-title">Updated</span>
-          {this.props.modified}
+          <span className="b-article-date-title">
+            Updated
+          </span>
+          <span className="b-article-date-formatted">
+            {this.props.modified}
+          </span>
         </div>
       );
     } else {

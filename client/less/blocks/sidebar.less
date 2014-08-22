@@ -1,53 +1,70 @@
 
 .b-sidebar-header {
+
   padding: 1em 1em 0.75em 0.2em;
+
 }
 
 .b-sidebar-title {
+
   overflow: hidden;
   margin: 0;
   padding: 0;
+
   @media only screen and (min-width : 321px) {
     font-size: 1em;
   }
-  @media only screen and (min-width : 992px) {
+
+  @media only screen and (min-width : 1250px) {
     font-size: 1.1em;
   }
+
 }
 
 .b-sidebar-sub-title {
+
   margin: 0;
   padding: 0;
   font-size: 0.9em;
+
 }
 
 .b-sidebar-tab {
+
   float: right;
   cursor: pointer;
-  width: 13.5%;
   font-size: 2em;
+
 }
 
 html.no-js .b-sidebar-burger,
 html.is-ready .b-sidebar-burger {
+
   visibility: visible;
+
 }
 
 .b-sidebar-burger {
+
   visibility: hidden;
   margin-top: 10px;
   width: 100%;
   display: block;
   text-align: center;
+
   &:before {
+
     .fa;
     .fa-fw;
     content: @fa-var-reorder;
+
   }
 }
 
 .b-sidebar-content {
+
   overflow: hidden;
   margin-right: 13.5%;
+
 }
 

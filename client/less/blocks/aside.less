@@ -1,29 +1,44 @@
 .b-aside-component-icon(@icon) {
+
   .fa;
   .fa-fw;
   padding-top: 2.5px;
   padding-bottom: 2.5px;
   content: @icon;
+
 }
 
 .b-aside {
+
   margin: 0 0 0 15%;
+
+  @media only screen and (max-width : 1200px) {
+    visibility: hidden;
+  }
+
 }
 
 .b-aside.is-initialized {
+
   display: block;
+
 }
 
 .b-aside-list {
+
   list-style: none;
+
 }
 
 .b-aside-list-item {
+
   z-index: 5;
   position: absolute;
+
 }
 
 .b-aside-list-item.is-enlarged {
+
   background-color: rgba(255,255,255,0.3);
   margin: -99999px;
   padding: 99999px;
@@ -32,61 +47,102 @@
   z-index: 10;
 
   .b-aside-component {
+
     width: 700px;
-    margin: 0 25% 0 23%;
+
+    @media only screen and (min-width : 321px) {
+      margin: 0 0 0 1%;
+    }
+
+    @media only screen and (min-width : 992px) {
+      margin: 0 25% 0 25%;
+    }
+
+
   }
+
 }
 
 .is-pushed .b-aside-list-item.is-enlarged {
+
   left: 0;
+
 }
 
 .b-aside-list-item.is-enlarged {
-  left: 28%;
+
+  @media only screen and (min-width : 321px) {
+    left: 260px;
+  }
+
+  @media only screen and (min-width : 992px) {
+    left: 20%;
+  }
+
 }
 
 .b-aside-component {
+
   width: 200px;
   background-color: rgba(255,255,255,0.3);
   overflow: hidden;
+
 }
 
 .b-aside-component-context {
+
   text-align: center;
   border-top: solid 5px rgba(255,255,255,0.3);
   padding: 0 0 0.2em 0;
   background: @t-secondary-background;
+
 }
 
 .b-aside-component-text {
+
   width: 75%;
+
 }
 
 .b-aside-component-button {
 
   &.is-prev {
+
     float: left;
+
     &:before {
+
       .b-aside-component-icon(@fa-var-arrow-left);
+
     }
+
   }
 
   &.is-next {
+
     float: right;
+
     &:before {
+
       .b-aside-component-icon(@fa-var-arrow-right);
+
     }
   }
 
 }
 
 @keyframes intro {
+
   from {
-    opacity:0;
+
+    opacity: 0;
     filter: blur(5px);
+
   } to {
+
+    opacity: 1;
     filter: blur(0);
-    opacity:1;
+
   }
 }
 
@@ -98,7 +154,9 @@
     animation: intro 200ms 0s 1 ease both;
 
     img {
+
       min-width: 700px;
+
     }
   }
 }
@@ -111,16 +169,18 @@
   position: absolute;
 
   img {
+
     min-height: 100px;
     min-width: 200px;
     cursor: pointer;
     display: block;
+
   }
 }
 
-
-
 .b-aside-gallery .b-aside-component-context {
+
   display: flex;
   justify-content: space-between;
+
 }

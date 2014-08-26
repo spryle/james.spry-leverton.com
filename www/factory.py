@@ -23,8 +23,10 @@ def register_blueprints(app, package_name, package_path):
 def build(
         package_name,
         package_path,
-        application_class=Flask):
+        application_class=Flask,
+        config=None):
 
+    config = config if config is not None else {}
     application = application_class(
         package_name,
         instance_path=package_path[0],
@@ -32,13 +34,12 @@ def build(
     )
     application.config.from_object('defaults')
     application.config.from_pyfile('config.py', silent=True)
-    application.config.from_envvar('CONFIG')
+    application.config.update(config)
     application.static_url_path = abspath(
-        application.config.get('STATIC_URL', None)
+        application.config.get('STATIC_URL', application.static_url_path)
     )
-    print application.static_url_path
     application.static_folder = abspath(
-        application.config.get('STATIC_ROOT')
+        application.config.get('STATIC_ROOT', application.static_folder)
     )
     register_blueprints(application, package_name, package_path)
     return application

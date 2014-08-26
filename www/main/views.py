@@ -30,6 +30,7 @@ def favicon(extension):
 @html_minify
 def index(path=''):
     try:
+        assert app.config.get('CONTENT_ROOT', None), 'No CONTENT_ROOT'
         repo = repository(app.config.get('CONTENT_ROOT'))
     except exceptions.RepositoryError:
         abort(404)

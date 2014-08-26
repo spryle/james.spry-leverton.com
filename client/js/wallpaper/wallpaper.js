@@ -27,19 +27,23 @@ function choice(choices) {
   return choices[_.random(0, choices.length - 1)];
 }
 
+function xDiagonalID(x, y) {
+  return Math.floor((y - (x * 2) - 1) / 4);
+}
 
-function addEntity(view, options) {
+function yDiagonalID(x, y) {
+  return Math.floor((y + (x * 2) + 1) / 4);
+}
 
-  var x = options.x;
-  var y = options.y;
+function triangle(options) {
+
+  var x = options.position.x;
+  var y = options.position.y;
 
   var entity = new Entity();
 
-  var xid = Math.floor((y - (x * 2) - 1) / 4);
-  var yid = Math.floor((y + (x * 2) + 1) / 4);
-
   entity.add(new XDiagonal({
-    id: xid,
+    id: xDiagonalID(x, y),
     num: x,
     additive: false,
     color: '#1a1a1a',
@@ -47,7 +51,7 @@ function addEntity(view, options) {
   }));
 
   entity.add(new YDiagonal({
-    id: yid,
+    id: yDiagonalID(x, y),
     num: y,
     additive: false,
     color: '#1a1a1a',
@@ -59,12 +63,17 @@ function addEntity(view, options) {
   }));
 
   entity.add(new Position({
-    x: view.x,
-    y: view.y
+    x: options.local.x,
+    y: options.local.y
   }));
 
   entity.add(new Display({
-    view: view,
+    view: new options.View({
+      x: options.local.x,
+      y: options.local.y,
+      height: options.dimensions.height,
+      width: options.dimensions.width
+    }),
     visible: true
   }));
 
@@ -75,48 +84,92 @@ function column(engine, options) {
 
   _.each(_.range(options.number), function(i) {
 
-    if (options.column % 2 ? i % 2 === 1: i % 2 === 0) {
+    if (options.column % 2 ? i % 2 === 1 : i % 2 === 0) {
 
-      engine.entities.add(addEntity(new TRTriangle({
-        x: options.x,
-        y: options.y + (options.size * i),
-        height: options.size,
-        width: options.size,
-      }), {
-        x:options.column,
-        y: i * 2
+      engine.entities.add(triangle({
+
+        View: TRTriangle,
+
+        local: {
+          x: options.x,
+          y: options.y + (options.size * i)
+        },
+
+        dimensions: {
+          height: options.size,
+          width: options.size,
+        },
+
+        position: {
+          x: options.column,
+          y: i * 2
+        }
+
       }));
 
-      engine.entities.add(addEntity(new BLTriangle({
-        x: options.x,
-        y: options.y + (options.size * i),
-        height: options.size,
-        width: options.size,
-      }), {
-        x: options.column,
-        y: (i * 2) + 1
+      engine.entities.add(triangle({
+
+        View: BLTriangle,
+
+        local: {
+          x: options.x,
+          y: options.y + (options.size * i)
+        },
+
+        dimensions: {
+          height: options.size,
+          width: options.size,
+        },
+
+        position: {
+          x: options.column,
+          y: (i * 2) + 1
+        }
+
       }));
 
     } else {
 
-      engine.entities.add(addEntity(new TLTriangle({
-        x: options.x,
-        y: options.y + (options.size * i),
-        height: options.size,
-        width: options.size,
-      }), {
-        x: options.column,
-        y: i * 2
+      engine.entities.add(triangle({
+
+        View: TLTriangle,
+
+        local: {
+          x: options.x,
+          y: options.y + (options.size * i)
+        },
+
+        dimensions: {
+          height: options.size,
+          width: options.size,
+        },
+
+        position: {
+          x: options.column,
+          y: i * 2
+        }
+
       }));
 
-      engine.entities.add(addEntity(new BRTriangle({
-        x: options.x,
-        y: options.y + (options.size * i),
-        height: options.size,
-        width: options.size,
-      }), {
-        x: options.column,
-        y: (i * 2) + 1
+      engine.entities.add(triangle({
+
+        View: BRTriangle,
+
+        local: {
+          x: options.x,
+          y: options.y + (options.size * i)
+        },
+
+        dimensions: {
+          height: options.size,
+          width: options.size,
+        },
+
+        position: {
+          x: options.column,
+          y: (i * 2) + 1
+        }
+
       }));
 
     }
@@ -127,11 +180,35 @@ function column(engine, options) {
 
 var Wallpaper = Tarka.extend({
 
+  initialize: function(options) {
+    _.each(_.range(options.numX), _.bind(function(index) {
+      column(this.engine, {
+        column: index,
+        number: options.numY,
+        x: index * options.size,
+        y: 0,
+        size: options.size
+      });
+    }, this));
+  },
+
+  xRange: function() {
+    return _.range(-Math.ceil(this.options.numX / 4), 0);
+  },
+
+  yRange: function() {
+    return _.range(
+      Math.ceil(this.options.numY / 2),
+      Math.ceil(this.options.numY / 2) + Math.ceil(this.options.numX / 4)
+    );
+  },
+
   column: function(axis, id) {
-    axis = axis === 'x' ? 'x' : axis === 'y' ? 'y' : null;
+    // TODO - column lookup memoize?
+    axis = axis === 'x' ? 'x-diagonal' : axis === 'y' ? 'y-diagonal' : null;
     if (!axis) {throw Error('Value Error: invalid axis.');}
     return _.filter(this.engine.entities, function(entity) {
-      if (entity.get(axis + '-diagonal').id === id) {return entity;}
+      if (entity.get(axis).id === id) {return entity;}
     });
   },
 
@@ -145,19 +222,39 @@ var Wallpaper = Tarka.extend({
     });
   },
 
-  change: function(scheme) {
-    var xrange = _.range(-Math.ceil(this.options.numX / 4), 0);
-    var yrange = _.range(
-      Math.ceil(this.options.numY / 2),
-      Math.ceil(this.options.numY / 2) + Math.ceil(this.options.numX / 4)
-    );
-    var xid = _.filter(xrange, function() {
-      return _.random(0, 100) <= 50;
-    });
-    var yid = _.filter(yrange, function() {
-      return _.random(0, 100) <= 50;
-    });
+  colors: function(options) {
+    var scheme = new Scheme();
+    scheme.from_hue(options.hue);
+    scheme.scheme(options.scheme);
+    scheme.distance(options.distance);
+    scheme.variation(options.variation);
+    return scheme.colors();
+  },
 
+  scheme: function(colors) {
+    // TODO - param # of gradients steps / gradients jumps.
+    return _.map(colors, function(c) {
+      c = color('#' + c);
+      return {
+        gradient: gradient(
+          c.rgbString(),
+          c.darken(0.3).rgbString(),
+          c.darken(0.6).rgbString(),
+          20
+        ).toArray('hexString'),
+        additive: true
+      };
+    });
+  },
+
+  paint: function(options) {
+    var scheme = this.scheme(this.colors(options));
+    var xid = _.filter(this.xRange(), _.bind(function() {
+      return _.random(0, 100) <= this.options.frequency;
+    }, this));
+    var yid = _.filter(this.yRange(), _.bind(function() {
+      return _.random(0, 100) <= this.options.frequency;
+    }, this));
     _.map(xid, _.bind(function(id) {
       this.add('x', id, choice(scheme));
     }, this));
@@ -172,12 +269,13 @@ var Wallpaper = Tarka.extend({
       return entity.get(axis + '-diagonal').num;
     }), function(entity, index) {
       var diagonal = entity.get(axis + '-diagonal');
-      var color = scheme.gradients[
-        parseInt(index / (column.length / scheme.gradients.length), 10)
+      var color = scheme.gradient[
+        parseInt(index / (column.length / scheme.gradient.length), 10)
       ];
       diagonal.color = color;
+      // TODO - param alpha random noice.
       diagonal.alpha = _.random(97, 100) / 100;
-      diagonal.additive = true;
+      diagonal.additive = scheme.additive;
     });
     return this;
   },
@@ -187,28 +285,9 @@ var Wallpaper = Tarka.extend({
 
 module.exports = function(options) {
 
-  options = _.extend({
-    size: 25,
-    frameLength: 1000 / 4,
-  }, options);
-
-  options.numX = parseInt(window.outerWidth * 1.05 / options.size, 10);
-  options.numY = parseInt(window.outerHeight * 1.05 / options.size, 10);
-
   var engine = new Engine();
   engine.systems.add(new Mix(engine));
   engine.systems.add(new Paint(engine));
-
-  _.each(_.range(options.numX), function(i) {
-    column(engine, {
-      column: i,
-      number: options.numY,
-      x: i * options.size,
-      y: 0,
-      size: options.size,
-      scale: options.scale
-    });
-  });
 
   return new Wallpaper({
     engine: engine

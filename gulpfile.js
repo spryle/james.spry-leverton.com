@@ -1,21 +1,24 @@
 var gulp = require('gulp');
 var gutil = require('gulp-util');
-var notify = require('gulp-notify');
-var refresh = require('gulp-livereload');
+var notify = require('notify-send');
+var livereload = require('gulp-livereload');
 var less = require('gulp-less');
 var shell = require('gulp-shell');
 var jsmin = require('gulp-jsmin');
 var cssmin = require('gulp-cssmin');
 var rename = require('gulp-rename');
+var plumber = require('gulp-plumber');
 var prefix = require('gulp-autoprefixer');
 var source = require('vinyl-source-stream');
 var browserify = require('browserify');
 var watchify = require('watchify');
 var reactify = require('reactify');
 
+
 var root = './client/';
 
 var src = {
+
   scripts: {
     head: root + 'js/init.head.js',
     main: root + 'js/init.main.js',
@@ -24,65 +27,93 @@ var src = {
       './node_modules/tarka/**/*.js',
     ]
   },
+
   styles: {
     head: root + 'less/init.head.less',
     main: root + 'less/init.main.less',
     files: [
-      root + 'less/**/*.less',
-      '../content.spry-leverton.com/**/*'
+      root + 'less/**/*.less'
     ]
   },
+
   templates: {
     files: [
       './templates/**/*.html'
     ]
   }
+
 };
 
-external = [
+var options = {
+
+  less: {
+    modifyVars: {
+      'static-url': ''
+    }
+  }
+
+};
+
+var external = [
   'settings',
   'data'
 ];
 
 var dest = {
+
   scripts: './assets/js/',
   styles: './assets/css/',
+
 };
 
 function error(task) {
+
   return function(err) {
     gutil.log(gutil.colors.red(err));
-    notify.onError('<%= error.message %>')(err);
+    notify.low.timeout(1000).notify('Error', err.message);
   };
+
 }
 
 function bundler(src, watch) {
   return watch ? watchify(src) : browserify(src);
 }
 
-gulp.task('serve', shell.task([
-  'python manage.py runserver --no-reload',
+gulp.task('runserver', shell.task([
+  'CONFIG=local.cfg python manage.py runserver',
+]));
+
+gulp.task('download-media', shell.task([
+  'CONFIG=local.cfg python manage.py download_media',
+]));
+
+gulp.task('sync-media', shell.task([
+  'CONFIG=local.cfg python manage.py sync_media',
+]));
+
+gulp.task('sync-assets', shell.task([
+  'CONFIG=local.cfg python manage.py sync_assets',
 ]));
 
 gulp.task('main-styles', function() {
 
   return gulp.src(src.styles.main)
-    .pipe(less().on('error', error('styles')))
+    .pipe(plumber())
+    .pipe(less(options.less).on('error', error('styles')))
     .pipe(prefix('last 10 version'))
     .pipe(rename('main.css'))
     .pipe(gulp.dest(dest.styles));
-    // .pipe(notify({title: '[Styles] CSS Ready'}));
 
 });
 
 gulp.task('head-styles', function() {
 
   return gulp.src(src.styles.head)
-    .pipe(less().on('error', error('styles')))
+    .pipe(plumber())
+    .pipe(less(options.less).on('error', error('styles')))
     .pipe(prefix('last 10 version'))
     .pipe(rename('head.css'))
     .pipe(gulp.dest(dest.styles));
-    // .pipe(notify({title: '[Styles] CSS Ready'}));
 
 });
 
@@ -90,17 +121,20 @@ gulp.task('main-scripts', function() {
 
   var main = bundler(src.scripts.main, true);
   main.transform(reactify);
-  external.forEach(function (lib) {
+
+  external.forEach(function(lib) {
     main.external(lib);
   });
 
   var refresh = function() {
+
     var stream = main.bundle({debug: false});
     stream.on('error', error('scripts'));
+
     return stream
+      .pipe(plumber())
       .pipe(source('main.js'))
       .pipe(gulp.dest(dest.scripts));
-      // .pipe(notify({title: '[Scripts] JS Ready'}));
   };
 
   main.on('update', refresh);
@@ -111,17 +145,21 @@ gulp.task('main-scripts', function() {
 gulp.task('head-scripts', function() {
 
   var head = bundler(src.scripts.head, true);
-  external.forEach(function (lib) {
+
+  external.forEach(function(lib) {
     head.external(lib);
   });
 
   var refresh = function() {
+
     var stream = head.bundle({debug: false});
     stream.on('error', error('scripts'));
+
     return stream
+      .pipe(plumber())
       .pipe(source('head.js'))
       .pipe(gulp.dest(dest.scripts));
-      // .pipe(notify({title: '[Scripts] JS Ready'}));
+
   };
 
   head.on('update', refresh);
@@ -129,18 +167,20 @@ gulp.task('head-scripts', function() {
 
 });
 
-gulp.task('min-scripts', function() {
+gulp.task('minify-scripts', function() {
 
   return gulp.src([dest.scripts + '*.js', '!' + dest.scripts + '*.min.js'])
+    .pipe(plumber())
     .pipe(jsmin())
     .pipe(rename({suffix: '.min'}))
     .pipe(gulp.dest(dest.scripts));
 
 });
 
-gulp.task('min-styles', function() {
+gulp.task('minify-styles', function() {
 
   return gulp.src([dest.styles + '*.css', '!' + dest.styles + '*.min.css'])
+    .pipe(plumber())
     .pipe(cssmin())
     .pipe(rename({suffix: '.min'}))
     .pipe(gulp.dest(dest.styles));
@@ -159,35 +199,44 @@ gulp.task('watch', function() {
     'head-styles'
   ]);
 
-  var server = refresh();
+  var server = livereload();
 
   scripts.on('change', function(file) {
+    notify.low.timeout(1000).notify('[Scripts] CSS Ready', file.path);
     server.changed(file.path);
   });
 
   styles.on('change', function(file) {
+    notify.low.timeout(1000).notify('[Styles] CSS Ready', file.path);
     server.changed(file.path);
   });
 
 });
 
-gulp.task('build', [
+gulp.task('styles', [
   'main-styles',
   'head-styles',
-  'main-scripts',
-  'head-scripts',
-  'min-scripts',
-  'min-styles',
 ]);
 
-gulp.task('default', [
-  'main-styles',
-  'head-styles',
+gulp.task('scripts', [
   'main-scripts',
   'head-scripts',
+]);
+
+gulp.task('minify', [
+  'minify-scripts',
+  'minify-styles',
+]);
+
+gulp.task('build', [
+  'scripts',
+  'styles',
+  'minify'
+]);
+
+gulp.task('serve', [
+  'styles',
+  'scripts',
+  'runserver',
   'watch',
 ]);
-
-
-
-

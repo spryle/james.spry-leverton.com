@@ -12,12 +12,7 @@ module.exports = {
     DIRECTORY_LOADED: null,
     DIRECTORY_FAILED: null,
 
-    SITE_WAITING: null,
-
-    WALLPAPER_PLAY: null,
-    WALLPAPER_PAUSE: null,
-    WALLPAPER_REFRESH: null,
-    WALLPAPER_CLEAR: null
+    SITE_WAITING: null
   })
 
 };

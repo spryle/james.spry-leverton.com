@@ -9,7 +9,8 @@ module.exports = {
   DEBUG: {{ 'true' if config.DEBUG else 'false'  }},
   MINIFIED_STATIC: {{ 'true' if config.MINIFIED_STATIC else 'false' }},
   STATIC_URL: '{{ config.STATIC_URL }}',
-  MEDIA_URL: '{{ config.MEDIA_URL }}'
+  MEDIA_URL: '{{ config.MEDIA_URL }}',
+  API_ROOT: '{{ config.API_ROOT }}',
 };
 },{}]},{},[]);
 </script>

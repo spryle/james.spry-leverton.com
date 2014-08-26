@@ -107,19 +107,6 @@ ready('wallpaper', function() {
 });
 
 
-ready('wallpaper-debug-bar', function() {
-
-  var WallpaperDebugBar = require('./components/wallpaper-debug-bar');
-  var mount = document.getElementById('b-wallpaper-debug-bar-mount');
-
-  return mount ? React.renderComponent(
-    <WallpaperDebugBar flux={flux} keyboard={keyboard} />,
-    mount
-  ) : null;
-
-});
-
-
 ready('progress', function() {
 
   var Progress = require('./components/progress');

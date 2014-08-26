@@ -31,18 +31,18 @@ var Canvas = React.createClass({
 
   componentDidMount: function() {
     this.props.wallpaper.setScreen(this.getDOMNode());
-    this.props.wallpaper.change(this.props.columns);
+    this.props.wallpaper.paint(this.props.page.get('scheme').toJS());
     this.props.wallpaper.render();
   },
 
   componentDidUpdate: function() {
     this.props.wallpaper.clear();
-    this.props.wallpaper.change(this.props.columns);
+    this.props.wallpaper.paint(this.props.page.get('scheme').toJS());
     this.props.wallpaper.render();
   },
 
   shouldComponentUpdate: function(props, state) {
-    if (this.props.columns === props.columns) {return false;}
+    if (this.props.page === props.page) {return false;}
     return true;
   },
 
@@ -61,28 +61,14 @@ var Wallpaper = React.createClass({
 
   mixins: [
     FluxMixin,
-    StoreWatchMixin('wallpaper', 'site')
+    StoreWatchMixin('article', 'wallpaper', 'site')
   ],
-
-  // componentWillMount: function() {
-  //   window.addEventListener('scroll', this.scroll);
-  // },
-
-  // componentWillUnmount: function() {
-  //   window.removeEventListener('scroll', this.scroll);
-  // },
-
-  scroll: function() {
-    this.setState({
-      scrollY: window.scrollY
-    });
-  },
 
   getStateFromFlux: function() {
     var flux = this.getFlux();
     return {
+      page: flux.store('article').page,
       wallpaper: flux.store('wallpaper').wallpaper,
-      columns: flux.store('wallpaper').columns,
       status: flux.store('site').state.status
     };
   },
@@ -90,14 +76,7 @@ var Wallpaper = React.createClass({
   getInitialState: function() {
     return {
       height: window.outerHeight * 1.05,
-      width: window.outerWidth * 1.05,
-      scrollY: window.scrollY
-    };
-  },
-
-  styles: function() {
-    return {
-      top: -this.state.scrollY / height() * 100
+      width: window.outerWidth * 1.05
     };
   },
 
@@ -117,7 +96,7 @@ var Wallpaper = React.createClass({
         <Canvas
           width={this.state.width}
           height={this.state.height}
-          columns={this.state.columns}
+          page={this.state.page}
           wallpaper={this.state.wallpaper}
         />
       </div>

@@ -1,6 +1,8 @@
 var Model = require('ampersand-model');
 var Asides = require('../collections/asides');
+var Scheme = require('./scheme');
 var isCurrentPage = require('../contrib/is-current-page');
+var settings = require('settings');
 
 
 var Page = Model.extend({
@@ -29,7 +31,7 @@ var Page = Model.extend({
 
   idAttribute: 'path',
 
-  urlRoot: 'http://api.dev:5000',
+  urlRoot: '//' + settings.API_ROOT,
 
   url: function() {
     return this.urlRoot + this.path;
@@ -43,6 +45,10 @@ var Page = Model.extend({
       },
       cache: false
     }
+  },
+
+  children: {
+    scheme: Scheme
   },
 
   collections: {

@@ -19,14 +19,14 @@
         {% if page.date_added %}
         <div class="b-article-date-added">
           <span class="b-article-date-title">Published</span>
-          {{ page.date_added_formatted }}
+          <span class="b-article-date-formatted">{{ page.date_added_formatted }}</span>
         </div>
         {% endif %}
 
         {% if page.date_modified and page.date_modified != page.date_added %}
         <div class="b-article-date-modified">
           <span class="b-article-date-title">Updated</span> 
-          {{ page.date_modified_formatted }}
+          <span class="b-article-date-formatted">{{ page.date_modified_formatted }}</span>
         </div>
         {% endif %}
       </div>

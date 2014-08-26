@@ -31,12 +31,12 @@ TODO
 * Tweak Header Design DONE!
 * Autoprefix / CSS tidy up DONE!
 * Sort out setting paths/roots. DONE!
+* Tidy up serializers DONE!
+* Tidy up React components DONE!
+* Tidy up wallpaper initialization / params DONE!
+
 
 * Live static paths sorted out (urls to font resources) use less params.
-* Tidy up serializers
-* Tidy up React components
-* Tidy up wallpaper initialization / params
-
 * Sort out css dev/live paths
 
 * Write launch content / CV

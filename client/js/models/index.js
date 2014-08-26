@@ -2,6 +2,7 @@ var _ = require('underscore');
 var Model = require('ampersand-model');
 var Nodes = require('../collections/nodes');
 var isCurrentIndex = require('../contrib/is-current-index');
+var settings = require('settings');
 
 
 var Index = Model.extend({
@@ -27,7 +28,7 @@ var Index = Model.extend({
 
   idAttribute: 'path',
 
-  urlRoot: 'http://api.dev:5000',
+  urlRoot: '//' + settings.API_ROOT,
 
   url: function() {
     return this.urlRoot + this.path;

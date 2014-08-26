@@ -20,9 +20,19 @@ var site = {
   status: 'WAITING',
 };
 
+var wallpaper = {
+  size: 25,
+  frequency: 50,
+  frameLength: 1000 / 4,
+  numX: parseInt(window.outerWidth * 1.05 / 25, 10),
+  numY: parseInt(window.outerHeight * 1.05 / 25, 10)
+};
+
+
 module.exports = {
   site: new SiteStore(site),
   article: new ArticleStore(article),
   directory: new DirectoryStore(directory),
-  wallpaper: new WallpaperStore()
+  wallpaper: new WallpaperStore(wallpaper)
 };
+

@@ -14,11 +14,10 @@ actions[constants.ACTIONS.PATH_CHANGE] = 'path';
 actions[constants.ACTIONS.ARTICLE_LOADED] = 'update';
 actions[constants.ACTIONS.ARTICLE_FAILED] = 'update';
 
-
 module.exports = Fluxxor.createStore({
 
-  initialize: function(initial) {
-    this.pages = new PagesCollection(initial);
+  initialize: function(data) {
+    this.pages = new PagesCollection(data);
     this.page = Immutable.fromJS(this.pages.getCurrentPage().toJSON());
   },
 

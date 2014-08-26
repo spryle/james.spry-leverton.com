@@ -1,19 +1,21 @@
 # -*- coding: utf-8
 from __future__ import unicode_literals
 
+from flask import Flask
+from flask import current_app as app
 from flask.ext import script
 from flask.ext.collect import Collect
-from flask import current_app as app
 from werkzeug.wsgi import DispatcherMiddleware
 from www import main
 from subprocess import call
 
 
 def build_application():
-    application = main.build_app()
-    application.wsgi_app = DispatcherMiddleware(
-        application.wsgi_app, {}
-    )
+    application = Flask(__name__)
+    application.config.from_envvar('CONFIG')
+    application.wsgi_app = DispatcherMiddleware(application.wsgi_app, {
+        '': main.build_app(config=application.config)
+    })
     collect.init_app(application)
     return application
 

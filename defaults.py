@@ -1,8 +1,11 @@
 import os
 
-DEBUG = False
+DEBUG = True
 GOOGLE_ANALYTICS = False
 MINIFIED_STATIC = False
+
+SERVER_NAME = 'dev:5000'
+API_ROOT = 'api.dev:5000'
 
 DIRNAME = os.path.abspath(os.path.dirname(__file__))
 

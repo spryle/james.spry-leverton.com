@@ -5,20 +5,29 @@
 {% endblock %}
 
 {% block left %}
-
+  {% include 'error/_sidebar.html' %}
 {% endblock left %}
 
+
 {% block middle %}
-
-  <div class="b-article">
-
-  <header class="b-article-header">
-    <h1>403</h1>
-  </header>
   
-  <article class="b-article-body">
-    <h2>Forbidden.</h2>
-  </article>
+
+  <div id="b-article-mount">
+    <div class="b-article">
+
+      <header class="b-article-header">
+        <h1>403</h1>
+      </header>
+      
+      <article id="b-article-content" class="b-article-body">
+        <h2>Forbidden.</h2>
+      </article>
+
+    </div>
+  </div>
+
+  {% include '_footer.html' %}
+
 
 {% endblock %}
 

@@ -206,7 +206,7 @@ class FileSerializer(NodeSerializer):
     def date_added_formatted(self):
         return '{0} {1}'.format(
             ordinal_suffix(self.object.date_added.day),
-            self.object.date_added.strftime('%B %Y')
+            self.object.date_added.strftime('%b %Y')
         )
 
     @serializer()
@@ -217,7 +217,7 @@ class FileSerializer(NodeSerializer):
     def date_modified_formatted(self):
         return '{0} {1}'.format(
             ordinal_suffix(self.object.date_modified.day),
-            self.object.date_modified.strftime('%B %Y')
+            self.object.date_modified.strftime('%b %Y')
         )
 
     @serializer()

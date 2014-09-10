@@ -12,6 +12,7 @@ from subprocess import call
 
 def build_application():
     application = Flask(__name__)
+    application.config.from_object('defaults')
     application.config.from_envvar('CONFIG')
     application.wsgi_app = DispatcherMiddleware(application.wsgi_app, {
         '': main.build_app(config=application.config)

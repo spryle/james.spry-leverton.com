@@ -121,8 +121,8 @@ var ArticleDate = React.createClass({
   render: function() {
     return (
       <div className="b-article-date">
-        {this.dateAdded()}
-        {this.dateModified()}
+        {this.props.added ? this.dateAdded() : null}
+        {this.props.modified ? this.dateModified() : null}
       </div>
     );
   }

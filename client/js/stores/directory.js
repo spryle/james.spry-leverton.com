@@ -19,7 +19,8 @@ module.exports = Fluxxor.createStore({
 
   initialize: function(initial) {
     this.indexes = new IndexesCollection(initial);
-    this.index = Immutable.fromJS(this.indexes.getCurrentIndex().toJSON());
+    var index = this.indexes.getCurrentIndex();
+    this.index = Immutable.fromJS(index ? index.toJSON() : {});
   },
 
   actions: actions,
@@ -40,7 +41,8 @@ module.exports = Fluxxor.createStore({
   },
 
   update: function() {
-    this.index = Immutable.fromJS(this.indexes.getCurrentIndex().toJSON());
+    var index = this.indexes.getCurrentIndex();
+    this.index = Immutable.fromJS(index ? index.toJSON() : {});
     this.emit('change');
   },
 

@@ -16,10 +16,6 @@
 @import "blocks/logo.less";
 
 
-html.no-js .b-article,
-html.is-ready .b-article {
-  visibility: visible;
-}
 
 html.js .b-article {
   visibility: hidden;
@@ -28,8 +24,9 @@ html.js .b-article {
   }
 }
 
-html.no-js .b-directory,
-html.is-ready .b-directory {
+html.no-js .b-article,
+html.no-canvas .b-article,
+html.is-ready .b-article {
   visibility: visible;
 }
 
@@ -40,8 +37,9 @@ html.js .b-directory {
   }
 }
 
-html.no-js .b-sidebar-header,
-html.is-ready .b-sidebar-header {
+html.no-js .b-directory,
+html.no-canvas .b-directory,
+html.is-ready .b-directory {
   visibility: visible;
 }
 
@@ -52,7 +50,15 @@ html.js .b-sidebar-header {
   }
 }
 
+html.no-js .b-sidebar-header,
+html.no-canvas .b-sidebar-header,
+html.is-ready .b-sidebar-header {
+  visibility: visible;
+}
+
+
 html.no-js .b-logo,
+html.no-canvas .b-logo,
 html.is-ready .b-logo {
   visibility: visible !important;
 }

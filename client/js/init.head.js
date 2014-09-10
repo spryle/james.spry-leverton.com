@@ -18,7 +18,7 @@ Modernizr.load([{
   yep: settings.STATIC_URL + 'css/main' + (
     settings.MINIFIED_STATIC ? '.min.css' : '.css')
 }, {
-  test: true,
+  test: Modernizr.canvas,
   yep: settings.STATIC_URL + 'js/main' + (
     settings.MINIFIED_STATIC ? '.min.js' : '.js')
 }]);

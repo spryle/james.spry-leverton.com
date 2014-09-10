@@ -18,7 +18,8 @@ module.exports = Fluxxor.createStore({
 
   initialize: function(data) {
     this.pages = new PagesCollection(data);
-    this.page = Immutable.fromJS(this.pages.getCurrentPage().toJSON());
+    var page = this.pages.getCurrentPage();
+    this.page = Immutable.fromJS(page ? page.toJSON() : {});
   },
 
   actions: actions,
@@ -39,7 +40,8 @@ module.exports = Fluxxor.createStore({
   },
 
   update: function() {
-    this.page = Immutable.fromJS(this.pages.getCurrentPage().toJSON());
+    var page = this.pages.getCurrentPage();
+    this.page = Immutable.fromJS(page ? page.toJSON() : {});
     this.emit('change');
   },
 

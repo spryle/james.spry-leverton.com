@@ -28,7 +28,6 @@ var wallpaper = {
   numY: parseInt(window.outerHeight * 1.05 / 25, 10)
 };
 
-
 module.exports = {
   site: new SiteStore(site),
   article: new ArticleStore(article),

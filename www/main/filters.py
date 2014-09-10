@@ -22,5 +22,6 @@ def without(target, keys):
     result = {}
     result.update(target)
     for key in keys:
-        del result[key]
+        if key in result:
+            del result[key]
     return result

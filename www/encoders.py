@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from datetime import datetime
-from json import JSONEncoder
+from flask.json import JSONEncoder
 
 
 def unix_time(dt):

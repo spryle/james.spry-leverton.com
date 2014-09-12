@@ -9,4 +9,3 @@ htmlmin
 pygments
 pygments-style-railscasts
 awscli
-simplejson

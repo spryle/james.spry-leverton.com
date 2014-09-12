@@ -1,38 +1,38 @@
 {% if config.MINIFIED_STATIC %}
 
 <noscript>
-  <link href="{{url_for('static', filename='css/main.min.css')}}" rel="stylesheet" type="text/css">
+  <link href="{{ config.STATIC_URL }}css/main.min.css" rel="stylesheet" type="text/css">
 </noscript>
 <esi:remove>
-  <script type="text/javascript" src="{{url_for('static', filename='js/head.min.js')}}"></script>
-  <link href="{{url_for('static', filename='css/head.min.css')}}" rel="stylesheet" type="text/css">
+  <script type="text/javascript" src="{{ config.STATIC_URL }}js/head.min.js"></script>
+  <link href="{{ config.STATIC_URL }}css/head.min.css" rel="stylesheet" type="text/css">
 </esi:remove>
 
 <!--esi
 <style>
-  <esi:include src="{{url_for('static', filename='css/head.min.css')}}" />
+  <esi:include src="{{ config.STATIC_URL }}css/head.min.css" />
 </style>
 <script type="text/javascript">
-  <esi:include src="{{url_for('static', filename='js/head.min.js')}}" />
+  <esi:include src="{{ config.STATIC_URL }}js/head.min.js" />
 </script>
 -->
 
 {% else %}
 
 <noscript>
-  <link href="{{url_for('static', filename='css/main.css')}}" rel="stylesheet" type="text/css">
+  <link href="{{ config.STATIC_URL }}css/main.css" rel="stylesheet" type="text/css">
 </noscript>
 <esi:remove>
-  <script type="text/javascript" src="{{url_for('static', filename='js/head.js')}}"></script>
-  <link href="{{url_for('static', filename='css/head.css')}}" rel="stylesheet" type="text/css">
+  <script type="text/javascript" src="{{ config.STATIC_URL }}js/head.js"></script>
+  <link href="{{ config.STATIC_URL }}css/head.css" rel="stylesheet" type="text/css">
 </esi:remove>
 
 <!--esi
 <style>
-  <esi:include src="{{url_for('static', filename='css/head.css')}}" />
+  <esi:include src="{{ config.STATIC_URL }}css/head.css" />
 </style>
 <script type="text/javascript">
-  <esi:include src="{{url_for('static', filename='js/head.js')}}" />
+  <esi:include src="{{ config.STATIC_URL }}js/head.js" />
 </script>
 -->
 

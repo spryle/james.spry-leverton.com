@@ -9,7 +9,12 @@ from www.decorators import html_minify, cache_headers
 from www.main.serializers import serialize
 
 
-views = Blueprint('main-views', __name__, static_folder='static')
+views = Blueprint(
+    'main-views',
+    __name__,
+    subdomain='james',
+    static_folder='static'
+)
 
 
 @views.route('/browserconfig.xml')

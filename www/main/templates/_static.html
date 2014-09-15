@@ -1,11 +1,11 @@
 {% if config.MINIFIED_STATIC %}
 
 <noscript>
-  <link href="{{ config.STATIC_URL }}css/main.min.css" rel="stylesheet" type="text/css">
+  <link href="{{ config.STATIC_URL }}css/main.min.gz.css" rel="stylesheet" type="text/css">
 </noscript>
 <esi:remove>
-  <script type="text/javascript" src="{{ config.STATIC_URL }}js/head.min.js"></script>
-  <link href="{{ config.STATIC_URL }}css/head.min.css" rel="stylesheet" type="text/css">
+  <script type="text/javascript" src="{{ config.STATIC_URL }}js/head.min.gz.js"></script>
+  <link href="{{ config.STATIC_URL }}css/head.min.gz.css" rel="stylesheet" type="text/css">
 </esi:remove>
 
 <!--esi

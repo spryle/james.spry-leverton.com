@@ -31,13 +31,11 @@ def build(
         package_name,
         instance_path=package_path[0],
         instance_relative_config=True,
+        static_folder=None,
     )
     application.config.from_object('defaults')
     application.config.from_pyfile('config.py', silent=True)
     application.config.update(config)
-    application.static_url_path = abspath(
-        application.config.get('STATIC_URL', application.static_url_path)
-    )
     application.static_folder = abspath(
         application.config.get('STATIC_ROOT', application.static_folder)
     )

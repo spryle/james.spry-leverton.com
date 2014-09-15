@@ -7,9 +7,11 @@ var shell = require('gulp-shell');
 var jsmin = require('gulp-jsmin');
 var cssmin = require('gulp-cssmin');
 var rename = require('gulp-rename');
+var gzip = require('gulp-gzip');
 var plumber = require('gulp-plumber');
 var prefix = require('gulp-autoprefixer');
 var source = require('vinyl-source-stream');
+var sequence = require('run-sequence');
 var browserify = require('browserify');
 var watchify = require('watchify');
 var reactify = require('reactify');
@@ -169,7 +171,13 @@ gulp.task('head-scripts', function() {
 
 gulp.task('minify-scripts', function() {
 
-  return gulp.src([dest.scripts + '*.js', '!' + dest.scripts + '*.min.js'])
+  var target = [
+    dest.styles + '*.js',
+    '!' + dest.styles + '*.min.js',
+    '!' + dest.styles + '*.gz.js'
+  ];
+
+  return gulp.src(target)
     .pipe(plumber())
     .pipe(jsmin())
     .pipe(rename({suffix: '.min'}))
@@ -177,15 +185,38 @@ gulp.task('minify-scripts', function() {
 
 });
 
+gulp.task('compress-scripts', function() {
+  return gulp.src([dest.scripts + '*.min.js'])
+    .pipe(plumber())
+    .pipe(gzip({append: false, gzipOptions: {level: 9}}))
+    .pipe(rename({suffix: '.gz'}))
+    .pipe(gulp.dest(dest.scripts));
+});
+
 gulp.task('minify-styles', function() {
 
-  return gulp.src([dest.styles + '*.css', '!' + dest.styles + '*.min.css'])
+  var target = [
+    dest.styles + '*.css',
+    '!' + dest.styles + '*.min.css',
+    '!' + dest.styles + '*.gz.css'
+  ];
+
+  return gulp.src(target)
     .pipe(plumber())
     .pipe(cssmin())
     .pipe(rename({suffix: '.min'}))
     .pipe(gulp.dest(dest.styles));
 
 });
+
+gulp.task('compress-styles', function() {
+  return gulp.src([dest.styles + '*.min.css'])
+    .pipe(plumber())
+    .pipe(gzip({append: false, gzipOptions: {level: 9}}))
+    .pipe(rename({suffix: '.gz'}))
+    .pipe(gulp.dest(dest.styles));
+});
+
 
 gulp.task('watch', function() {
 
@@ -228,11 +259,19 @@ gulp.task('minify', [
   'minify-styles',
 ]);
 
-gulp.task('build', [
-  'scripts',
-  'styles',
-  'minify'
+gulp.task('compress', [
+  'compress-scripts',
+  'compress-styles',
 ]);
+
+gulp.task('build', function(callback) {
+  sequence([
+    'scripts',
+    'styles'
+  ],
+  'minify',
+  'compress');
+});
 
 gulp.task('serve', [
   'styles',

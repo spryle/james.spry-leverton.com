@@ -29,22 +29,26 @@
     "mousetrap": "0.0.1"
   },
   "devDependencies": {
+    "bonzo": "^2.0.0",
     "browserify": "^4.1.11",
     "gulp": "^3.6.1",
+    "gulp-autoprefixer": "0.0.8",
+    "gulp-cssmin": "^0.1.6",
+    "gulp-gzip": "0.0.8",
+    "gulp-jsmin": "^0.1.4",
     "gulp-less": "^1.2.3",
     "gulp-livereload": "^2.1.0",
+    "gulp-plumber": "^0.6.5",
     "gulp-rename": "^1.2.0",
     "gulp-shell": "^0.2.4",
     "gulp-util": "^2.2.17",
     "gulp-watchify": "^0.2.0",
+    "install": "^0.1.7",
     "less": "^1.7.0",
-    "reactify": "^0.13.1",
-    "vinyl-source-stream": "^0.1.1",
-    "bonzo": "^2.0.0",
-    "gulp-jsmin": "^0.1.4",
-    "gulp-cssmin": "^0.1.6",
-    "gulp-autoprefixer": "0.0.8",
     "notify-send": "^0.1.2",
-    "gulp-plumber": "^0.6.5"
+    "npm": "^1.4.27",
+    "reactify": "^0.13.1",
+    "run-sequence": "^0.3.6",
+    "vinyl-source-stream": "^0.1.1"
   }
 }

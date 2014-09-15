@@ -94,19 +94,6 @@ ready('asides', function() {
 });
 
 
-ready('wallpaper', function() {
-
-  var Wallpaper = require('./components/wallpaper');
-  var mount = document.getElementById('b-wallpaper-mount');
-
-  return mount ? React.renderComponent(
-    <Wallpaper flux={flux} keyboard={keyboard} />,
-    mount
-  ) : null;
-
-});
-
-
 ready('progress', function() {
 
   var Progress = require('./components/progress');
@@ -114,6 +101,18 @@ ready('progress', function() {
 
   return mount ? React.renderComponent(
     <Progress flux={flux} keyboard={keyboard} />,
+    mount
+  ) : null;
+
+});
+
+ready('wallpaper', function() {
+
+  var Wallpaper = require('./components/wallpaper');
+  var mount = document.getElementById('b-wallpaper-mount');
+
+  return mount ? React.renderComponent(
+    <Wallpaper flux={flux} keyboard={keyboard} />,
     mount
   ) : null;
 

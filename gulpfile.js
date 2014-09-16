@@ -172,9 +172,9 @@ gulp.task('head-scripts', function() {
 gulp.task('minify-scripts', function() {
 
   var target = [
-    dest.styles + '*.js',
-    '!' + dest.styles + '*.min.js',
-    '!' + dest.styles + '*.gz.js'
+    dest.scripts + '*.js',
+    '!' + dest.scripts + '*.min.js',
+    '!' + dest.scripts + '*.gz.js'
   ];
 
   return gulp.src(target)

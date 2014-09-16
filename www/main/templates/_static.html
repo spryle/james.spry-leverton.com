@@ -1,8 +1,5 @@
 {% if config.MINIFIED_STATIC %}
 
-<noscript>
-  <link href="{{ config.STATIC_URL }}css/main.min.gz.css" rel="stylesheet" type="text/css">
-</noscript>
 <esi:remove>
   <script type="text/javascript" src="{{ config.STATIC_URL }}js/head.min.gz.js"></script>
   <link href="{{ config.STATIC_URL }}css/head.min.gz.css" rel="stylesheet" type="text/css">
@@ -19,9 +16,6 @@
 
 {% else %}
 
-<noscript>
-  <link href="{{ config.STATIC_URL }}css/main.css" rel="stylesheet" type="text/css">
-</noscript>
 <esi:remove>
   <script type="text/javascript" src="{{ config.STATIC_URL }}js/head.js"></script>
   <link href="{{ config.STATIC_URL }}css/head.css" rel="stylesheet" type="text/css">

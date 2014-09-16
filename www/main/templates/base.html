@@ -49,6 +49,16 @@
     </div>
 
     {% include '_wallpaper_debug_bar.html' %}
+    
+    {% if config.MINIFIED_STATIC %}
+      <noscript>
+        <link href="{{ config.STATIC_URL }}css/main.min.gz.css" rel="stylesheet" type="text/css">
+      </noscript>
+    {% else %}
+      <noscript>
+        <link href="{{ config.STATIC_URL }}css/main.css" rel="stylesheet" type="text/css">
+      </noscript>
+    {% endif %}
 
   </body>
 </html>

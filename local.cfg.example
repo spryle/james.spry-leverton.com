@@ -1,0 +1,16 @@
+DEBUG = True
+GOOGLE_ANALYTICS = False
+MINIFIED_STATIC = False
+
+SERVER_NAME = '{HOST}:{PORT}' # without subdomain
+API_ROOT = 'api.{HOST}:{PORT}' #  with api subdomain
+
+FILE_READ_LOCAL = True
+
+CONTENT_ROOT = '/path/to/content/repo/directory/'
+MEDIA_ROOT =  '/path/to/media/repo/directory/'
+
+AWS_ACCESS_KEY_ID = ''
+AWS_SECRET_ACCESS_KEY = '' 
+
+STATIC_URL = 'http://static.{HOST}:{PORT}/'

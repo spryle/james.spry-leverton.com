@@ -1,46 +1,35 @@
 james.spry-leverton.com website src.
 
-TODO
+## Install
 
-* intro/outro wallpaper DONE!
-* aside types DONE!
-* aside gallery type DONE!
-* wallpaper parallax? DONE!
-* image loading spinners DONE!
-* finish wallpaper debug toolbar DONE!
-* above the fold css tweaks DONE!
-* context -> wallpaper data injection DONE!
-* defer/async script/css loading DONE!
-* html minification DONE!
-* back/forward history support DONE!
-* code snippets css DONE!
-* pull quote css DONE!
-* footer css love DONE!
-* mobile hardening/navigation pusher in/out. DONE!
-* logo/favicons? DONE!
-* Google Analytics DONE!
-* Modified/Published Dates when the same. DONE!
-* Markdown tables/extra elements. (inline code?) DONE!
-* reduce mutable state passed into react components DONE!
-* Fix asides not re-rendering issue. DONE!
-* Image enlarge transition DONE!
-* Gallery click to page through. DONE!
-* Gallery left/right to page back and forth. DONE!
-* Min static. DONE!
-* Cache headers. DONE!
-* Tweak Header Design DONE!
-* Autoprefix / CSS tidy up DONE!
-* Sort out setting paths/roots. DONE!
-* Tidy up serializers DONE!
-* Tidy up React components DONE!
-* Tidy up wallpaper initialization / params DONE!
+install node/npm python/virtualenv
 
+    mkvirtualenv james
+    pip install -r requirements.txt
+    npm install
 
-* Live static paths sorted out (urls to font resources) use less params.
-* Sort out css dev/live paths
+after npm link in local tarka repo
 
-* Write launch content / CV
-* Salt Config
-* Varnish/Nginx/Chaussette/Circus Config
-* Deployment
+    npm ln tarka
 
+    mv local.cfg.example local.cfg
+
+update local.cfg
+update /etc/hostfile for subdomains e.g.
+
+    {HOST} spryle.co.uk
+    {HOST} api.spryle.co.uk
+    {HOST} james.spryle.co.uk
+    {HOST} static.spryle.co.uk
+
+CONFIG=local.cfg python manage.py runserver -h {HOST} - p {PORT}
+
+&&
+
+gulp watch
+
+## TODO
+
+* mobile perf
+* fullscreen design
+* gulpfile serve on host/port

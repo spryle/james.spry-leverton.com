@@ -20,7 +20,7 @@ def abort(status_code):
 @api.route('/')
 @api.route('/<path:path>/')
 @add_headers({'Access-Control-Allow-Origin': '*'})
-@cache_headers(seconds=3600)
+@cache_headers(seconds=21600)
 def index(path=''):
     try:
         repo = repository(app.config.get('CONTENT_ROOT'))
@@ -36,7 +36,7 @@ def index(path=''):
 @api.route('/<name>')
 @api.route('/<path:path>/<name>')
 @add_headers({'Access-Control-Allow-Origin': '*'})
-@cache_headers(seconds=3600)
+@cache_headers(seconds=21600)
 def file(name, path=''):
     try:
         repo = repository(app.config.get('CONTENT_ROOT'))

@@ -31,7 +31,7 @@ def favicon(extension):
 
 @views.route('/')
 @views.route('/<path:path>/')
-@cache_headers(seconds=3600)
+@cache_headers(seconds=21600)
 @html_minify
 def index(path=''):
     try:
@@ -61,7 +61,7 @@ def index(path=''):
 
 @views.route('/<name>')
 @views.route('/<path:path>/<name>')
-@cache_headers(seconds=3600)
+@cache_headers(seconds=21600)
 @html_minify
 def file(name, path=''):
     try:

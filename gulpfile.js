@@ -17,6 +17,10 @@ var watchify = require('watchify');
 var reactify = require('reactify');
 
 
+var host = gutil.env.h || gutil.env.host || '127.0.0.1';
+
+var port = gutil.env.p || gutil.env.port || '5000';
+
 var root = './client/';
 
 var src = {
@@ -82,7 +86,9 @@ function bundler(src, watch) {
 }
 
 gulp.task('runserver', shell.task([
-  'CONFIG=local.cfg python manage.py runserver',
+  'CONFIG=local.cfg python manage.py runserver' +
+  ' -h ' + host +
+  ' -p ' + port,
 ]));
 
 gulp.task('download-media', shell.task([

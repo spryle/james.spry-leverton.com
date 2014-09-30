@@ -12,7 +12,6 @@ if (Modernizr.mq('only screen and (max-width : 992px)')) {
   removeClass(document.documentElement, 'is-pushed');
 }
 
-
 Modernizr.load([{
   test: true,
   yep: settings.STATIC_URL + 'css/main' + (

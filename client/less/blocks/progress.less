@@ -1,21 +1,21 @@
-@progress-background-color: #d0d0ff;
-@progress-background-waiting-color: #519F50;
+@progress-background-color: #509F50;
+@progress-background-waiting-color: #509F50;
 @progress-color: #c70016;
 
 .b-progress {
 
   progress, progress[role] {
-
     color: @progress-color;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     z-index: 5;
-    height: 2px;
+    height: 3px;
     appearance: none;
     border: none;
     background-size: auto;
+    border-bottom: 1px solid #333435;
   }
 
   progress[role]:after {

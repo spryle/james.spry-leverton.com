@@ -106,18 +106,6 @@ ready('progress', function() {
 
 });
 
-ready('wallpaper', function() {
-
-  var Wallpaper = require('./components/wallpaper');
-  var mount = document.getElementById('b-wallpaper-mount');
-
-  return mount ? React.renderComponent(
-    <Wallpaper flux={flux} keyboard={keyboard} />,
-    mount
-  ) : null;
-
-});
-
 ready('router', function() {
 
   var site = flux.store('site');
@@ -157,3 +145,22 @@ ready('ready', function() {
   return true;
 });
 
+
+ready('wallpaper', function() {
+
+  var Wallpaper = require('./components/wallpaper');
+  var mount = document.getElementById('b-wallpaper-mount');
+
+  return mount ? React.renderComponent(
+    <Wallpaper flux={flux} keyboard={keyboard} />,
+    mount
+  ) : null;
+
+});
+
+ready('analytics', function() {
+  if (!window.ga) {return;}
+  window.ga('create', 'UA-16542189-4', 'auto');
+  window.ga('send', 'pageview');
+  return true;
+});

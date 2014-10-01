@@ -20,10 +20,7 @@ def build_application():
     collect.init_app(application)
     return application
 
-
-collect = Collect()
 manager = script.Manager(build_application)
-
 
 def sync_command(*args, **kwargs):
     return (
@@ -76,5 +73,6 @@ def download_media():
 
 
 if __name__ == '__main__':
+    collect = Collect()
     collect.init_script(manager)
     manager.run()

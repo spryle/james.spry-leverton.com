@@ -33,3 +33,5 @@ gulp watch
 * mobile perf
 * fullscreen design
 * gulpfile serve on host/port
+* wallpaper optimisation
+* fix collecting of static

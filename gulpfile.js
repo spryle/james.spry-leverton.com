@@ -91,6 +91,10 @@ gulp.task('runserver', shell.task([
   ' -p ' + port,
 ]));
 
+gulp.task('collect', shell.task([
+  'CONFIG=local.cfg python manage.py collect',
+]));
+
 gulp.task('download-media', shell.task([
   'CONFIG=local.cfg python manage.py download_media',
 ]));
@@ -275,6 +279,7 @@ gulp.task('build', function(callback) {
     'scripts',
     'styles'
   ],
+  'collect',
   'minify',
   'compress');
 });

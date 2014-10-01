@@ -46,7 +46,7 @@ module.exports = Fluxxor.createStore({
     this.emit('change');
   },
 
-  path: function(path) {
+  fetch: function(path) {
     if (!isIndex(path)) {return;}
     var index = this.indexes.get(path);
     if (index && index.status_code === 200) {
@@ -56,6 +56,10 @@ module.exports = Fluxxor.createStore({
       success: this.success,
       error: this.error
     });
+  },
+
+  path: function(path) {
+    this.waitFor(['site'], _.bind(this.fetch, this, path));
   }
 
 });

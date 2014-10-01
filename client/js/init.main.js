@@ -19,6 +19,18 @@ var keyboard = new Keyboard({
   'up up down down left right left right b a enter': 'konami'
 }).start();
 
+ready('progress', function() {
+
+  var Progress = require('./components/progress');
+  var mount = document.getElementById('b-progress-mount');
+
+  return mount ? React.renderComponent(
+    <Progress flux={flux} keyboard={keyboard} />,
+    mount
+  ) : null;
+
+});
+
 ready('title', function() {
 
   var Title = require('./components/title');
@@ -94,18 +106,6 @@ ready('asides', function() {
 });
 
 
-ready('progress', function() {
-
-  var Progress = require('./components/progress');
-  var mount = document.getElementById('b-progress-mount');
-
-  return mount ? React.renderComponent(
-    <Progress flux={flux} keyboard={keyboard} />,
-    mount
-  ) : null;
-
-});
-
 ready('router', function() {
 
   var site = flux.store('site');
@@ -139,12 +139,6 @@ ready('router', function() {
 
 });
 
-ready('ready', function() {
-  var addClass = require('./contrib/el/add-class');
-  addClass(document.documentElement, 'is-ready');
-  return true;
-});
-
 
 ready('wallpaper', function() {
 
@@ -158,9 +152,16 @@ ready('wallpaper', function() {
 
 });
 
+
 ready('analytics', function() {
   if (!window.ga) {return;}
   window.ga('create', 'UA-16542189-4', 'auto');
   window.ga('send', 'pageview');
+  return true;
+});
+
+ready('ready', function() {
+  var addClass = require('./contrib/el/add-class');
+  addClass(document.documentElement, 'is-ready');
   return true;
 });

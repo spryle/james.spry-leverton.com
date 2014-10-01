@@ -30,20 +30,23 @@ var Canvas = React.createClass({
   ],
 
   componentDidMount: function() {
-    this.props.wallpaper.setScreen(this.getDOMNode());
-    this.props.wallpaper.paint(this.props.page.get('scheme').toJS());
-    this.props.wallpaper.render();
+    _.defer(_.bind(function() {
+      this.props.wallpaper.setScreen(this.getDOMNode());
+      this.props.wallpaper.paint(this.props.page.get('scheme').toJS());
+      this.props.wallpaper.render();
+    }, this));
   },
 
   componentDidUpdate: function() {
-    this.props.wallpaper.clear();
-    this.props.wallpaper.paint(this.props.page.get('scheme').toJS());
-    this.props.wallpaper.render();
+    _.defer(_.bind(function() {
+      this.props.wallpaper.clear();
+      this.props.wallpaper.paint(this.props.page.get('scheme').toJS());
+      this.props.wallpaper.render();
+    }, this));
   },
 
   shouldComponentUpdate: function(props, state) {
-    if (this.props.page === props.page) {return false;}
-    return true;
+    return this.props.page !== props.page;
   },
 
   render: function() {
@@ -85,8 +88,8 @@ var Wallpaper = React.createClass({
     return cx({
       'b-wallpaper': true,
       'is-initialized': true,
-      'is-intro': status === 'UPDATED' || status === 'WAITING',
-      'is-outro': status === 'LOADING'
+      'is-intro': status === 'WAITING',
+      'is-outro': status === 'UPDATED' || status === 'LOADING'
     });
   },
 

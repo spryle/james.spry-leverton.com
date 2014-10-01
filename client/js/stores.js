@@ -21,11 +21,11 @@ var site = {
 };
 
 var wallpaper = {
-  size: 25,
-  frequency: 50,
+  size: 30,
+  frequency: 55,
   frameLength: 1000 / 4,
-  numX: parseInt(window.outerWidth * 1.05 / 25, 10),
-  numY: parseInt(window.outerHeight * 1.05 / 25, 10)
+  numX: parseInt(window.outerWidth * 1.05 / 30, 10),
+  numY: parseInt(window.outerHeight * 1.05 / 30, 10)
 };
 
 module.exports = {

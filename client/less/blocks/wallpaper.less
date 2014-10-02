@@ -36,14 +36,26 @@
   margin: 0;
   padding: 0;
   position: fixed;
-  transition: all .45s linear;
 
-  &.is-outro canvas {
+  canvas {
+    visibility: hidden;
     opacity: 0;
   }
 
+  &.is-outro canvas {
+    visibility: visible;
+    animation: vanish-out 333ms forwards;
+  }
+
   &.is-intro canvas {
-    opacity: 1;  }
+    visibility: visible;
+    animation: vanish-in 333ms forwards;
+  }
+
+  &.is-intro canvas.is-rendering {
+    opacity: 0 !important;
+    animation: none !important;
+  }
 }
 
 body.is-pushed .b-wallpaper {

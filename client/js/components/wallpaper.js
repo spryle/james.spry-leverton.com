@@ -32,26 +32,51 @@ var Canvas = React.createClass({
   componentDidMount: function() {
     _.defer(_.bind(function() {
       this.props.wallpaper.setScreen(this.getDOMNode());
-      this.props.wallpaper.paint(this.props.page.get('scheme').toJS());
+      this.props.wallpaper.paint(this.props.scheme.toJS());
       this.props.wallpaper.render();
     }, this));
+  },
+
+  getInitialState: function() {
+    return {
+      rendering: false
+    };
+  },
+
+  redraw: function() {
+    this.props.wallpaper.clear();
+    this.props.wallpaper.paint(this.props.scheme.toJS());
+    this.props.wallpaper.render();
+    _.defer(this.rendering, false);
+  },
+
+  rendering: function(bool) {
+    this.setState({rendering: bool});
   },
 
   componentDidUpdate: function() {
-    _.defer(_.bind(function() {
-      this.props.wallpaper.clear();
-      this.props.wallpaper.paint(this.props.page.get('scheme').toJS());
-      this.props.wallpaper.render();
-    }, this));
+    if (this.state.rendering) {
+      _.defer(this.redraw);
+    }
   },
 
-  shouldComponentUpdate: function(props, state) {
-    return this.props.page !== props.page;
+  componentWillReceiveProps: function(props) {
+    if (this.props.status !== props.status &&
+        props.status === 'WAITING') {
+      this.rendering(true);
+    }
+  },
+
+  classes: function() {
+    return cx({
+      'is-rendering': this.state.rendering,
+    });
   },
 
   render: function() {
     return (
       <canvas
+        className={this.classes()}
         height={this.props.height}
         width={this.props.width}
       />
@@ -70,7 +95,7 @@ var Wallpaper = React.createClass({
   getStateFromFlux: function() {
     var flux = this.getFlux();
     return {
-      page: flux.store('article').page,
+      scheme: flux.store('article').page.get('scheme'),
       wallpaper: flux.store('wallpaper').wallpaper,
       status: flux.store('site').state.status
     };
@@ -99,8 +124,9 @@ var Wallpaper = React.createClass({
         <Canvas
           width={this.state.width}
           height={this.state.height}
-          page={this.state.page}
+          scheme={this.state.scheme}
           wallpaper={this.state.wallpaper}
+          status={this.state.status}
         />
       </div>
     );

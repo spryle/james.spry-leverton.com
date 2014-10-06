@@ -30,7 +30,7 @@ var AsideImage = React.createClass({
   },
 
   width: function() {
-    return this.props.enlarged ? 700: 200;
+    return this.props.enlarged ? 550: 200;
   },
 
   src: function() {
@@ -97,7 +97,7 @@ var AsideGallery = React.createClass({
   },
 
   width: function() {
-    return this.props.enlarged ? 700: 200;
+    return this.props.enlarged ? 550: 200;
   },
 
   image: function() {

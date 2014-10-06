@@ -22,6 +22,7 @@ def build_application():
 
 manager = script.Manager(build_application)
 
+
 def sync_command(*args, **kwargs):
     return (
         'AWS_ACCESS_KEY_ID={AWS_ACCESS_KEY_ID} '
@@ -33,13 +34,14 @@ def sync_command(*args, **kwargs):
 
 @manager.command
 def sync_media():
-    call(sync_command(
+    command = sync_command(
         AWS_ACCESS_KEY_ID=app.config.get('AWS_ACCESS_KEY_ID'),
         AWS_SECRET_ACCESS_KEY=app.config.get('AWS_SECRET_ACCESS_KEY'),
         target=app.config.get('MEDIA_ROOT'),
         destination=app.config.get('MEDIA_S3_MEDIA_BUCKET'),
         region=app.config.get('MEDIA_S3_REGION')
-    ), shell=True)
+    )
+    call(command + '--exclude ".git/*"', shell=True)
 
 
 @manager.command

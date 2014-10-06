@@ -13,39 +13,41 @@
       {% endif %}
     </article>
 
-    <footer class="b-article-footer t-tertiary g-clearfix">
+    {% if page.display_footer %}
+      <footer class="b-article-footer t-tertiary g-clearfix">
 
-      <div class="b-article-date">
-        {% if page.date_added %}
-        <div class="b-article-date-added">
-          <span class="b-article-date-title">Published</span>
-          <span class="b-article-date-formatted">{{ page.date_added_formatted }}</span>
+        <div class="b-article-date">
+          {% if page.date_added %}
+          <div class="b-article-date-added">
+            <span class="b-article-date-title">Published</span>
+            <span class="b-article-date-formatted">{{ page.date_added_formatted }}</span>
+          </div>
+          {% endif %}
+
+          {% if page.date_modified and page.date_modified != page.date_added %}
+          <div class="b-article-date-modified">
+            <span class="b-article-date-title">Updated</span> 
+            <span class="b-article-date-formatted">{{ page.date_modified_formatted }}</span>
+          </div>
+          {% endif %}
         </div>
+
+        {% if page.author_hash %}
+          <div class="b-article-gravitar">
+            <img src="http://www.gravatar.com/avatar/{{ page.author_hash }}?s=60">
+          </div>
         {% endif %}
 
-        {% if page.date_modified and page.date_modified != page.date_added %}
-        <div class="b-article-date-modified">
-          <span class="b-article-date-title">Updated</span> 
-          <span class="b-article-date-formatted">{{ page.date_modified_formatted }}</span>
+        <div class="b-article-author">
+          {% if page.author_name %}
+            <div class="b-article-author-name">{{ page.author_name }}</div>
+          {% endif %}
+          {% if page.author_email %}
+            <div class="b-article-author-email">{{ page.author_email }}</div>
+          {% endif %}
         </div>
-        {% endif %}
-      </div>
 
-      {% if page.author_hash %}
-        <div class="b-article-gravitar">
-          <img src="http://www.gravatar.com/avatar/{{ page.author_hash }}?s=60">
-        </div>
-      {% endif %}
-
-      <div class="b-article-author">
-        {% if page.author_name %}
-          <div class="b-article-author-name">{{ page.author_name }}</div>
-        {% endif %}
-        {% if page.author_email %}
-          <div class="b-article-author-email">{{ page.author_email }}</div>
-        {% endif %}
-      </div>
-
-    </footer>
+      </footer>
+    {% endif %}
   </div>
 </div>

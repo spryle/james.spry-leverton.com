@@ -21,7 +21,8 @@ var Page = Model.extend({
     date_added_formatted: 'string',
     date_modified: 'date',
     date_modified_formatted: 'string',
-    positions: 'object'
+    positions: 'object',
+    display_footer: ['boolean', false, false]
   },
 
   session: {

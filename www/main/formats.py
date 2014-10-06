@@ -64,8 +64,8 @@ class MarkdownRender(Renderer):
 
 def markdown(content):
     md = Markdown(renderer=MarkdownRender())
-    return Markup(md(content))
+    return Markup(md(content.decode('utf-8')))
 
 
 def html(content):
-    return Markup(content)
+    return Markup(content.decode('utf-8'))

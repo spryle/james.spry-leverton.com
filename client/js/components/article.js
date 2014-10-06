@@ -183,18 +183,24 @@ var Article = React.createClass({
           'Having connection Issues.' : '');
   },
 
+  footer: function() {
+    return (
+      <ArticleFooter
+        name={this.state.page.get('author_name')}
+        email={this.state.page.get('author_email')}
+        hash={this.state.page.get('author_hash')}
+        modified={this.state.page.get('date_modified_formatted')}
+        added={this.state.page.get('date_added_formatted')} />
+      );
+  },
+
   render: function() {
     if (this.state.page) {
       return (
         <div className="b-article is-initialized">
           <ArticleHeader title={this.title()} />
           <ArticleBody content={this.content()} />
-          <ArticleFooter
-            name={this.state.page.get('author_name')}
-            email={this.state.page.get('author_email')}
-            hash={this.state.page.get('author_hash')}
-            modified={this.state.page.get('date_modified_formatted')}
-            added={this.state.page.get('date_added_formatted')} />
+          {this.state.page.get('display_footer') ? this.footer() : false}
         </div>
       );
     } else {

@@ -6,6 +6,10 @@
 
 }
 
+#b-article-mount {
+  flex: 1;
+}
+
 .b-article {
 
   line-height: 1.6;
@@ -16,21 +20,26 @@
 
   }
 
-  h2 {
 
-    margin: 0 0 1.4em 0;
+  h2, h3, h4, h5, h6 {
+
+    margin: -0.3em 0 0.5em 0;
 
   }
 
-  h3, h4, h5, h6 {
+  h2 {
 
-    margin: 0 0 0.2em 0;
+    font-size: 1.4em;
+    border-bottom: 1px solid #505050;
+  }
+
+  h3 {
 
   }
 
   p {
 
-    margin: 0 0 1.4em 0;
+    margin: 0 0 1em 0;
 
   }
 
@@ -68,7 +77,7 @@
   code {
 
     padding: 3px;
-    border-color: rgba(255, 255, 255, .2);
+    border-color: rgba(255, 255, 255, .6);
     border-style: solid;
     border-width: 1px;
     border-radius: 3px;
@@ -125,6 +134,7 @@
     padding: 5% 0 5% 0;
     margin: 0 0 10% 0;
     background-color: rgba(0,0,0,0.8);
+    border-bottom: solid 4px rgba(81, 159, 80,.4);
     color: white;
 
   }
@@ -151,21 +161,13 @@
   border-top-left-radius: 3px;
   box-shadow: 20px -20px 120px 0px rgba(0,0,0,.65);
   background-color: @t-primary-background;
-  padding: 10% 10% 50em 10%;
+  padding: 10% 10% 0 10%;
+
+  padding-bottom: 51em;
   margin-bottom: -50em;
-  min-height: 200px;
 
-  @media only screen and (min-width: 768px) {
-    min-height: 300px;
-  }
 
-  @media only screen and (min-width: 992px) {
-    min-height: 375px;
-  }
-
-  @media only screen and (min-width: 1280px) {
-    min-height: 450px;
-  }
+  flex: 1;
 
 }
 
@@ -176,6 +178,9 @@
   margin: 5% 0 0 0;
   padding: 5% 0 0 0;
   min-height: 70px;
+
+  padding-bottom: 50em;
+  margin-bottom: -50em;
 
 }
 

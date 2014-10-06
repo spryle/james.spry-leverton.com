@@ -10,6 +10,9 @@ from www import main
 from subprocess import call
 
 
+collect = Collect()
+
+
 def build_application():
     application = Flask(__name__, static_folder=None)
     application.config.from_object('defaults')
@@ -17,10 +20,12 @@ def build_application():
     application.wsgi_app = DispatcherMiddleware(application.wsgi_app, {
         '': main.build_app(config=application.config)
     })
+
     collect.init_app(application)
     return application
 
 manager = script.Manager(build_application)
+collect.init_script(manager)
 
 
 def sync_command(*args, **kwargs):
@@ -75,6 +80,4 @@ def download_media():
 
 
 if __name__ == '__main__':
-    collect = Collect()
-    collect.init_script(manager)
     manager.run()

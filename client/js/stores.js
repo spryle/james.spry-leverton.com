@@ -4,12 +4,9 @@ var SiteStore = require('./stores/site');
 var WallpaperStore = require('./stores/wallpaper');
 var data = require('data');
 
-var content = document.getElementById('b-article-content');
-
 var article = _.extend({
   status_code: 200,
-  path: window.location.pathname,
-  content: content ? content.innerHTML : ''
+  path: window.location.pathname
 }, data.page);
 
 var directory = _.extend({

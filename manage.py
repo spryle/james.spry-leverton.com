@@ -4,28 +4,21 @@ from __future__ import unicode_literals
 from flask import Flask
 from flask import current_app as app
 from flask.ext import script
-from flask.ext.collect import Collect
 from werkzeug.wsgi import DispatcherMiddleware
 from www import main
 from subprocess import call
 
 
-collect = Collect()
-
-
 def build_application():
-    application = Flask(__name__, static_folder=None)
-    application.config.from_object('defaults')
-    application.config.from_envvar('CONFIG')
-    application.wsgi_app = DispatcherMiddleware(application.wsgi_app, {
-        '': main.build_app(config=application.config)
+    base = Flask(__name__, static_folder=None)
+    base.config.from_object('defaults')
+    base.config.from_envvar('CONFIG')
+    base.wsgi_app = DispatcherMiddleware(base.wsgi_app, {
+        '': main.build_app(config=base.config)
     })
-
-    collect.init_app(application)
-    return application
+    return base
 
 manager = script.Manager(build_application)
-collect.init_script(manager)
 
 
 def sync_command(*args, **kwargs):
@@ -35,6 +28,13 @@ def sync_command(*args, **kwargs):
         'aws s3 sync {target} {destination} --region {region} '
         '--delete --cache-control "max-age=604800, public, no-transform" '
     ).format(**kwargs)
+
+
+@manager.command
+def collect(verbose=True):
+    for root, application in app.wsgi_app.mounts.iteritems():
+        if 'collect' in application.extensions:
+            application.extensions['collect'].collect(verbose=verbose)
 
 
 @manager.command

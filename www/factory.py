@@ -3,8 +3,14 @@ from __future__ import unicode_literals
 
 from os.path import abspath
 from flask import Blueprint, Flask
+from flask.ext.collect import Collect
 from pkgutil import iter_modules
 from importlib import import_module
+
+
+EXTENSIONS = [
+    Collect
+]
 
 
 def register_blueprints(app, package_name, package_path):
@@ -18,6 +24,12 @@ def register_blueprints(app, package_name, package_path):
                 app.register_blueprint(item)
             rv.append(item)
     return rv
+
+
+def install_extensions(application):
+    for extension in EXTENSIONS:
+        extension(application)
+    return application
 
 
 def build(
@@ -40,4 +52,5 @@ def build(
         application.config.get('STATIC_ROOT', application.static_folder)
     )
     register_blueprints(application, package_name, package_path)
+    install_extensions(application)
     return application

@@ -10,19 +10,6 @@ var FluxChildMixin = Fluxxor.FluxChildMixin(React);
 var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 
-function height() {
-  var body = document.body;
-  var html = document.documentElement;
-  return Math.max(
-    body.scrollHeight,
-    body.offsetHeight,
-    html.clientHeight,
-    html.scrollHeight,
-    html.offsetHeight
-  );
-}
-
-
 var Canvas = React.createClass({
 
   mixins: [
@@ -103,8 +90,8 @@ var Wallpaper = React.createClass({
 
   getInitialState: function() {
     return {
-      height: window.outerHeight * 1.05,
-      width: window.outerWidth * 1.05
+      height:  window.screen.height * 1.05,
+      width: window.screen.width * 1.05
     };
   },
 

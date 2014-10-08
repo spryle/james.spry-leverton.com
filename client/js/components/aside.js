@@ -232,8 +232,10 @@ var AsideItem = React.createClass({
 
   styles: function() {
     var el = document.getElementById(this.props.target);
+    var width = this.state.enlarged ? 550 : 200;
     return {
       top: this.state.enlarged ?  window.scrollY : el ? el.offsetTop : 0,
+      left: this.state.enlarged ? (window.screen.width - width) / 2 : null,
       position: 'absolute'
     };
   },

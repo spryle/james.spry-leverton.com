@@ -1,7 +1,9 @@
 {
   "name": "james.spry-leverton.com",
-  "description": "A personal website for James Spry-Leverton.",
+  "description": "The personal website of James Spry-Leverton.",
   "author": "James Spry-Leverton <james@spry-leverton.com>",
+  "license": "MIT",
+  "homepage": "http://james.spry-leverton.com",
   "version": "0.0.1",
   "private": false,
   "dependencies": {
@@ -26,6 +28,7 @@
     "react": "^0.10.0",
     "react-classset": "0.0.1",
     "react-loadermixin": "^1.0.4",
+    "tarka": "0.0.1",
     "underscore": "^1.6.0",
     "url-join": "0.0.1",
     "xhr": "^1.13.0"
@@ -52,5 +55,9 @@
     "reactify": "^0.13.1",
     "run-sequence": "^0.3.6",
     "vinyl-source-stream": "^0.1.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/spryle/james.spry-leverton.com"
   }
 }

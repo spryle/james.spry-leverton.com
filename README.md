@@ -1,8 +1,9 @@
-## [james.spry-leverton.com](//james.spry-leverton.com)
+## [james.spry-leverton.com](http://james.spry-leverton.com)
 
-## TODO
+## Todo
 
-* fix collecting of static
+ * tests
+ * styleguide
 
 ## Install
 
@@ -12,15 +13,10 @@ install node/npm python/virtualenv
     pip install -r requirements.txt
     npm install
 
-link tarka for local dev *(after npm link in local tarka repo)*
-
-    npm ln tarka
-    mv local.cfg.example local.cfg
-
 update local.cfg
 
     SERVER_NAME = '{HOST}:{PORT}' # without subdomain
-    API_ROOT = 'api.{HOST}:{PORT}' #  with api subdomain
+    API_ROOT = 'api.{HOST}:{PORT}' # with api subdomain
 
 update /etc/hostfile for subdomains e.g.
 
@@ -31,7 +27,7 @@ update /etc/hostfile for subdomains e.g.
 
 Run a local web server
 
-    CONFIG=local.cfg python manage.py runserver -h {HOST} - p {PORT}
+    CONFIG=local.cfg python manage.py runserver -h {HOST} -p {PORT}
 
 And watch static resources
 

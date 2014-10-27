@@ -6,6 +6,7 @@ html.is-ready .b-footer{
 .b-footer {
   min-height: 75px;
   visibility: hidden;
+  padding-top: 20px;
   margin-bottom: -5000px;
   padding-bottom: 5000px;
   padding-left: 10%;
@@ -16,4 +17,26 @@ html.is-ready .b-footer{
   padding-top: 2%;
   float: right;
   text-alight: right;
+}
+
+.b-footer-links {
+  float: left;
+  padding-top: 2%;
+}
+
+.b-footer-link {
+  display: inline-block;
+
+  a {
+    color: @t-color-light;
+  }
+}
+
+.b-footer-link:after {
+  margin-left: 4px;
+  content: '\2022';
+}
+
+.b-footer-link.is-last:after {
+  content: '';
 }

@@ -16,8 +16,21 @@
 
   ol, ul {
 
-    margin: 0 0 1.4em 2em;
+    margin: 0 0 1.4em 0;
 
+  }
+
+  li {
+    display: inline-block;
+  }
+
+  li:after {
+    margin-left: 3px;
+    content: '\2022';
+  }
+
+  li.is-last:after, li:last-child:after {
+    content: none;
   }
 
 
@@ -35,6 +48,11 @@
 
   h3 {
 
+  }
+
+  h4 {
+    float: right;
+    margin: 0;
   }
 
   p {
@@ -134,7 +152,7 @@
     padding: 5% 0 5% 0;
     margin: 0 0 10% 0;
     background-color: rgba(0,0,0,0.8);
-    border-bottom: solid 4px rgba(81, 159, 80,.4);
+    border-bottom: solid 2px #E6E1DC;
     color: white;
 
   }

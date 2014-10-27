@@ -34,7 +34,12 @@
 
   z-index: 5;
   position: absolute;
+  cursor: default;
 
+}
+
+.b-aside-list-item.is-enlargeable {
+  cursor: pointer;
 }
 
 .b-aside-list-item.is-enlarged {
@@ -135,14 +140,12 @@
 .b-aside-image,
 .b-aside-gallery {
 
-  margin-top: 1em;
   border: solid 5px rgba(255,255,255,0.3);
   position: absolute;
 
   img {
     width: 200px;
     min-height: 100px;
-    cursor: pointer;
     display: block;
 
   }

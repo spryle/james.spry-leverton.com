@@ -226,6 +226,7 @@ var AsideItem = React.createClass({
   classes: function() {
     return cx({
       'b-aside-list-item': true,
+      'is-enlargeable': this.isEnlargeable(),
       'is-enlarged': this.state.enlarged
     });
   },

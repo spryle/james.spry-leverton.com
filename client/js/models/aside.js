@@ -10,7 +10,8 @@ var Aside = State.extend({
     title: 'string',
     text: 'string',
     type: 'string',
-    images: 'array'
+    images: 'array',
+    is_enlargeable: 'boolean'
   }
 
 });

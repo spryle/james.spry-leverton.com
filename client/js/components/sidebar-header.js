@@ -9,6 +9,7 @@ var FluxMixin = Fluxxor.FluxMixin(React);
 var FluxChildMixin = Fluxxor.FluxChildMixin(React);
 var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 var constants = require('../constants');
+var settings = require('settings');
 
 
 var SidebarSubTitle = React.createClass({
@@ -70,11 +71,19 @@ var SidebarHeader = React.createClass({
   render: function() {
     return (
       <header className="b-sidebar-header is-initialized">
+
+        <a href="/">
+          <img
+            className="b-sidebar-logo"
+            src={settings.MEDIA_URL + "logo-white.svg"} />
+        </a>
+
         <h2 className="b-sidebar-title t-logo">
-          <a href="/" onClick={this.home}>
+          <a href="/">
             <span className="b-sidebar-firstname">James</span> Spry-Leverton
           </a>
         </h2>
+
         <SidebarSubTitle
           href={this.state.index.get('path') || null}
           text={this.state.index.get('name') || this.state.defaultName}

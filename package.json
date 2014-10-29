@@ -22,6 +22,7 @@
     "envify": "^1.2.1",
     "fluxxor": "^1.3.2",
     "gradient": "^0.1.0",
+    "hd-canvas": "^0.1.6",
     "immutable": "^2.0.9",
     "lazyloader": "^2.0.3",
     "mousetrap": "0.0.1",

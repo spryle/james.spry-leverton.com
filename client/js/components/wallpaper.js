@@ -2,6 +2,7 @@
  * @jsx React.DOM
  */
 var _ = require('underscore');
+var hd = require('hd-canvas');
 var React = require('react');
 var cx = require('react/addons').addons.classSet;
 var Fluxxor = require('fluxxor');
@@ -18,7 +19,9 @@ var Canvas = React.createClass({
 
   componentDidMount: function() {
     _.defer(_.bind(function() {
-      this.props.wallpaper.setScreen(this.getDOMNode());
+      var canvas = this.getDOMNode();
+      hd(canvas, this.props.height, this.props.width);
+      this.props.wallpaper.setScreen(canvas);
       this.props.wallpaper.paint(this.props.scheme.toJS());
       this.props.wallpaper.render();
     }, this));

@@ -91,10 +91,26 @@ var Wallpaper = React.createClass({
     };
   },
 
+  devicePixelRatio: function() {
+    if (window.devicePixelRatio !== undefined) {
+      return window.devicePixelRatio;
+    } else {
+      return 1;
+    }
+  },
+
+  height: function() {
+    return window.screen.height * this.devicePixelRatio() * 1.05;
+  },
+
+  width: function() {
+    return window.screen.width * this.devicePixelRatio() * 1.05;
+  },
+
   getInitialState: function() {
     return {
-      height:  window.screen.height * 1.05,
-      width: window.screen.width * 1.05
+      height: this.height(),
+      width: this.width()
     };
   },
 

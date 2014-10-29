@@ -4,26 +4,35 @@ var SiteStore = require('./stores/site');
 var WallpaperStore = require('./stores/wallpaper');
 var data = require('data');
 
+
+var SIZE = 30;
+var FREQUENCY = 55;
+var FRAME_LENGTH = 1000 / 4;
+var STATUS_CODE = 200;
+var INITIAL_STATUS = 'WAITING';
+
 var article = _.extend({
-  status_code: 200,
+  status_code: STATUS_CODE,
   path: window.location.pathname
 }, data.page);
 
 var directory = _.extend({
-  status_code: 200
+  status_code: STATUS_CODE
 }, data.index);
 
 var site = {
-  status: 'WAITING',
+  status: INITIAL_STATUS,
 };
 
 var wallpaper = {
-  size: 30,
-  frequency: 55,
-  frameLength: 1000 / 4,
-  numX: parseInt(window.screen.width * 1.05 / 30, 10),
-  numY: parseInt(window.screen.height * 1.05 / 30, 10)
+  size: SIZE,
+  frequency: FREQUENCY,
+  frameLength: FRAME_LENGTH,
+  numX: parseInt(window.screen.width * 1.05 / SIZE, 10),
+  numY: parseInt(window.screen.height * 1.05 / SIZE, 10)
 };
+
+console.log(wallpaper);
 
 module.exports = {
   site: new SiteStore(site),

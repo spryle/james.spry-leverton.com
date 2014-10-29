@@ -235,7 +235,7 @@ var AsideItem = React.createClass({
     var el = document.getElementById(this.props.target);
     var width = this.state.enlarged ? 560 : 200;
     var height = this.state.enlarged ? 600 : 200;
-    var mod = Math.min(window.screen.height - height, 0) / 4;
+    var mod = Math.max(window.screen.height - height, 0) / 4;
     return {
       top: this.state.enlarged ? window.scrollY + mod : el ? el.offsetTop : 0,
       left: this.state.enlarged ? (window.screen.width - width) / 2 : null,

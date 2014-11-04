@@ -1,5 +1,5 @@
-var degreesToRadians = require('tarka/utils/degrees-to-radians');
-var View = require('tarka/view');
+var degreesToRadians = require('../utils/degrees-to-radians');
+var View = require('./view');
 
 
 module.exports = View.extend({

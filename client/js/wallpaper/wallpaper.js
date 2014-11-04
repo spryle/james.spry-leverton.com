@@ -2,11 +2,12 @@ var _ = require('underscore');
 var gradient = require('gradient');
 var color = require('color');
 var Scheme = require('color-scheme');
+var Events = require('backbone-events-standalone');
 
 var Engine = require('tarka/engine');
 var Tarka = require('tarka/tarka');
 var Entity = require('tarka/entity');
-var Screen = require('tarka/screen');
+var Screen = require('./screen');
 
 var Mix = require('./systems/mix');
 var Paint = require('./systems/paint');
@@ -22,6 +23,10 @@ var TRTriangle = require('./views/tr-triangle');
 var BLTriangle = require('./views/bl-triangle');
 var BRTriangle = require('./views/br-triangle');
 
+var DEFAULT_COLOR = '#1a1a1a';
+var DEFAULT_ALPHA = 1;
+var DEFAULT_ADDITIVE = false;
+var DEFAULT_VISIBLE = true;
 
 function choice(choices) {
   return choices[_.random(0, choices.length - 1)];
@@ -35,161 +40,135 @@ function yDiagonalID(x, y) {
   return Math.floor((y + (x * 2) + 1) / 4);
 }
 
-function triangle(options) {
+function view(rotation) {
+  switch (rotation) {
+    case 'tl':
+      return TLTriangle;
+    case 'tr':
+      return TRTriangle;
+    case 'bl':
+      return BLTriangle;
+    case 'br':
+      return BRTriangle;
+    default:
+      throw 'Invalid rotation.';
+  }
+}
 
-  var x = options.position.x;
-  var y = options.position.y;
+function rotation(column, row) {
+  if (column % 2) {
+    return ['tl', 'br', 'tr', 'bl'][row % 4];
+  } else {
+    return ['tr', 'bl', 'tl', 'br'][row % 4];
+  }
+}
+
+function triangle(options) {
 
   var entity = new Entity();
 
+  var View = view(rotation(options.column, options.row));
+
   entity.add(new XDiagonal({
-    id: xDiagonalID(x, y),
-    num: x,
-    additive: false,
-    color: '#1a1a1a',
-    alpha: 1
+    id: options.xId,
+    num: options.column,
+    additive: DEFAULT_ADDITIVE,
+    color: DEFAULT_COLOR,
+    alpha: DEFAULT_ALPHA
   }));
 
   entity.add(new YDiagonal({
-    id: yDiagonalID(x, y),
-    num: y,
-    additive: false,
-    color: '#1a1a1a',
-    alpha: 1
+    id: options.yId,
+    num: options.row,
+    additive: DEFAULT_ADDITIVE,
+    color: DEFAULT_COLOR,
+    alpha: DEFAULT_ALPHA
   }));
 
   entity.add(new Visual({
-    color: '#1a1a1a',
+    color: DEFAULT_COLOR,
   }));
 
   entity.add(new Position({
-    x: options.local.x,
-    y: options.local.y
+    x: options.x,
+    y: options.y
   }));
 
   entity.add(new Display({
-    view: new options.View({
-      x: options.local.x,
-      y: options.local.y,
-      height: options.dimensions.height,
-      width: options.dimensions.width
+    view: new View({
+      x: options.x,
+      y: options.y,
+      height: options.height,
+      width: options.width
     }),
-    visible: true
+    visible: DEFAULT_VISIBLE
   }));
 
   return entity;
 }
 
-function column(engine, options) {
 
-  _.each(_.range(options.number), function(i) {
+var Wallpaper = function(initial, options) {
+  this.engine = initial.engine ? initial.engine : null;
+  this.screen = initial.screen ? initial.screen : null;
+  this.options = options || {};
+  this.initialize.call(this, options);
+};
 
-    if (options.column % 2 ? i % 2 === 1 : i % 2 === 0) {
+Events.mixin(Wallpaper.prototype);
 
-      engine.entities.add(triangle({
-
-        View: TRTriangle,
-
-        local: {
-          x: options.x,
-          y: options.y + (options.size * i)
-        },
-
-        dimensions: {
-          height: options.size,
-          width: options.size,
-        },
-
-        position: {
-          x: options.column,
-          y: i * 2
-        }
-
-      }));
-
-      engine.entities.add(triangle({
-
-        View: BLTriangle,
-
-        local: {
-          x: options.x,
-          y: options.y + (options.size * i)
-        },
-
-        dimensions: {
-          height: options.size,
-          width: options.size,
-        },
-
-        position: {
-          x: options.column,
-          y: (i * 2) + 1
-        }
-
-      }));
-
-    } else {
-
-      engine.entities.add(triangle({
-
-        View: TLTriangle,
-
-        local: {
-          x: options.x,
-          y: options.y + (options.size * i)
-        },
-
-        dimensions: {
-          height: options.size,
-          width: options.size,
-        },
-
-        position: {
-          x: options.column,
-          y: i * 2
-        }
-
-      }));
-
-      engine.entities.add(triangle({
-
-        View: BRTriangle,
-
-        local: {
-          x: options.x,
-          y: options.y + (options.size * i)
-        },
-
-        dimensions: {
-          height: options.size,
-          width: options.size,
-        },
-
-        position: {
-          x: options.column,
-          y: (i * 2) + 1
-        }
-
-      }));
-
-    }
-
-  });
-
-}
-
-var Wallpaper = Tarka.extend({
+_.extend(Wallpaper.prototype, {
 
   initialize: function(options) {
-    _.each(_.range(options.numX), _.bind(function(index) {
-      column(this.engine, {
-        column: index,
-        number: options.numY,
-        x: index * options.size,
-        y: 0,
-        size: options.size
-      });
+
+    this.grid = _.map(_.range(options.numX), function() {return [];});
+    this.diagonals = {x: {}, y: {}};
+    this.active = {x: [], y: []};
+
+    _.each(this.grid, _.bind(function(array, column) {
+      _.each(_.range(options.numY * 2), _.bind(function(row) {
+
+        var xId = xDiagonalID(column, row);
+        var yId = yDiagonalID(column, row);
+        if (!this.diagonals.x[xId]) {this.diagonals.x[xId] = [];}
+        if (!this.diagonals.y[yId]) {this.diagonals.y[yId] = [];}
+
+        var entity = triangle({
+          xId: xId,
+          yId: yId,
+          column: column,
+          row: row,
+          x: options.size * column,
+          y: options.size * Math.floor(row / 2),
+          height: options.size,
+          width: options.size
+        });
+
+        array.push(entity);
+        this.engine.entities.add(entity);
+        this.diagonals.x[xId].push(entity);
+        this.diagonals.y[yId].push(entity);
+
+      }, this));
     }, this));
+    return this;
+  },
+
+  setScreen: function(canvas) {
+    this.screen = new Screen(canvas);
+    return this;
+  },
+
+  setEngine: function(options) {
+    this.engine = new Engine(engine);
+    return this;
+  },
+
+  update: function(time) {
+    this.trigger('pre-update', this);
+    this.engine.update(time);
+    this.screen.render(this.engine.entities);
+    this.trigger('post-update', this);
   },
 
   xRange: function() {
@@ -201,25 +180,6 @@ var Wallpaper = Tarka.extend({
       Math.ceil(this.options.numY / 2),
       Math.ceil(this.options.numY / 2) + Math.ceil(this.options.numX / 4)
     );
-  },
-
-  column: function(axis, id) {
-    // TODO - column lookup memoize?
-    axis = axis === 'x' ? 'x-diagonal' : axis === 'y' ? 'y-diagonal' : null;
-    if (!axis) {throw Error('Value Error: invalid axis.');}
-    return _.filter(this.engine.entities, function(entity) {
-      if (entity.get(axis).id === id) {return entity;}
-    });
-  },
-
-  clear: function() {
-    _.each(this.engine.entities, function(entity) {
-      var x = entity.get('x-diagonal');
-      var y = entity.get('y-diagonal');
-      x.color = y.color = '#1a1a1a'; //'#0a0a0a';
-      x.alpha = y.alpha = 1;
-      x.additive = y.additive = false;
-    });
   },
 
   colors: function(options) {
@@ -247,24 +207,43 @@ var Wallpaper = Tarka.extend({
     });
   },
 
+  clear: function(axis, id) {
+    var column = this.diagonals[axis][id];
+    _.each(column, function(entity) {
+      var diagonal = entity.get(axis + '-diagonal');
+      diagonal.color = DEFAULT_COLOR;
+      diagonal.alpha = DEFAULT_ALPHA;
+      diagonal.additive = DEFAULT_ADDITIVE;
+    });
+  },
+
+  clearAll: function() {
+    _.each(this.active.x, _.bind(function(id) {
+      this.clear('x', id);
+    }, this));
+    _.each(this.active.y, _.bind(function(id) {
+      this.clear('y', id);
+    }, this));
+    this.active.x.length = 0;
+    this.active.y.length = 0;
+  },
+
   paint: function(options) {
     var scheme = this.scheme(this.colors(options));
-    var xid = _.filter(this.xRange(), _.bind(function() {
-      return _.random(0, 100) <= this.options.frequency;
+    _.map(this.xRange(), _.bind(function(id) {
+      if (_.random(0, 100) <= this.options.frequency) {
+        this.add('x', id, choice(scheme));
+      }
     }, this));
-    var yid = _.filter(this.yRange(), _.bind(function() {
-      return _.random(0, 100) <= this.options.frequency;
-    }, this));
-    _.map(xid, _.bind(function(id) {
-      this.add('x', id, choice(scheme));
-    }, this));
-    _.map(yid, _.bind(function(id) {
-      this.add('y', id, choice(scheme));
+    _.map(this.yRange(), _.bind(function(id) {
+      if (_.random(0, 100) <= this.options.frequency) {
+        this.add('y', id, choice(scheme));
+      }
     }, this));
   },
 
   add: function(axis, id, scheme) {
-    var column = this.column(axis, id);
+    var column = this.diagonals[axis][id];
     _.each(_.sortBy(column, function(entity) {
       return entity.get(axis + '-diagonal').num;
     }), function(entity, index) {
@@ -277,21 +256,21 @@ var Wallpaper = Tarka.extend({
       diagonal.alpha = _.random(97, 100) / 100;
       diagonal.additive = scheme.additive;
     });
+    this.active[axis].push(id);
     return this;
   },
 
 });
 
-
 module.exports = function(options) {
 
   var engine = new Engine();
+
   engine.systems.add(new Mix(engine));
   engine.systems.add(new Paint(engine));
 
   return new Wallpaper({
     engine: engine
   }, options);
-
 };
 

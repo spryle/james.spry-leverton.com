@@ -23,7 +23,7 @@ var Canvas = React.createClass({
       hd(canvas, this.props.height, this.props.width);
       this.props.wallpaper.setScreen(canvas);
       this.props.wallpaper.paint(this.props.scheme.toJS());
-      this.props.wallpaper.render();
+      this.props.wallpaper.update();
     }, this));
   },
 
@@ -34,9 +34,9 @@ var Canvas = React.createClass({
   },
 
   redraw: function() {
-    this.props.wallpaper.clear();
+    this.props.wallpaper.clearAll();
     this.props.wallpaper.paint(this.props.scheme.toJS());
-    this.props.wallpaper.render();
+    this.props.wallpaper.update();
     _.defer(this.rendering, false);
   },
 

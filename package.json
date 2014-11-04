@@ -7,7 +7,7 @@
   "version": "0.0.1",
   "private": false,
   "dependencies": {
-    "ampersand-class-extend": "^1.0.0",
+    "ampersand-class-extend": "^1.0.1",
     "ampersand-collection": "^1.3.9",
     "ampersand-collection-underscore-mixin": "^1.0.0",
     "ampersand-model": "^3.0.4",
@@ -29,7 +29,7 @@
     "react": "^0.10.0",
     "react-classset": "0.0.1",
     "react-loadermixin": "^1.0.4",
-    "tarka": "0.0.1",
+    "tarka": "^1.0.2",
     "underscore": "^1.6.0",
     "url-join": "0.0.1",
     "xhr": "^1.13.0"

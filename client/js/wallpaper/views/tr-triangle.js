@@ -1,4 +1,4 @@
-var View = require('tarka/view');
+var View = require('./view');
 
 
 module.exports = View.extend({
@@ -18,7 +18,6 @@ module.exports = View.extend({
     context.fillStyle = this.fillStyle;
     context.strokeStyle = this.strokeStyle;
     context.fill();
-    // context.stroke();
     return this;
   }
 

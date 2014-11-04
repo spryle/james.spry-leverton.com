@@ -1,7 +1,5 @@
-// @progress-background-color: #509F50;
-// @progress-background-waiting-color: #509F50;
-@progress-background-color: #E6E1DC;
-@progress-background-waiting-color: #E6E1DC;
+@progress-background-color: rgba(255, 255, 255, 0);
+@progress-background-waiting-color: rgba(255, 255, 255, 0);
 @progress-color: #c70016;
 
 .b-progress {
@@ -13,11 +11,10 @@
     left: 0;
     width: 100%;
     z-index: 5;
-    height: 3px;
+    height: 2px;
     appearance: none;
     border: none;
     background-size: auto;
-    border-bottom: 1px solid #333435;
   }
 
   progress[role]:after {
@@ -54,14 +51,14 @@
 .b-progress.is-loading,
 .b-progress.is-updated {
   progress::-moz-progress-bar {
-    transition: all 0.05s linear;
+    transition: all 0.03s linear;
   }
 
   progress::-webkit-progress-value {
-    transition: all 0.05s linear;
+    transition: all 0.03s linear;
   }
 
   progress[aria-valuenow]:before  {
-    transition: all 0.05s linear;
+    transition: all 0.03s linear;
   }
 }

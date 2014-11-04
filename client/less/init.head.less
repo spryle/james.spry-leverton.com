@@ -16,53 +16,5 @@
 @import "blocks/social-links.less";
 @import "blocks/sidebar.less";
 @import "blocks/footer.less";
-
-html.js .b-article {
-  visibility: hidden;
-  &.is-initialized {
-    visibility: visible;
-  }
-}
-
-html.no-js .b-article,
-html.no-canvas .b-article,
-html.is-ready .b-article {
-  visibility: visible;
-}
-
-html.js .b-directory {
-  visibility: hidden;
-  &.is-initialized {
-    visibility: visible;
-  }
-}
-
-html.no-js .b-directory,
-html.no-canvas .b-directory,
-html.is-ready .b-directory {
-  visibility: visible;
-}
-
-html.js .b-sidebar-header {
-  visibility: hidden;
-  &.is-initialized {
-    visibility: visible;
-  }
-}
-
-html.no-js .b-sidebar-header,
-html.no-canvas .b-sidebar-header,
-html.is-ready .b-sidebar-header {
-  visibility: visible;
-}
-
-html.no-js .b-logo,
-html.no-canvas .b-logo,
-html.is-ready .b-logo {
-  visibility: visible !important;
-}
-
-.b-logo {
-  visibility: hidden;
-}
-
+@import "blocks/article.less";
+@import "blocks/directory.less";

@@ -10,19 +10,19 @@
   <div id="b-sidebar-header-mount">
     <header class="b-sidebar-header">
 
-      <a href="/">
+      <a href="/{% if request.args.get('branch', None) %}?branch={{ request.args['branch'] }}{% endif %}">
         <img class="b-sidebar-logo" src="{{ config.MEDIA_URL }}logo-white.svg">
       </a>
 
       <h2 class="b-sidebar-title t-logo">
-        <a href="/">
+        <a href="/{% if request.args.get('branch', None) %}?branch={{ request.args['branch'] }}{% endif %}">
           <span class="b-sidebar-firstname">James</span> Spry-Leverton
         </a>
       </h2>
 
       <h3 class="b-sidebar-sub-title">
         {% if index and index.name %}
-          <a href="{{ index.path }}">{{ index.name }}</a>
+          <a href="{{ index.path }}{% if request.args.get('branch', None) %}?branch={{ request.args['branch'] }}{% endif %}">{{ index.name }}</a>
         {% else %}
           Web Developer, London
         {% endif %}

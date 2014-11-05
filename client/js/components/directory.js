@@ -10,6 +10,7 @@ var FluxMixin = Fluxxor.FluxMixin(React);
 var FluxChildMixin = Fluxxor.FluxChildMixin(React);
 var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 var constants = require('../constants');
+var qs = require('query-string');
 
 
 var DirectoryItemText = React.createClass({
@@ -25,6 +26,13 @@ var DirectoryItemText = React.createClass({
     this.getFlux().actions.path.change(this.props.path);
   },
 
+  path: function() {
+    var branch = qs.parse(window.location.search).branch;
+    return this.props.path + (
+      branch ? '?' + qs.stringify({branch: branch}) : ''
+    );
+  },
+
   render: function() {
     if (this.props.current) {
       return (
@@ -35,7 +43,7 @@ var DirectoryItemText = React.createClass({
         <a
           className='b-directory-item-text'
           onClick={this.change}
-          href={this.props.path}>
+          href={this.path()}>
           {this.props.content}
         </a>
       );

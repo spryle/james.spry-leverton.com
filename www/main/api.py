@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from httplib import responses
 from flask import current_app as app
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
 from www.content import repository, exceptions
 from www.main.serializers import serialize
 from www.main.exceptions import ApiError
@@ -22,8 +22,11 @@ def abort(status_code):
 @add_headers({'Access-Control-Allow-Origin': '*'})
 @cache_headers(seconds=21600)
 def index(path=''):
+    branch = request.args.get('branch', app.config.get('BRANCHES_DEFAULT'))
+    if branch not in app.config.get('BRANCHES_PUBLIC'):
+        abort(403)
     try:
-        repo = repository(app.config.get('CONTENT_ROOT'))
+        repo = repository(app.config.get('CONTENT_ROOT')).changeset(branch)
     except exceptions.RepositoryError:
         abort(404)
     try:
@@ -38,8 +41,11 @@ def index(path=''):
 @add_headers({'Access-Control-Allow-Origin': '*'})
 @cache_headers(seconds=21600)
 def file(name, path=''):
+    branch = request.args.get('branch', app.config.get('BRANCHES_DEFAULT'))
+    if branch not in app.config.get('BRANCHES_PUBLIC'):
+        abort(403)
     try:
-        repo = repository(app.config.get('CONTENT_ROOT'))
+        repo = repository(app.config.get('CONTENT_ROOT')).changeset(branch)
     except exceptions.RepositoryError:
         abort(404)
     try:

@@ -10,6 +10,7 @@ var FluxChildMixin = Fluxxor.FluxChildMixin(React);
 var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 var constants = require('../constants');
 var settings = require('settings');
+var qs = require('query-string');
 
 
 var SidebarSubTitle = React.createClass({
@@ -25,11 +26,18 @@ var SidebarSubTitle = React.createClass({
     event.preventDefault();
   },
 
+  path: function() {
+    var branch = qs.parse(window.location.search).branch;
+    return this.props.href + (
+      branch ? '?' + qs.stringify({branch: branch}) : ''
+    );
+  },
+
   render: function() {
     var partial;
     if (this.props.href) {
       partial = (
-        <a href={this.props.href} onClick={this.change}>{this.props.text}</a>
+        <a href={this.path()} onClick={this.change}>{this.props.text}</a>
       );
     } else {
       partial = this.props.text;
@@ -68,18 +76,25 @@ var SidebarHeader = React.createClass({
     };
   },
 
+  root: function() {
+    var branch = qs.parse(window.location.search).branch;
+    return '/' + (
+      branch ? '?' + qs.stringify({branch: branch}) : ''
+    );
+  },
+
   render: function() {
     return (
       <header className="b-sidebar-header is-initialized">
 
-        <a href="/">
+        <a href={this.root()}>
           <img
             className="b-sidebar-logo"
             src={settings.MEDIA_URL + "logo-white.svg"} />
         </a>
 
         <h2 className="b-sidebar-title t-logo">
-          <a href="/">
+          <a href={this.root()}>
             <span className="b-sidebar-firstname">James</span> Spry-Leverton
           </a>
         </h2>

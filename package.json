@@ -26,6 +26,7 @@
     "immutable": "^2.0.9",
     "lazyloader": "^2.0.3",
     "mousetrap": "0.0.1",
+    "query-string": "^1.0.0",
     "react": "^0.10.0",
     "react-classset": "0.0.1",
     "react-loadermixin": "^1.0.4",

@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from flask import current_app as app
-from flask import Blueprint, render_template, abort, redirect
+from flask import Blueprint, render_template, abort, redirect, request
 
 from www.content import repository, exceptions
 from www.decorators import html_minify, cache_headers
@@ -34,9 +34,12 @@ def favicon(extension):
 @cache_headers(seconds=21600)
 @html_minify
 def index(path=''):
+    branch = request.args.get('branch', app.config.get('BRANCHES_DEFAULT'))
+    if branch not in app.config.get('BRANCHES_PUBLIC'):
+        abort(403)
     try:
         assert app.config.get('CONTENT_ROOT', None), 'No CONTENT_ROOT'
-        repo = repository(app.config.get('CONTENT_ROOT'))
+        repo = repository(app.config.get('CONTENT_ROOT')).changeset(branch)
     except exceptions.RepositoryError:
         abort(404)
     try:
@@ -64,8 +67,11 @@ def index(path=''):
 @cache_headers(seconds=21600)
 @html_minify
 def file(name, path=''):
+    branch = request.args.get('branch', app.config.get('BRANCHES_DEFAULT'))
+    if branch not in app.config.get('BRANCHES_PUBLIC'):
+        abort(403)
     try:
-        repo = repository(app.config.get('CONTENT_ROOT'))
+        repo = repository(app.config.get('CONTENT_ROOT')).changeset(branch)
     except exceptions.RepositoryError:
         abort(404)
     try:

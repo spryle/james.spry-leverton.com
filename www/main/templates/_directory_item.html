@@ -2,11 +2,11 @@
   <span class="b-directory-item-content">
     {% with content=text or node.title or node.name %}
       {% if node.path == request.path %}
-        <span class="b-directory-item-text" href="{{ node.path }}">
+        <span class="b-directory-item-text" href="{{ node.path }}{% if request.args.get('branch', None) %}?branch={{ request.args['branch'] }}{% endif %}">
           {{ content }}
         </span>
       {% else %}
-        <a class="b-directory-item-text" href="{{ node.path }}">
+        <a class="b-directory-item-text" href="{{ node.path }}{% if request.args.get('branch', None) %}?branch={{ request.args['branch'] }}{% endif %}">
           {{ content }}
         </a>
       {% endif %}

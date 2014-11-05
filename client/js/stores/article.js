@@ -6,7 +6,7 @@ var constants = require('../constants');
 
 
 function isIndex(path) {
-  return _.last(path) === '/';
+  return path === '' || _.last(_.first(path.split('?'))) === '/';
 }
 
 var actions = {};
@@ -47,7 +47,8 @@ module.exports = Fluxxor.createStore({
 
   fetch: function(path) {
     if (isIndex(path)) {
-      path = path + 'index';
+      var bits = path.split('?');
+      path = (bits[0] + 'index') + (bits[1] ? '?' + bits[1] : '');
     }
     var page = this.pages.get(path);
     if (page && page.status_code === 200) {

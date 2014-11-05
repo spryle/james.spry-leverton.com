@@ -4,7 +4,7 @@ BRANCHES_PUBLIC = [
     'master'
 ]
 
-BRANCES_DEFAULT = 'master'
+BRANCHES_DEFAULT = 'master'
 
 FILE_RENDERERS = {
     'md': 'www.main.formats.markdown',

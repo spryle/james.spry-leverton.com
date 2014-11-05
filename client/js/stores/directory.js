@@ -6,7 +6,7 @@ var constants = require('../constants');
 
 
 function isIndex(path) {
-  return path === '' || _.last(path) === '/';
+  return path === '' || _.last(_.first(path.split('?'))) === '/';
 }
 
 var actions = {};

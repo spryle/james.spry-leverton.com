@@ -28,11 +28,11 @@ var AsideLink = React.createClass({
   },
 
   render: function() {
-    console.log(this.props);
     return (
       <aside className={this.classes()}>
         <div className="b-aside-link">
           <a
+            target="_blank"
             className={this.props.icon ? "is-" + this.props.icon : null}
             href={this.props.href}>
             {this.props.text}

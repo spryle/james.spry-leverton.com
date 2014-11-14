@@ -11,6 +11,8 @@ var Aside = State.extend({
     text: 'string',
     type: 'string',
     images: 'array',
+    href: 'string',
+    icon: 'string',
     is_enlargeable: 'boolean'
   }
 

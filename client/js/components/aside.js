@@ -15,6 +15,34 @@ var KeyboardChildMixin = require('../mixins/keyboard-child-mixin');
 var Image = require('./image');
 var constants = require('../constants');
 
+var AsideLink = React.createClass({
+
+  mixins: [
+    PureRenderMixin
+  ],
+
+  classes: function() {
+    return cx({
+      'b-aside-component': true
+    });
+  },
+
+  render: function() {
+    console.log(this.props);
+    return (
+      <aside className={this.classes()}>
+        <div className="b-aside-link">
+          <a
+            className={this.props.icon ? "is-" + this.props.icon : null}
+            href={this.props.href}>
+            {this.props.text}
+          </a>
+        </div>
+      </aside>
+    );
+  }
+
+});
 
 var AsideImage = React.createClass({
 
@@ -196,7 +224,8 @@ var AsideItem = React.createClass({
 
   asides: {
     'image': AsideImage,
-    'gallery': AsideGallery
+    'gallery': AsideGallery,
+    'link': AsideLink
   },
 
   close: function(event) {

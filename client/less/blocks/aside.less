@@ -137,8 +137,18 @@
   }
 }
 
+.b-aside-icon(@icon) {
+  .fa;
+  .fa-lg;
+  .fa-fw;
+  padding-top: 5.5px;
+  padding-bottom: 5.5px;
+  content: @icon;
+}
+
 .b-aside-image,
-.b-aside-gallery {
+.b-aside-gallery,
+.b-aside-link {
 
   border: solid 5px rgba(255,255,255,0.3);
   position: absolute;
@@ -147,7 +157,22 @@
     width: 200px;
     min-height: 100px;
     display: block;
+  }
 
+  a {
+    background: @t-secondary-background;
+    display: block;
+    padding: 0.3em;
+
+    &:before {
+      color: @t-color-light;
+    }
+
+    &.is-download {
+      &:before {
+        .b-aside-icon(@fa-var-download);
+      }
+    }
   }
 }
 

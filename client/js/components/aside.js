@@ -13,7 +13,7 @@ var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 var KeyboardMixin = require('../mixins/keyboard-mixin');
 var KeyboardChildMixin = require('../mixins/keyboard-child-mixin');
 var Image = require('./image');
-var constants = require('../constants');
+var cons2tants = require('../constants');
 
 var AsideLink = React.createClass({
 

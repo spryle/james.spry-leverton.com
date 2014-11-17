@@ -6,6 +6,7 @@
 @reddit-color: #000000;
 @linkedin-color:  #4875B4;
 @lastfm-color: #D01F3C;
+@angellist-color: #000000;
 
 .b-social-links {
   margin: 0 10% 0 10%;
@@ -89,6 +90,15 @@
     }
   }
 
+  &.is-angellist {
+    &:before {
+      .b-social-icon(@fa-var-angellist);
+    }
+    &:hover&:before {
+      .b-social-color(@angellist-color);
+    }
+  }
+
   &.is-linkedin {
     &:before {
       .b-social-icon(@fa-var-linkedin);
@@ -100,7 +110,7 @@
 
   &.is-lastfm {
     &:before {
-      .b-social-icon(@fa-var-music);
+      .b-social-icon(@fa-var-lastfm);
     }
     &:hover&:before {
       .b-social-color(@lastfm-color);

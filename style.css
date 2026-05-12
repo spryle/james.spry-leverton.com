@@ -24,6 +24,8 @@
   /* original social brand colours from client/less/blocks/social-links.less */
   --color-github: #000000;
   --color-linkedin: #4875b4;
+  --color-hacker-news: #ff6600;
+  --color-instagram: #e4405f;
   --color-lastfm: #d01f3c;
   --color-email: #3a9d96;
 
@@ -178,6 +180,16 @@ main > section.is-repainting canvas {
 .social__link.is-linkedin:hover,
 .social__link.is-linkedin:focus-visible {
   color: var(--color-linkedin);
+}
+
+.social__link.is-hacker-news:hover,
+.social__link.is-hacker-news:focus-visible {
+  color: var(--color-hacker-news);
+}
+
+.social__link.is-instagram:hover,
+.social__link.is-instagram:focus-visible {
+  color: var(--color-instagram);
 }
 
 .social__link.is-lastfm:hover,

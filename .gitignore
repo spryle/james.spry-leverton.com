@@ -1,5 +1,1 @@
-node_modules
-local.cfg
-*.pyc
-dist
-assets
+.DS_Store

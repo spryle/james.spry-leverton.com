@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500">
+ 
+
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="502" width="502" y="-1" x="-1"/>
+  <g display="none" overflow="visible" y="0" x="0" height="100%" width="100%" id="canvasGrid">
+   <rect fill="url(#gridpattern)" stroke-width="0" y="0" x="0" height="100%" width="100%"/>
+  </g>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  
+  <g stroke="null" id="svg_26" transform="rotate(45 219.00000000000003,95.99999999999997)">
+   <rect stroke="#000" fill="#222626" stroke-width="0" x="3860.942037" y="2477.502049" width="23" height="450" id="svg_30"/>
+   <rect stroke="#000" fill="#222626" stroke-width="0" x="4285.942037" y="2478.502049" width="23" height="450" id="svg_29"/>
+   <rect stroke="#000" fill="#222626" stroke-width="0" x="4073.442037" y="2265.002053" width="23" height="447.000006" id="svg_28" transform="rotate(-90 4084.9418945312505,2488.5021972656255)"/>
+   <rect stroke="#000" fill="#222626" stroke-width="0" x="4073.442037" y="2694.002053" width="23" height="447.000006" id="svg_27" transform="rotate(-90 4084.9418945312505,2917.5021972656255)"/>
+  </g>
+  <rect stroke="#000" fill="#222626" stroke-width="0" stroke-opacity="null" fill-opacity="null" x="4404.576047" y="2663.838442" width="1" height="0" id="svg_25" transform="matrix(0.45537732232516775,0,0,0.5126493121943771,-1550.5061332061882,-1231.4840449518047)"/>
+  <g id="svg_69"/>
+  <g stroke="null" id="svg_103">
+   <rect stroke="#000" id="svg_41" height="419.249397" width="36.286012" y="24.787" x="129.384101" fill-opacity="null" stroke-opacity="null" stroke-width="0" fill="#e6e1dc"/>
+   <rect stroke="#000" id="svg_45" height="35.937559" width="32.707108" y="558.681477" x="193.763829" fill-opacity="null" stroke-opacity="null" stroke-width="0" fill="#e6e1dc" transform="matrix(0.7668304957097769,0.7925831320191403,-0.7668304957097768,0.7925831320191404,420.45848546455346,-178.2266859847424)"/>
+   <rect stroke="#000" id="svg_46" height="101.000003" width="32" y="564.135911" x="286.433935" fill-opacity="null" stroke-opacity="null" stroke-width="0" fill="#e6e1dc" transform="matrix(0,1.1978554541460702,-1.1339378806750349,0,777.7786390837573,91.34709556675523)"/>
+  </g>
+  <g stroke="null" id="svg_105">
+   <rect stroke="#000" id="svg_64" height="50" width="32" y="388.08656" x="246.073863" fill-opacity="null" stroke-opacity="null" stroke-width="0" fill="#e6e1dc" transform="matrix(0,-1.2125822445812606,1.126084499391405,0,-214.02975688124013,771.4647374764272)"/>
+   <rect stroke="#000" id="svg_65" height="50" width="32" y="385.272203" x="279.072914" fill-opacity="null" stroke-opacity="null" stroke-width="0" fill="#e6e1dc" transform="matrix(-0.796261985708721,-0.8574251278898142,0.7962619857087211,-0.857425127889814,194.9773334017894,1042.8391061433776)"/>
+   <rect stroke="#000" id="svg_66" height="50" width="32" y="369.782159" x="205.323194" fill-opacity="null" stroke-opacity="null" stroke-width="0" fill="#e6e1dc" transform="matrix(0.7288064720701473,-0.9243718062287436,0.8584331226358037,0.7847881648719853,-286.96676976671995,333.28589903912564)"/>
+   <rect stroke="#000" id="svg_67" height="28.999999" width="32" y="385.773673" x="194.038485" fill-opacity="null" stroke-opacity="null" stroke-width="0" fill="#e6e1dc" transform="matrix(-1.126084499391405,0,0,-1.2125822445812606,434.36028519302624,901.4532913595174)"/>
+   <rect stroke="#000" id="svg_68" height="164.911185" width="36.034704" y="265.526379" x="283.421631" fill-opacity="null" stroke-opacity="null" stroke-width="0" fill="#e6e1dc"/>
+   <rect stroke="#000" id="svg_78" height="50.499983" width="32.16666" y="63.681364" x="220.346264" fill-opacity="null" stroke-opacity="null" stroke-width="0" fill="#e6e1dc" transform="matrix(0,1.2125822445812606,-1.126084499391405,0,348.18230275662626,-242.42830363786754)"/>
+   <rect stroke="#000" id="svg_79" height="50" width="32" y="66.828975" x="187.347215" fill-opacity="null" stroke-opacity="null" stroke-width="0" fill="#e6e1dc" transform="matrix(0.7962619857087211,0.857425127889814,-0.796261985708721,0.8574251278898142,123.58093836338291,-193.10832225169088)"/>
+   <rect stroke="#000" id="svg_80" height="50" width="32" y="81.985748" x="261.596919" fill-opacity="null" stroke-opacity="null" stroke-width="0" fill="#e6e1dc" transform="matrix(-0.728806472070147,0.9243718062287436,-0.8584331226358037,-0.7847881648719851,580.5733516893451,-113.52547183651893)"/>
+   <rect stroke="#000" id="svg_81" height="28.999999" width="32" y="109.883386" x="286.033379" fill-opacity="null" stroke-opacity="null" stroke-width="0" fill="#e6e1dc" transform="matrix(-1.126084499391405,0,0,-1.2125822445812606,641.5483550469016,232.37401433588798)"/>
+   <rect stroke="#000" id="svg_84" height="131.333386" width="32" y="113.050038" x="193.866748" fill-opacity="null" stroke-opacity="null" stroke-width="0" fill="#e6e1dc" transform="matrix(-1.126084499391405,0,0,-1.2125822445812606,433.97350293470555,364.141328086304)"/>
+   <rect stroke="#000" id="svg_86" height="47.50008" width="32" y="231.074077" x="221.722705" fill-opacity="null" stroke-opacity="null" stroke-width="0" fill="#e6e1dc" transform="matrix(0,1.2125822445812606,-1.126084499391405,0,536.447673494527,-42.8376935883897)"/>
+   <rect stroke="#000" id="svg_87" height="49.426312" width="32" y="223.872889" x="195.739276" fill-opacity="null" stroke-opacity="null" stroke-width="0" fill="#e6e1dc" transform="matrix(-0.7086679375121592,0.9423533943107557,-0.8751320209613253,-0.7631027323399683,580.1828683437654,221.1086275802632)"/>
+   <rect stroke="#000" id="svg_88" height="50.254095" width="32" y="247.91921" x="261.459855" fill-opacity="null" stroke-opacity="null" stroke-width="0" fill="#e6e1dc" transform="matrix(-0.728806472070147,0.9243718062287436,-0.8584331226358037,-0.7847881648719851,722.8709019882199,218.28556147109015)"/>
+  </g>
+  <g stroke="null" id="svg_108">
+   <rect stroke="#000" id="svg_47" height="447.533676" width="35.750412" y="24.791908" x="334.102656" fill-opacity="null" stroke-opacity="null" stroke-width="0" fill="#e6e1dc"/>
+   <rect stroke="#000" id="svg_48" height="128.000003" width="32" y="346.395369" x="362.967026" fill-opacity="null" stroke-opacity="null" stroke-width="0" fill="#e6e1dc" transform="matrix(0,1.2030475129327414,-1.1172003746032715,0,864.0973622800229,-2.0365040388522964)"/>
+  </g>
+ </g>
+</svg>

@@ -12,7 +12,7 @@
 
 set -euo pipefail
 
-ACCOUNT_ID="354130273474"
+ACCOUNT_ID="$(aws sts get-caller-identity --query Account --output text)"
 BUCKET="james.spry-leverton.com"
 PRIMARY_DOMAIN="james.spry-leverton.com"
 WWW_DOMAIN="www.spry-leverton.com"

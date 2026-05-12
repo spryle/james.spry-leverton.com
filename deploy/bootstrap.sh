@@ -13,7 +13,7 @@
 
 set -euo pipefail
 
-ACCOUNT_ID="354130273474"
+ACCOUNT_ID="$(aws sts get-caller-identity --query Account --output text)"
 BUCKET="james.spry-leverton.com"
 PRIMARY_DOMAIN="james.spry-leverton.com"
 WWW_DOMAIN="www.spry-leverton.com"
@@ -66,15 +66,16 @@ fi
 # --- 3. IAM role for the deploy workflow -----------------------------------
 
 say "IAM role: $GHA_ROLE_NAME"
+TRUST_POLICY="$(sed "s/__ACCOUNT_ID__/${ACCOUNT_ID}/g" iam-trust-policy.json)"
 if aws iam get-role --role-name "$GHA_ROLE_NAME" >/dev/null 2>&1; then
     aws iam update-assume-role-policy \
         --role-name "$GHA_ROLE_NAME" \
-        --policy-document "file://iam-trust-policy.json"
+        --policy-document "$TRUST_POLICY"
     echo "    exists, trust policy refreshed"
 else
     aws iam create-role \
         --role-name "$GHA_ROLE_NAME" \
-        --assume-role-policy-document "file://iam-trust-policy.json" \
+        --assume-role-policy-document "$TRUST_POLICY" \
         --description "Deploys $PRIMARY_DOMAIN from $GHA_REPO via GitHub Actions OIDC."
     echo "    created"
 fi

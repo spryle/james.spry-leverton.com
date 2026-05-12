@@ -17,7 +17,7 @@ The site is plain static files. Production hosting is **AWS S3 + CloudFront**, f
                                   │ invalidate
                                   │
                       ┌──────────────────────────────┐
-   git push master ──▶│ GitHub Actions (OIDC)        │──▶  s3 sync + invalidate
+   git push main ──▶│ GitHub Actions (OIDC)        │──▶  s3 sync + invalidate
                       └──────────────────────────────┘
 ```
 
@@ -97,10 +97,10 @@ Secrets.
 ### 6. Push to deploy
 
 ```bash
-git push origin master
+git push origin main
 ```
 
-`.github/workflows/deploy.yml` runs on every push to `master` (or via
+`.github/workflows/deploy.yml` runs on every push to `main` (or via
 `workflow_dispatch`) and does the same thing as `deploy/deploy.sh`.
 
 ## Manual deploy

@@ -15,7 +15,7 @@ manifest.json   Web app manifest.
 robots.txt
 sitemap.xml
 deploy/         AWS setup scripts + CI/CD config. See deploy/README.md.
-.github/workflows/deploy.yml   GitHub Actions deploy on push to master.
+.github/workflows/deploy.yml   GitHub Actions deploy on push to main.
 ```
 
 ## Local dev
@@ -28,6 +28,6 @@ python3 -m http.server 8765
 
 ## Deploy
 
-Pushes to `master` trigger `.github/workflows/deploy.yml` which syncs
+Pushes to `main` trigger `.github/workflows/deploy.yml` which syncs
 to S3 and invalidates CloudFront. First-time AWS setup is in
 [`deploy/README.md`](deploy/README.md).

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://james.spry-leverton.com/sitemap.xml

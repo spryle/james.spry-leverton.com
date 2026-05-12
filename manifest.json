@@ -1,0 +1,27 @@
+{
+    "name": "James Spry-Leverton",
+    "short_name": "Spry-Leverton",
+    "description": "James Spry-Leverton — Engineering Leadership, London.",
+    "start_url": "/",
+    "scope": "/",
+    "display": "standalone",
+    "background_color": "#1a1a1a",
+    "theme_color": "#1a1a1a",
+    "icons": [
+        {
+            "src": "/assets/favicon-96x96.png",
+            "sizes": "96x96",
+            "type": "image/png"
+        },
+        {
+            "src": "/assets/favicon-160x160.png",
+            "sizes": "160x160",
+            "type": "image/png"
+        },
+        {
+            "src": "/assets/apple-touch-icon-152x152.png",
+            "sizes": "152x152",
+            "type": "image/png"
+        }
+    ]
+}

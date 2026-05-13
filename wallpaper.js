@@ -60,10 +60,6 @@ const VARIATION_PRESETS = {
   ],
 };
 
-const prefersReducedMotion = window.matchMedia(
-  '(prefers-reduced-motion: reduce)'
-).matches;
-
 // ---------- colour conversions ----------
 
 function hsvToRgb(h, s, v) {
@@ -327,11 +323,9 @@ class Wallpaper {
 
     new ResizeObserver(this.handleResize).observe(this.panel);
     this.panel.addEventListener('click', this.handleClick);
-    if (!prefersReducedMotion) {
-      this.panel.addEventListener('pointermove', this.handlePointerMove, {
-        passive: true,
-      });
-    }
+    this.panel.addEventListener('pointermove', this.handlePointerMove, {
+      passive: true,
+    });
   }
 
   // -- layout --
@@ -522,10 +516,6 @@ class Wallpaper {
 
   handleClick() {
     if (this.transitioning) return;
-    if (prefersReducedMotion) {
-      this.repaint();
-      return;
-    }
     this.transitioning = true;
     this.panel.classList.add('is-repainting');
     window.setTimeout(() => {

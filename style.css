@@ -240,11 +240,3 @@ main > section.is-repainting canvas {
   }
 }
 
-/* ---------- motion preferences ---------- */
-
-@media (prefers-reduced-motion: reduce) {
-  main > section canvas {
-    transition: none;
-  }
-}
-

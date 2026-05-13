@@ -26,11 +26,18 @@ const RIPPLE_STRENGTH = 0.15;      // peak blend toward white (0 = none, 1 = pur
 const RIPPLE_COOLDOWN_MS = 350;    // per-stripe cooldown
 
 // X-stripes run NW-SE (BR ↔ TL), Y-stripes run NE-SW (TR ↔ BL).
-// Painted-stripe counts per repaint:
+// Below SCALE_WIDTH_THRESHOLD the painted-stripe counts are fixed at the
+// values that read well on mobile / medium screens. Above the threshold
+// they scale with the candidate band so wider canvases don't feel sparse.
+const SCALE_WIDTH_THRESHOLD = 1400;
 const X_COUNT_MIN = 6;
 const X_COUNT_MAX = 8;
 const Y_COUNT_MIN = 4;
 const Y_COUNT_MAX = 6;
+const X_RATIO_MIN = 0.55;
+const X_RATIO_MAX = 0.73;
+const Y_RATIO_MIN = 0.36;
+const Y_RATIO_MAX = 0.55;
 
 const DEFAULT_RGB = { r: 0x1a, g: 0x1a, b: 0x1a };
 
@@ -421,8 +428,19 @@ class Wallpaper {
       yIdBR
     );
 
-    const xCount = randomInt(X_COUNT_MIN, X_COUNT_MAX);
-    const yCount = randomInt(Y_COUNT_MIN, Y_COUNT_MAX);
+    const scale = this.cssWidth >= SCALE_WIDTH_THRESHOLD;
+    const xCount = scale
+      ? randomInt(
+          Math.floor(xCandidates.length * X_RATIO_MIN),
+          Math.floor(xCandidates.length * X_RATIO_MAX)
+        )
+      : randomInt(X_COUNT_MIN, X_COUNT_MAX);
+    const yCount = scale
+      ? randomInt(
+          Math.floor(yCandidates.length * Y_RATIO_MIN),
+          Math.floor(yCandidates.length * Y_RATIO_MAX)
+        )
+      : randomInt(Y_COUNT_MIN, Y_COUNT_MAX);
 
     for (const id of pickRandom(xCandidates, xCount)) {
       this.painted.x.set(id, this.makeStripe());

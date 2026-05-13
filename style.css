@@ -54,6 +54,7 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* ---------- layout ----------
@@ -82,6 +83,9 @@ main > section {
   -webkit-touch-callout: none;
   user-select: none;
   -webkit-user-select: none;
+  /* keep the pointermove stream alive during touch drag — without this the
+     browser may steal it for scroll/pan and cancel mid-gesture. */
+  touch-action: none;
 }
 
 main > section canvas {
@@ -92,6 +96,15 @@ main > section canvas {
   display: block;
   transform-origin: 50% 50%;
   transition: opacity 150ms ease, filter 150ms ease, transform 150ms ease;
+  /* Mobile: kill the tap-down selection tint and the long-press callout,
+     and tell the browser we want all touch gestures ourselves so drag
+     keeps firing pointermove instead of being hijacked for scroll. */
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+  touch-action: none;
 }
 
 main > section.is-repainting canvas {

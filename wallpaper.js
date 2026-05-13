@@ -14,6 +14,17 @@ const GRADIENT_STEPS = 20;
 const SCREEN_OVERSCAN = 1.05;
 const TRANSITION_MS = 150;
 
+// Hover ripple: a subtle lightening that travels outward in both directions
+// along a painted diagonal, starting from the triangle under the cursor and
+// running until the wavefront reaches both ends of the stripe.
+// Units along the stripe are "positions" — one triangle = one position.
+const RIPPLE_MS_PER_POSITION = 32; // wavefront speed (lower = faster)
+const RIPPLE_TRAIL_BUFFER = 8;     // extra positions of life after head exits the stripe
+const RIPPLE_SIGMA_AHEAD = 0.8;    // sharp leading edge
+const RIPPLE_SIGMA_TRAIL = 2.5;    // softer trailing edge
+const RIPPLE_STRENGTH = 0.15;      // peak blend toward white (0 = none, 1 = pure white)
+const RIPPLE_COOLDOWN_MS = 350;    // per-stripe cooldown
+
 // X-stripes run NW-SE (BR ↔ TL), Y-stripes run NE-SW (TR ↔ BL).
 // Painted-stripe counts per repaint:
 const X_COUNT_MIN = 6;
@@ -303,13 +314,22 @@ class Wallpaper {
 
     this.transitioning = false;
 
+    this.ripples = []; // [{ axis: 'x'|'y', stripeId, startPos, startTime }]
+    this.lastTriggerByStripe = new Map(); // "axis:stripeId" -> timestamp
+    this.rafId = null;
+
     this.handleResize = this.handleResize.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.handleMouseMove = this.handleMouseMove.bind(this);
+    this.animate = this.animate.bind(this);
 
     this.handleResize();
 
     new ResizeObserver(this.handleResize).observe(this.panel);
     this.panel.addEventListener('click', this.handleClick);
+    if (!prefersReducedMotion) {
+      this.panel.addEventListener('mousemove', this.handleMouseMove);
+    }
   }
 
   // -- layout --
@@ -427,45 +447,73 @@ class Wallpaper {
 
   // -- render --
 
-  render() {
+  render(now = performance.now()) {
     const ctx = this.ctx;
     ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
     ctx.clearRect(0, 0, this.cssWidth, this.cssHeight);
 
+    const hasRipples = this.ripples.length > 0;
     for (let i = 0; i < this.triangles.length; i++) {
       const tri = this.triangles[i];
-      ctx.fillStyle = this.triangleFill(tri);
+      const base = this.baseTriangleColor(tri);
+      const final = hasRipples ? this.applyRipples(tri, base, now) : base;
+      ctx.fillStyle = `rgba(${Math.round(final.r)},${Math.round(final.g)},${Math.round(final.b)},${final.a.toFixed(3)})`;
       trianglePath(ctx, tri.x, tri.y, this.size, tri.rot);
       ctx.fill();
     }
   }
 
-  triangleFill(tri) {
+  baseTriangleColor(tri) {
     const xStripe = this.painted.x.get(tri.xId);
     const yStripe = this.painted.y.get(tri.yId);
 
     if (!xStripe && !yStripe) {
-      return `rgb(${DEFAULT_RGB.r},${DEFAULT_RGB.g},${DEFAULT_RGB.b})`;
+      return { r: DEFAULT_RGB.r, g: DEFAULT_RGB.g, b: DEFAULT_RGB.b, a: 1 };
     }
 
     const xCol = xStripe ? sampleStripe(xStripe, tri.xPos, tri.xLen) : null;
     const yCol = yStripe ? sampleStripe(yStripe, tri.yPos, tri.yLen) : null;
 
-    let final;
     if (xCol && yCol) {
-      final = {
+      return {
         r: (xCol.r + yCol.r) / 2,
         g: (xCol.g + yCol.g) / 2,
         b: (xCol.b + yCol.b) / 2,
         a: (xCol.a + yCol.a) / 2,
       };
-    } else {
-      final = xCol || yCol;
     }
+    return xCol || yCol;
+  }
 
-    return `rgba(${Math.round(final.r)},${Math.round(final.g)},${Math.round(
-      final.b
-    )},${final.a.toFixed(3)})`;
+  applyRipples(tri, base, now) {
+    let intensity = 0;
+    for (let i = 0; i < this.ripples.length; i++) {
+      const r = this.ripples[i];
+      const stripeId = r.axis === 'x' ? tri.xId : tri.yId;
+      if (stripeId !== r.stripeId) continue;
+      const t = now - r.startTime;
+      if (t < 0 || t > r.lifeMs) continue;
+      const head = t / RIPPLE_MS_PER_POSITION;
+      const pos = r.axis === 'x' ? tri.xPos : tri.yPos;
+      const dist = Math.abs(pos - r.startPos);
+      const delta = dist - head;
+      const sigma = delta > 0 ? RIPPLE_SIGMA_AHEAD : RIPPLE_SIGMA_TRAIL;
+      const decay = 1 - t / r.lifeMs;
+      const v = Math.exp(-(delta * delta) / (2 * sigma * sigma)) * decay;
+      if (v > intensity) intensity = v;
+    }
+    if (intensity < 0.01) return base;
+    // Lighten dark triangles, darken light ones, so the ripple stays
+    // visible across the whole palette. Rec.709 luminance, midpoint at 128.
+    const lum = base.r * 0.2126 + base.g * 0.7152 + base.b * 0.0722;
+    const target = lum < 128 ? 255 : 0;
+    const k = intensity * RIPPLE_STRENGTH;
+    return {
+      r: base.r + (target - base.r) * k,
+      g: base.g + (target - base.g) * k,
+      b: base.b + (target - base.b) * k,
+      a: base.a,
+    };
   }
 
   // -- interaction --
@@ -487,10 +535,77 @@ class Wallpaper {
     }, TRANSITION_MS);
   }
 
+  handleMouseMove(e) {
+    if (this.transitioning) return;
+    const rect = this.canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    if (x < 0 || y < 0 || x >= rect.width || y >= rect.height) return;
+
+    const col = Math.floor(x / this.size);
+    const sr = Math.floor(y / this.size);
+    if (col < 0 || col >= this.numX || sr < 0 || sr >= this.numY) return;
+
+    // The two triangles in cell (col, sr) split it along one diagonal.
+    // 'tr'+'bl' split along y = x (main); 'tl'+'br' split along x + y = size.
+    const localX = x - col * this.size;
+    const localY = y - sr * this.size;
+    const rotA = rotation(col, 2 * sr);
+    let pickedRot;
+    if (rotA === 'tr' || rotA === 'bl') {
+      pickedRot = localY < localX ? 'tr' : 'bl';
+    } else {
+      pickedRot = localX + localY < this.size ? 'tl' : 'br';
+    }
+    const triRow = rotA === pickedRot ? 2 * sr : 2 * sr + 1;
+    const tri = this.triangles[col * (this.numY * 2) + triRow];
+    if (!tri) return;
+
+    // Only react over a painted (coloured) triangle.
+    const onX = this.painted.x.has(tri.xId);
+    const onY = this.painted.y.has(tri.yId);
+    if (!onX && !onY) return;
+
+    const now = performance.now();
+    let spawned = false;
+    const fire = (axis, stripeId, startPos, len) => {
+      const key = axis + ':' + stripeId;
+      const last = this.lastTriggerByStripe.get(key) || 0;
+      if (now - last < RIPPLE_COOLDOWN_MS) return;
+      this.lastTriggerByStripe.set(key, now);
+      const maxDist = Math.max(startPos, len - 1 - startPos);
+      const lifeMs = (maxDist + RIPPLE_TRAIL_BUFFER) * RIPPLE_MS_PER_POSITION;
+      this.ripples.push({ axis, stripeId, startPos, startTime: now, lifeMs });
+      spawned = true;
+    };
+    if (onX) fire('x', tri.xId, tri.xPos, tri.xLen);
+    if (onY) fire('y', tri.yId, tri.yPos, tri.yLen);
+    if (!spawned) return;
+
+    if (this.rafId == null) {
+      this.rafId = requestAnimationFrame(this.animate);
+    }
+  }
+
+  animate(now) {
+    if (this.ripples.length) {
+      this.ripples = this.ripples.filter(
+        (r) => now - r.startTime <= r.lifeMs
+      );
+    }
+    this.render(now);
+    if (this.ripples.length > 0) {
+      this.rafId = requestAnimationFrame(this.animate);
+    } else {
+      this.rafId = null;
+    }
+  }
+
   repaint() {
     this.options = randomSchemeOptions();
     this.scheme = buildScheme(this.options);
     publishEmphasis(this.scheme);
+    this.ripples.length = 0;
     this.applyPaint();
     this.render();
   }

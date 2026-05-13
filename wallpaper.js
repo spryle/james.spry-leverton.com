@@ -320,7 +320,7 @@ class Wallpaper {
 
     this.handleResize = this.handleResize.bind(this);
     this.handleClick = this.handleClick.bind(this);
-    this.handleMouseMove = this.handleMouseMove.bind(this);
+    this.handlePointerMove = this.handlePointerMove.bind(this);
     this.animate = this.animate.bind(this);
 
     this.handleResize();
@@ -328,7 +328,9 @@ class Wallpaper {
     new ResizeObserver(this.handleResize).observe(this.panel);
     this.panel.addEventListener('click', this.handleClick);
     if (!prefersReducedMotion) {
-      this.panel.addEventListener('mousemove', this.handleMouseMove);
+      this.panel.addEventListener('pointermove', this.handlePointerMove, {
+        passive: true,
+      });
     }
   }
 
@@ -535,7 +537,7 @@ class Wallpaper {
     }, TRANSITION_MS);
   }
 
-  handleMouseMove(e) {
+  handlePointerMove(e) {
     if (this.transitioning) return;
     const rect = this.canvas.getBoundingClientRect();
     const x = e.clientX - rect.left;

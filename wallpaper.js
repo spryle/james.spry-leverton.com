@@ -19,25 +19,21 @@ const TRANSITION_MS = 150;
 // running until the wavefront reaches both ends of the stripe.
 // Units along the stripe are "positions" — one triangle = one position.
 const RIPPLE_MS_PER_POSITION = 32; // wavefront speed (lower = faster)
-const RIPPLE_TRAIL_BUFFER = 8;     // extra positions of life after head exits the stripe
+const RIPPLE_TRAIL_BUFFER = 2;     // extra positions of life after head exits the stripe
 const RIPPLE_SIGMA_AHEAD = 0.8;    // sharp leading edge
-const RIPPLE_SIGMA_TRAIL = 2.5;    // softer trailing edge
+const RIPPLE_SIGMA_TRAIL = 1.5;    // softer trailing edge
 const RIPPLE_STRENGTH = 0.15;      // peak blend toward white (0 = none, 1 = pure white)
 const RIPPLE_COOLDOWN_MS = 350;    // per-stripe cooldown
 
 // X-stripes run NW-SE (BR ↔ TL), Y-stripes run NE-SW (TR ↔ BL).
-// Below SCALE_WIDTH_THRESHOLD the painted-stripe counts are fixed at the
-// values that read well on mobile / medium screens. Above the threshold
-// they scale with the candidate band so wider canvases don't feel sparse.
+// Above SCALE_WIDTH_THRESHOLD the triangle size scales with width so the
+// column count stays roughly constant — wider canvases get chunkier triangles
+// rather than more of them, which keeps the painted band proportions stable.
 const SCALE_WIDTH_THRESHOLD = 1400;
 const X_COUNT_MIN = 6;
 const X_COUNT_MAX = 8;
 const Y_COUNT_MIN = 4;
 const Y_COUNT_MAX = 6;
-const X_RATIO_MIN = 0.55;
-const X_RATIO_MAX = 0.73;
-const Y_RATIO_MIN = 0.36;
-const Y_RATIO_MAX = 0.55;
 
 const DEFAULT_RGB = { r: 0x1a, g: 0x1a, b: 0x1a };
 
@@ -347,7 +343,10 @@ class Wallpaper {
     this.canvas.width = Math.floor(rect.width * this.dpr);
     this.canvas.height = Math.floor(rect.height * this.dpr);
 
-    this.size = SIZE;
+    this.size =
+      rect.width >= SCALE_WIDTH_THRESHOLD
+        ? Math.round((SIZE * rect.width) / SCALE_WIDTH_THRESHOLD)
+        : SIZE;
     this.numX = Math.ceil((rect.width * SCREEN_OVERSCAN) / this.size);
     this.numY = Math.ceil((rect.height * SCREEN_OVERSCAN) / this.size);
 
@@ -428,19 +427,8 @@ class Wallpaper {
       yIdBR
     );
 
-    const scale = this.cssWidth >= SCALE_WIDTH_THRESHOLD;
-    const xCount = scale
-      ? randomInt(
-          Math.floor(xCandidates.length * X_RATIO_MIN),
-          Math.floor(xCandidates.length * X_RATIO_MAX)
-        )
-      : randomInt(X_COUNT_MIN, X_COUNT_MAX);
-    const yCount = scale
-      ? randomInt(
-          Math.floor(yCandidates.length * Y_RATIO_MIN),
-          Math.floor(yCandidates.length * Y_RATIO_MAX)
-        )
-      : randomInt(Y_COUNT_MIN, Y_COUNT_MAX);
+    const xCount = randomInt(X_COUNT_MIN, X_COUNT_MAX);
+    const yCount = randomInt(Y_COUNT_MIN, Y_COUNT_MAX);
 
     for (const id of pickRandom(xCandidates, xCount)) {
       this.painted.x.set(id, this.makeStripe());
